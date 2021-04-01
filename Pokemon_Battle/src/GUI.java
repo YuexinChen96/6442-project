@@ -116,9 +116,9 @@ public class GUI extends Application {
         i.setLayoutX(-100);
         i.setLayoutY(-100);
 
-        Image img = new Image("Pics/pic0.jpg");
+        String IMG = getClass().getResource("Pics/pic0.jpg").toString();
         Rectangle rect = new Rectangle(300, 300, 200, 200);
-        rect.setFill(new ImagePattern(img));
+        rect.setFill(new ImagePattern(new Image(IMG)));
         Path path = new Path();
         path.getElements().add(new MoveTo(300, 300));
         path.getElements().add(new LineTo(700, 300));
