@@ -65,7 +65,7 @@ public class GUI extends Application {
 
     public void page0_initial(){
         ImageView background = new ImageView();
-        final String PAGE0_BACKGROUND_URI = getClass().getResource("page1_background_example.jpg").toString();
+        final String PAGE0_BACKGROUND_URI = getClass().getResource("Pics/page1_background_example.jpg").toString();
         background.setImage(new Image(PAGE0_BACKGROUND_URI));
         background.setFitHeight(WINDOW_HEIGHT);
         background.setPreserveRatio(true);
