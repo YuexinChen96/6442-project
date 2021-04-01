@@ -69,9 +69,10 @@ public class GUI extends Application {
         background.setImage(new Image(PAGE0_BACKGROUND_URI));
         background.setFitHeight(WINDOW_HEIGHT);
         background.setPreserveRatio(true);
-        background.setLayoutX(0);
-        background.setLayoutY(0);
-        background.toBack();
+        board.getChildren().add(background);
+        board.setLayoutX(0);
+        board.setLayoutY(0);
+        board.toBack();
 
         Text introduction = new Text("Brief introduction");
         introduction.setFill(Color.BLACK);
