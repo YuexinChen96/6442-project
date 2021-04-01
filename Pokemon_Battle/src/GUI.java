@@ -43,7 +43,7 @@ public class GUI extends Application {
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 
-        page_initial(page_number);
+        page_initial(page_number, primaryStage);
 
 
         primaryStage.setScene(scene);
@@ -52,22 +52,22 @@ public class GUI extends Application {
 
     }
 
-    public void page_initial(int page_number){
+    public void page_initial(int page_number, Stage primaryStage){
         if (page_number == 0){
             Page0 page0 = new Page0();
             root.getChildren().add(board);
             root.getChildren().add(controls);
-            page0_initial();
+            page0_initial(primaryStage);
         } else if (page_number == 1){
             Page1 page = new Page1();
         }
     }
 
-    public void page0_initial(){
+    public void page0_initial(Stage primaryStage){
         ImageView background = new ImageView();
         final String PAGE0_BACKGROUND_URI = getClass().getResource("Pics/page1_background_example.jpg").toString();
         background.setImage(new Image(PAGE0_BACKGROUND_URI));
-        background.setFitHeight(WINDOW_HEIGHT);
+        background.setFitHeight(600);
         background.setPreserveRatio(true);
         board.getChildren().add(background);
         board.setLayoutX(0);
@@ -78,7 +78,7 @@ public class GUI extends Application {
         introduction.setFill(Color.BLACK);
         introduction.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         introduction.setLayoutY(30 + 50);
-        introduction.setLayoutY(30 + 760 + 30);
+        introduction.setLayoutY(30 + 30);
         board.getChildren().add(introduction);
 
         Text instructionsText = new Text("balabalabalabalabalabalabalabalabalabalabalabalabalabalabalabalabalabalabalabalabalabalabalabalabala" +
@@ -90,6 +90,19 @@ public class GUI extends Application {
         instructionsText.setWrappingWidth(600);
         board.getChildren().add(instructionsText);
 
+        Button btn1 = new Button("Start");
+        btn1.setLayoutX(200);
+        btn1.setLayoutY(200);
+        btn1.setOnAction(e -> {
+            board.getChildren().removeAll(board.getChildren());
+            page1_initial(primaryStage);
+        });
+        board.getChildren().add(btn1);
 
+    }
+
+    public void page1_initial(Stage primaryStage){
+        System.out.println("THis is page 1");
+        primaryStage.show();
     }
 }
