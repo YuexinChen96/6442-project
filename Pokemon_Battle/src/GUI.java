@@ -7,6 +7,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
+import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
@@ -123,7 +124,9 @@ public class GUI extends Application {
         i.setLayoutX(-100);
         i.setLayoutY(-100);
 
+        Image img = new Image("Pics/pic0.jpg");
         Rectangle rect = new Rectangle(300, 300, 200, 200);
+        rect.setFill(new ImagePattern(img));
         Path path = new Path();
         path.getElements().add(new MoveTo(300, 300));
         path.getElements().add(new LineTo(700, 300));
