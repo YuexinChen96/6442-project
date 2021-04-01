@@ -44,8 +44,10 @@ public class GUI extends Application {
         primaryStage.setTitle("Pokemon Battle");
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 
+        root.getChildren().add(board);
+        root.getChildren().add(controls);
 
-        page_initial(page_number, primaryStage);
+        page0_initial(primaryStage);
 
 
         primaryStage.setScene(scene);
@@ -54,16 +56,6 @@ public class GUI extends Application {
 
     }
 
-    public void page_initial(int page_number, Stage primaryStage){
-        if (page_number == 0){
-            Page0 page0 = new Page0();
-            root.getChildren().add(board);
-            root.getChildren().add(controls);
-            page0_initial(primaryStage);
-        } else if (page_number == 1){
-            Page1 page = new Page1();
-        }
-    }
 
     public void page0_initial(Stage primaryStage){
         ImageView background = new ImageView();
