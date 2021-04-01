@@ -1,6 +1,7 @@
 
 import Pages.*;
 
+import javafx.animation.PathTransition;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -12,7 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.text.*;
-
+import javafx.util.Duration;
 
 
 //Set up basic GUI
@@ -102,7 +103,51 @@ public class GUI extends Application {
     }
 
     public void page1_initial(Stage primaryStage){
-        System.out.println("THis is page 1");
-        primaryStage.show();
+        System.out.println("Pokemon Select");
+        ImageView background = new ImageView();
+        final String PAGE0_BACKGROUND_URI = getClass().getResource("Pics/page1_background_example.jpg").toString();
+        background.setImage(new Image(PAGE0_BACKGROUND_URI));
+        background.setFitHeight(600);
+        background.setPreserveRatio(true);
+        board.getChildren().add(background);
+        board.setLayoutX(0);
+        board.setLayoutY(0);
+        board.toBack();
+
+        int n = 3;
+        int l = 4;
+        int r = 5;
+
+        Rectangle i = new Rectangle(600, 600);
+        i.setFill(Color.TRANSPARENT);
+        i.setLayoutX(-100);
+        i.setLayoutY(-100);
+
+        Rectangle rect = new Rectangle(300, 300, 200, 200);
+        Path path = new Path();
+        path.getElements().add(new MoveTo(300, 300));
+        path.getElements().add(new LineTo(700, 300));
+        path.getElements().add(new LineTo(700, 700));
+        path.getElements().add(new LineTo(300, 700));
+        path.getElements().add(new LineTo(300,300));
+
+        PathTransition pt = new PathTransition();
+        pt.setDuration(Duration.millis(5000));
+        pt.setNode(rect);
+        pt.setPath(path);
+        pt.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+        pt.setAutoReverse(true);
+
+        Button play = new Button("Play");
+        play.setLayoutX(200);
+        play.setLayoutY(200);
+        play.setOnAction(e->pt.play());
+
+        board.getChildren().add(i);
+        board.getChildren().add(rect);
+        board.getChildren().add(path);
+        board.getChildren().add(play);
+
+
     }
 }
