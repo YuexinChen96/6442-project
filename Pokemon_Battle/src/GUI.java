@@ -57,7 +57,7 @@ public class GUI extends Application {
 
     }
 
-
+    // Chloe
     public void page0_initial(){
         ImageView background = new ImageView();
         final String PAGE0_BACKGROUND_URI = getClass().getResource("Pics/page1_background_example.jpg").toString();
@@ -96,6 +96,7 @@ public class GUI extends Application {
 
     }
 
+    // Chloe
     public void page1_initial(){
         System.out.println("Pokemon Select");
         ImageView background = new ImageView();
@@ -155,6 +156,7 @@ public class GUI extends Application {
 
     }
 
+    // Kath & Natalie
     public void page2_initial() {
         System.out.println("Map");
         initialMap();
@@ -170,7 +172,11 @@ public class GUI extends Application {
     public void initialMap(){
         for (int i = 0; i < 100; i++){
             for (int j = 0; j < 100; j++){
-                map[i][j] = 'g'; // grass
+                if (i == 10){
+                    map[i][j] = 's';
+                }
+                else map[i][j] = 'g'; // grass
+
             }
         }
     }
