@@ -1,9 +1,14 @@
-import Pokemon.Pokemon;
 import javafx.animation.PathTransition;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
@@ -13,6 +18,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.text.*;
 import javafx.util.Duration;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 
 //Set up basic GUI
@@ -32,7 +39,7 @@ public class GUI extends Application {
     private final Pane board = new Pane();
     private final Group controls = new Group();
 
-    Pokemon user = null;
+    Pokemon user = new Pokemon();
 
 
     public static void main(String[] args) {
@@ -47,6 +54,7 @@ public class GUI extends Application {
         root.getChildren().add(board);
         root.getChildren().add(controls);
 
+
         page0_initial();
 
 
@@ -56,6 +64,9 @@ public class GUI extends Application {
 
     }
 
+//-------------------------------------------------------------
+//                 Page0_initial (Game Home)
+// ------------------------------------------------------------
     // Chloe
     public void page0_initial(){
         ImageView background = new ImageView();
@@ -95,6 +106,9 @@ public class GUI extends Application {
 
     }
 
+//-------------------------------------------------------------
+//                 Page1_initial (Role selection)
+// ------------------------------------------------------------
     // Chloe
     public void page1_initial(){
         System.out.println("Pokemon.Pokemon Select");
@@ -144,6 +158,10 @@ public class GUI extends Application {
         board.getChildren().add(path);
         board.getChildren().add(play);
 
+        // ------待完善-----
+        int id=0;  // 改成：int id=选择的角色（page1）
+        this.user.initialroleAttr(id);
+
         Button btn1 = new Button("Start");
         btn1.setLayoutX(1000);
         btn1.setLayoutY(500);
@@ -153,48 +171,96 @@ public class GUI extends Application {
         });
         board.getChildren().add(btn1);
 
-        // ------待完善-----
-        int id =1;  // 改成：int id=选择的角色（page1）
-        this.user.initialroleAttr(id);
+
 
     }
 
-    Map mapclass;
-    // Kath & Natalie
+
+
+//-------------------------------------------------------------
+//                 Page2_initial (Game Map)
+// ------------------------------------------------------------
+// Kath & Natalie
+Map mapclass;
     public void page2_initial() {
         System.out.println("Map");
-        initialMap(); // design the map
+        System.out.println("Current Role:"+user.toString());
+
+        //create and show the map
+        initialMap();
         showPartOfMap(map);
 
         //showRole;
         int[] role_pos=user.getPosition();
         String role_image=user.getImage();
         Rectangle rect = new Rectangle(role_pos[0]* 30, role_pos[1] * 30, 30, 30);
-        rect.setFill(new ImagePattern(new Image("Pics/pic0.jpg")));
+        rect.setFill(new ImagePattern(new Image(role_image)));
         board.getChildren().add(rect);
+        rect.toFront();
+        addKeyPressed(rect, board);
 
-
-        //-----待删除--------
-        //暂时测试不删
-        /*
-        for (int i = 0; i < 40; i++){
-            for (int j = 0; j < 24; j++){
-                Rectangle rect = new Rectangle(i * 30, j * 30, 30, 30);
-                rect.setFill(new ImagePattern(new Image("Pics/Maps/" + map[i][j] + ".png")));
-                board.getChildren().add(rect);
+    }
+    public void addKeyPressed(Node node, Node board) {
+        board.addEventHandler(MouseEvent.MOUSE_MOVED, e -> {
+            node.requestFocus();
+            node.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
+            });
+        });
+        node.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
+            System.out.println("keyevent able");
+            mapclass = new Map();
+            if(mapclass.ifTerminal(user,map))page4_initial();
+            /*
+            if(mapclass.ifBattle(user,map)){
+                page3_initial(0);
+            }*/
+            KeyCode keyCode = e.getCode();
+            if (keyCode.equals(KeyCode.RIGHT)) {
+                boolean canMove = mapclass.checkMoveEnable(user,'R',map);//check move or terminal or battle
+                if(canMove) {
+                    user.setPosition(new int[]{user.getPosition()[0] + 1, user.getPosition()[1]});
+                    node.setLayoutX(node.getLayoutX() + 30);
+                }
+                System.out.println(user);
+                if(mapclass.ifTerminal(user,map))page4_initial();
+            } else if (keyCode.equals(KeyCode.LEFT)) {
+                System.out.println("left");
+                boolean canMove = mapclass.checkMoveEnable(user,'L',map);//check move or terminal or battle
+                System.out.println(canMove);
+                if(canMove) {
+                    user.setPosition(new int[]{user.getPosition()[0] - 1, user.getPosition()[1]});
+                    node.setLayoutX(node.getLayoutX() - 30);
+                }
+                System.out.println(user);
+                if(mapclass.ifTerminal(user,map))page4_initial();
+            } else if (keyCode.equals(KeyCode.UP)) {
+                System.out.println("up");
+                boolean canMove = mapclass.checkMoveEnable(user,'U',map);//check move or terminal or battle
+                System.out.println(canMove);
+                if(canMove) {
+                    user.setPosition(new int[]{user.getPosition()[0], user.getPosition()[1] - 1});
+                    node.setLayoutY(node.getLayoutY() - 30);
+                }
+                System.out.println(user);
+                if(mapclass.ifTerminal(user,map))page4_initial();
+            } else if (keyCode.equals(KeyCode.DOWN)) {
+                System.out.println("down");
+                boolean canMove = mapclass.checkMoveEnable(user,'D',map);//check move or terminal or battle
+                System.out.println(canMove);
+                if(canMove) {
+                    user.setPosition(new int[]{user.getPosition()[0], user.getPosition()[1] + 1});
+                    node.setLayoutY(node.getLayoutY() + 30);
+                }
+                System.out.println(user);
+                if(mapclass.ifTerminal(user,map))page4_initial();
             }
-        }*/
-        //-----------------------
 
 
-        //int id=this.user;
-        mapclass.pokemon=user;
-        mapclass.terminal();
-        mapclass.move();
-        mapclass.battle();
+        });
     }
 
-    // fx: add pieces to board (board只能显示map中的40*24个pieces,
+    // fx: add pieces to board (board只能显示map中的40*24个pieces)
+    //-----------------暂时不需要（Note:不用更新地图, 目前只实现40*24）-------------------------
     public void showPartOfMap(char[][] showmap){
         for (int i = 0; i < 40; i++){
             for (int j = 0; j < 24; j++){
@@ -206,13 +272,10 @@ public class GUI extends Application {
         //记录当前的board中所有piece的type和position
     }
 
-    //当pokemon走到边缘，更新board显示的地形区域？  shift
-    //showmap[40][24]
-    public int[][] getshowmap_pos_type(){
-        return null;
-    }
 
-    // ----待设计    map[][]的每个图片名char-----
+    // ----待设计
+    // map[][]里放每个图片名char型  s石头 g草 w水,  终点t
+    // Kath
     public void initialMap(){
         for (int i = 0; i < 100; i++){
             for (int j = 0; j < 100; j++){
@@ -222,10 +285,17 @@ public class GUI extends Application {
                 else map[i][j] = 'g'; // grass
             }
         }
+        map[10][5]='g';
+        map[39][23]='t';
     }
 
 
 
+
+
+//-------------------------------------------------------------
+//                 Page3_initial (Battle)
+// ------------------------------------------------------------
     // Kevin
     public void page3_initial(int enemy_id) {
         System.out.println("Battle page");
@@ -233,4 +303,20 @@ public class GUI extends Application {
 
     }
 
+
+
+
+//-------------------------------------------------------------
+//                 Page4_initial (Game end page)
+// ------------------------------------------------------------
+    public void page4_initial(){
+        board.getChildren().removeAll(board.getChildren());
+
+        Text endingText = new Text("Game over");
+        endingText.setFill(Color.BLACK);
+        endingText.setFont(Font.font("Arial", FontWeight.NORMAL, 40));
+        endingText.setLayoutX(500);
+        endingText.setLayoutY(300);
+        board.getChildren().add(endingText);
+    }
 }
