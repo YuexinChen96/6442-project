@@ -24,6 +24,7 @@ public class GUI extends Application {
     private static final int WINDOW_HEIGHT = 740;
 
     char[][] map = new char[100][100];
+    char[][] showmap=new char[40][24];//char record the type of piece
 
     // Page indicator
     private int page_number = 0;
@@ -154,21 +155,66 @@ public class GUI extends Application {
         });
         board.getChildren().add(btn1);
 
+        // ------待完善-----
+        int id =1;  // 改成：int id=选择的角色（page1）
+        this.user.initialroleAttr(id);
+
     }
 
+    Map mapclass;
     // Kath & Natalie
     public void page2_initial() {
         System.out.println("Map");
-        initialMap();
+        initialMap(); // design the map
+        showPartOfMap(map);
+
+        //showRole;
+        int[] role_pos=user.getPosition();
+        String role_image=user.getImage();
+        Rectangle rect = new Rectangle(role_pos[0]* 30, role_pos[1] * 30, 30, 30);
+        rect.setFill(new ImagePattern(new Image("Pics/pic0.jpg")));
+        board.getChildren().add(rect);
+
+
+        //-----待删除--------
+        //暂时测试不删
+        /*
         for (int i = 0; i < 40; i++){
             for (int j = 0; j < 24; j++){
                 Rectangle rect = new Rectangle(i * 30, j * 30, 30, 30);
                 rect.setFill(new ImagePattern(new Image("Pics/Maps/" + map[i][j] + ".png")));
                 board.getChildren().add(rect);
             }
-        }
+        }*/
+        //-----------------------
+
+
+        //int id=this.user;
+        mapclass.pokemon=user;
+        mapclass.terminal();
+        mapclass.move();
+        mapclass.battle();
     }
 
+    // fx: add pieces to board (board只能显示map中的40*24个pieces,
+    public void showPartOfMap(char[][] showmap){
+        for (int i = 0; i < 40; i++){
+            for (int j = 0; j < 24; j++){
+                Rectangle rect = new Rectangle(i * 30, j * 30, 30, 30);
+                rect.setFill(new ImagePattern(new Image("Pics/Maps/" + showmap[i][j] + ".png")));
+                board.getChildren().add(rect);
+            }
+        }
+        //记录当前的board中所有piece的type和position
+    }
+
+    //当pokemon走到边缘，更新board显示的地形区域？  shift
+    //showmap[40][24]
+    public int[][] getshowmap_pos_type(){
+        return null;
+    }
+
+    // ----待设计    map[][]的每个图片名char-----
     public void initialMap(){
         for (int i = 0; i < 100; i++){
             for (int j = 0; j < 100; j++){
@@ -176,7 +222,6 @@ public class GUI extends Application {
                     map[i][j] = 's';
                 }
                 else map[i][j] = 'g'; // grass
-
             }
         }
     }
