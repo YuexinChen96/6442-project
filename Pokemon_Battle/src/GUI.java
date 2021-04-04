@@ -1,6 +1,4 @@
-
-import Pages.*;
-
+import Pokemon.Pokemon;
 import javafx.animation.PathTransition;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -27,7 +25,7 @@ public class GUI extends Application {
     char[][] showmap=new char[40][24];//char record the type of piece
 
     // Page indicator
-    private int page_number = 0;
+    private int page_number = 0; // change for page testing
 
 
     private final Group root = new Group();
@@ -43,7 +41,7 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Pokemon Battle");
+        primaryStage.setTitle("Pokemon.Pokemon Pokemon.Battle");
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 
         root.getChildren().add(board);
@@ -99,7 +97,7 @@ public class GUI extends Application {
 
     // Chloe
     public void page1_initial(){
-        System.out.println("Pokemon Select");
+        System.out.println("Pokemon.Pokemon Select");
         ImageView background = new ImageView();
         final String PAGE0_BACKGROUND_URI = getClass().getResource("Pics/page1_background_example.jpg").toString();
         background.setImage(new Image(PAGE0_BACKGROUND_URI));
@@ -225,4 +223,14 @@ public class GUI extends Application {
             }
         }
     }
+
+
+
+    // Kevin
+    public void page3_initial(int enemy_id) {
+        System.out.println("Battle page");
+
+
+    }
+
 }
