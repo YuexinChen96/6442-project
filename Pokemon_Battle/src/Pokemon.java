@@ -53,7 +53,7 @@ public class Pokemon {
         if (id == 0) {
             // name, id, level, HP, MP, defense, attack, water_able, stone_able, max_HP
             this.attr = new RoleAttr("Pikachu", id, 2, 70, 100, 5 ,5, false, false, 70);
-            this.image = "Pics/pic" + id + ".jpg";
+            this.image = "Pics/Pokemon/pic" + id + ".jpg";
             this.position=startposition;
         } else if (id == 1) {
 

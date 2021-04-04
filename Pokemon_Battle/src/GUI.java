@@ -1,13 +1,11 @@
 import javafx.animation.PathTransition;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
@@ -18,8 +16,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.text.*;
 import javafx.util.Duration;
-
-import java.util.concurrent.atomic.AtomicReference;
 
 
 //Set up basic GUI
@@ -131,7 +127,7 @@ public class GUI extends Application {
         i.setLayoutX(-100);
         i.setLayoutY(-100);
 
-        Image img = new Image("Pics/pic0.jpg");
+        Image img = new Image("Pics/Pokemon/pic0.jpg");
         Rectangle rect = new Rectangle(300, 300, 200, 200);
         rect.setFill(new ImagePattern(img));
         Path path = new Path();
