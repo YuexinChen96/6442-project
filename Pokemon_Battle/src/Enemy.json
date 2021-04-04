@@ -1,0 +1,44 @@
+[{
+  "id": 1,
+  "name": "guladuo",
+  "attack": 55,
+  "defence": 29,
+  "HP": 420,
+  "MP": 0,
+  "imgUrl": "Pics/Pokemon/pic10.jpg"
+},{
+  "id": 2,
+  "name": "haihuangya",
+  "attack": 55,
+  "defence":29,
+  "HP": 420,
+  "MP": 0,
+  "imgUrl": "Pics/Pokemon/pic11.jpg"
+},{
+  "id": 3,
+  "name": "tiankonglong",
+  "attack": 50,
+  "defence": 17,
+  "HP": 340,
+  "MP": 0,
+  "imgUrl": "Pics/Pokemon/pic12.jpg"
+},{
+  "id": 4,
+  "name": "luoqiya",
+  "attack": 59,
+  "defence":20,
+  "HP": 390,
+  "MP": 0,
+  "imgUrl": "Pics/Pokemon/pic13.jpg"
+},{
+  "id": 5,
+  "name": "leigong",
+  "attack": 55,
+  "defence":25,
+  "HP": 420,
+  "MP": 0,
+  "imgUrl": "Pics/Pokemon/pic14.jpg"
+}
+
+
+]

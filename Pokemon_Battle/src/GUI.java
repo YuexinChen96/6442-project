@@ -1,5 +1,9 @@
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 import javafx.animation.PathTransition;
 import javafx.application.Application;
+import javafx.application.Preloader;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -16,6 +20,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.text.*;
 import javafx.util.Duration;
+
+import java.io.FileReader;
+import java.lang.reflect.Type;
+import java.util.List;
 
 
 //Set up basic GUI
@@ -51,7 +59,7 @@ public class GUI extends Application {
         root.getChildren().add(controls);
 
 
-        page0_initial();
+        page3_initial(3);//change for test
 
 
         primaryStage.setScene(scene);
@@ -294,9 +302,96 @@ Map mapclass;
 // ------------------------------------------------------------
     // Kevin
     public void page3_initial(int enemy_id) {
+        // this line use for test
+        this.user = new Pokemon();
+        user.initialroleAttr(0);
+
         System.out.println("Battle page");
+        // Background area
+        page3_setupBackground();
+        // buttons
+        page3_setupButton();
+        // enemy load
+        Enemy enemy = enemy_loading(enemy_id);
+        // start Battle
+        Battle battle = new Battle(this.user, enemy);
 
 
+//        while (!battle.gameover_test()) {
+//            if (battle.getTurn() % 2 == 0){
+//                // able control for buttons
+//            } else {
+//
+//            }
+//        }
+
+
+    }
+
+    public void page3_setupBackground(){
+        ImageView background = new ImageView();
+        final String PAGE3_BACKGROUND_URI = getClass().getResource("Pics/page3_background.png").toString();
+        background.setImage(new Image(PAGE3_BACKGROUND_URI));
+        background.setFitHeight(600);
+        background.setPreserveRatio(true);
+        board.getChildren().add(background);
+        // User area
+        Rectangle user_area = new Rectangle(150, 360, 240, 240);
+        user_area.setFill(new ImagePattern(new Image("Pics/Pokemon/pic0.jpg")));
+        board.getChildren().add(user_area);
+        // Enemy area
+        Rectangle enemy_area = new Rectangle(690, 0, 240, 240);
+        enemy_area.setFill(new ImagePattern(new Image("Pics/Pokemon/pic1.jpg")));
+        board.getChildren().add(enemy_area);
+
+        // control area
+        Rectangle control_area = new Rectangle(0, 600, 1080, 300);
+        control_area.setFill(new ImagePattern(new Image("Pics/page3_control_area.jpg")));
+        board.getChildren().add(control_area);
+    }
+
+    public void page3_setupButton(){
+        Button btn1 = new Button("Attack");
+        btn1.setLayoutX(60);
+        btn1.setLayoutY(640);
+        btn1.setMinSize(130, 60);
+        btn1.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
+        board.getChildren().add(btn1);
+
+        Button btn2 = new Button("Spell1");
+        btn2.setLayoutX(310);
+        btn2.setLayoutY(640);
+        btn2.setMinSize(130, 60);
+        btn2.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
+        board.getChildren().add(btn2);
+
+        Button btn3 = new Button("Spell2");
+        btn3.setLayoutX(560);
+        btn3.setLayoutY(640);
+        btn3.setMinSize(130, 60);
+        btn3.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
+        board.getChildren().add(btn3);
+
+        Button btn4 = new Button("Spell3");
+        btn4.setLayoutX(810);
+        btn4.setLayoutY(640);
+        btn4.setMinSize(130, 60);
+        btn4.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
+        board.getChildren().add(btn4);
+    }
+
+    public Enemy enemy_loading(int enemy_id){
+        Gson gson = new Gson();
+        JsonReader jsr = null;
+        try {
+            jsr = new JsonReader(new FileReader(System.getProperty("user.dir") + "/src/Enemy.json"));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        final Type CUS_LIST_TYPE = new TypeToken<List<Enemy>>() {}.getType();
+        assert jsr != null;
+        List<Enemy> enemyList = gson.fromJson(jsr, CUS_LIST_TYPE);
+        return enemyList.get(enemy_id - 1);
     }
 
 
