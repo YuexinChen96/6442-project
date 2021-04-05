@@ -237,7 +237,7 @@ Map mapclass;
             if(mapclass.ifBattle(user,map))page3_initial(3);
             KeyCode keyCode = e.getCode();
             if (keyCode.equals(KeyCode.RIGHT)) {
-                boolean canMove = mapclass.checkMoveEnable(user,'R',map);//check move or terminal or battle
+                boolean canMove = mapclass.checkMoveEnable(user,'R',map);
                 if(canMove) {
                     int x=user.getPosition()[0];
                     int y=user.getPosition()[1];
@@ -246,7 +246,7 @@ Map mapclass;
                 }
             } else if (keyCode.equals(KeyCode.LEFT)) {
                 System.out.println("left");
-                boolean canMove = mapclass.checkMoveEnable(user,'L',map);//check move or terminal or battle
+                boolean canMove = mapclass.checkMoveEnable(user,'L',map);
                 System.out.println(canMove);
                 if(canMove) {
                     int x=user.getPosition()[0];
@@ -256,7 +256,7 @@ Map mapclass;
                 }
             } else if (keyCode.equals(KeyCode.UP)) {
                 System.out.println("up");
-                boolean canMove = mapclass.checkMoveEnable(user,'U',map);//check move or terminal or battle
+                boolean canMove = mapclass.checkMoveEnable(user,'U',map);
                 System.out.println(canMove);
                 if(canMove) {
                     int x=user.getPosition()[0];
@@ -266,7 +266,7 @@ Map mapclass;
                 }
             } else if (keyCode.equals(KeyCode.DOWN)) {
                 System.out.println("down");
-                boolean canMove = mapclass.checkMoveEnable(user,'D',map);//check move or terminal or battle
+                boolean canMove = mapclass.checkMoveEnable(user,'D',map);
                 System.out.println(canMove);
                 if(canMove) {
                     int x=user.getPosition()[0];
