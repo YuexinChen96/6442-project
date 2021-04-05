@@ -36,7 +36,7 @@ public class GUI extends Application {
     private static final int WINDOW_HEIGHT = 740;
 
     char[][] map = new char[80][48];
-    char[][] showmap=new char[40][24];//char record the type of piece
+    char[][] showmap = new char[40][24];//char record the type of piece
 
     // Page indicator
     private int page_number = 0; // change for page testing
@@ -286,29 +286,28 @@ Map mapclass;
     // map[][]里放每个图片名char型  s石头 g草 w水,  终点t
     // Kath
     public void initialMap(){
+        //地图
         String battleMap = "src/battleMap1.txt";
-//        String filepath = ;
         try {
             BufferedReader bfr = new BufferedReader(new FileReader(battleMap));
             String l;
             int row = 0;
             while((l = bfr.readLine()) != null) {
                 for (int i = 0; i < l.length(); i++){
-                    map[row][i] = l.charAt(i);
+                    System.out.println("row:" + row + ", col:"+i+", char:"+l.charAt(i));
+                    map[i][row] = l.charAt(i);
                 }
                 row++;
             }
 
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-//
-//
-//        map[10][5]='g';
-//        map[39][23]='t';
+        //入口
+//        map[0][0]='g';
+        //出口
+        map[39][23]='t';
     }
 
 
