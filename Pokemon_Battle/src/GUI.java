@@ -21,7 +21,10 @@ import javafx.scene.shape.*;
 import javafx.scene.text.*;
 import javafx.util.Duration;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -59,8 +62,8 @@ public class GUI extends Application {
         root.getChildren().add(controls);
 
 
-        page3_initial(3);//change for test
-
+//        page3_initial(3);//change for test
+        page1_initial();
 
         primaryStage.setScene(scene);
 
@@ -281,16 +284,29 @@ Map mapclass;
     // map[][]里放每个图片名char型  s石头 g草 w水,  终点t
     // Kath
     public void initialMap(){
-        for (int i = 0; i < 100; i++){
-            for (int j = 0; j < 100; j++){
-                if (i == 10){
-                    map[i][j] = 's';
+        String battleMap = "src/battleMap1.txt";
+//        String filepath = ;
+        try {
+            BufferedReader bfr = new BufferedReader(new FileReader(battleMap));
+            String l;
+            int row = 0;
+            while((l = bfr.readLine()) != null) {
+                for (int i = 0; i < l.length(); i++){
+                    map[row][i] = l.charAt(i);
                 }
-                else map[i][j] = 'g'; // grass
+                row++;
             }
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        map[10][5]='g';
-        map[39][23]='t';
+//
+//
+//        map[10][5]='g';
+//        map[39][23]='t';
     }
 
 
