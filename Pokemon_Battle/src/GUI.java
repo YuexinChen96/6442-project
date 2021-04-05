@@ -46,7 +46,7 @@ public class GUI extends Application {
     private final Pane board = new Pane();
     private final Group controls = new Group();
 
-    Pokemon user = new Pokemon();
+    Pokemon user;
 
 
     public static void main(String[] args) {
@@ -167,7 +167,7 @@ public class GUI extends Application {
 
         // ------待完善-----
         int id=0;  // 改成：int id=选择的角色（page1）
-        this.user.initialroleAttr(id);
+        user=new Pokemon(id);
 
         Button btn1 = new Button("Start");
         btn1.setLayoutX(1000);
@@ -199,9 +199,8 @@ Map mapclass;
 
         //showRole;
         int[] role_pos=user.getPosition();
-        String role_image=user.getImage();
         Rectangle rect = new Rectangle(role_pos[0]* 30, role_pos[1] * 30, 30, 30);
-        rect.setFill(new ImagePattern(new Image(role_image)));
+        rect.setFill(new ImagePattern(new Image(user.getImgUrl())));
         board.getChildren().add(rect);
         rect.toFront();
         addKeyPressed(rect, board);
@@ -217,10 +216,7 @@ Map mapclass;
             System.out.println("keyevent able");
             mapclass = new Map();
             if(mapclass.ifTerminal(user,map))page4_initial();
-            /*
-            if(mapclass.ifBattle(user,map)){
-                page3_initial(0);
-            }*/
+            if(mapclass.ifBattle(user,map))page3_initial(3);
             KeyCode keyCode = e.getCode();
             if (keyCode.equals(KeyCode.RIGHT)) {
                 boolean canMove = mapclass.checkMoveEnable(user,'R',map);//check move or terminal or battle
@@ -230,6 +226,7 @@ Map mapclass;
                 }
                 System.out.println(user);
                 if(mapclass.ifTerminal(user,map))page4_initial();
+                if(mapclass.ifBattle(user,map))page3_initial(3);
             } else if (keyCode.equals(KeyCode.LEFT)) {
                 System.out.println("left");
                 boolean canMove = mapclass.checkMoveEnable(user,'L',map);//check move or terminal or battle
@@ -240,6 +237,7 @@ Map mapclass;
                 }
                 System.out.println(user);
                 if(mapclass.ifTerminal(user,map))page4_initial();
+                if(mapclass.ifBattle(user,map))page3_initial(3);
             } else if (keyCode.equals(KeyCode.UP)) {
                 System.out.println("up");
                 boolean canMove = mapclass.checkMoveEnable(user,'U',map);//check move or terminal or battle
@@ -250,6 +248,7 @@ Map mapclass;
                 }
                 System.out.println(user);
                 if(mapclass.ifTerminal(user,map))page4_initial();
+                if(mapclass.ifBattle(user,map))page3_initial(3);
             } else if (keyCode.equals(KeyCode.DOWN)) {
                 System.out.println("down");
                 boolean canMove = mapclass.checkMoveEnable(user,'D',map);//check move or terminal or battle
@@ -260,6 +259,7 @@ Map mapclass;
                 }
                 System.out.println(user);
                 if(mapclass.ifTerminal(user,map))page4_initial();
+                if(mapclass.ifBattle(user,map))page3_initial(3);
             }
 
 
@@ -315,8 +315,7 @@ Map mapclass;
     // Kevin
     public void page3_initial(int enemy_id) {
         // this line use for test
-        this.user = new Pokemon();
-        user.initialroleAttr(0);
+        this.user = new Pokemon(0);
 
         System.out.println("Battle page");
         // Background area

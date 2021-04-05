@@ -1,0 +1,28 @@
+[
+  {
+    "id": 0,
+    "name": "Pikachu",
+    "level": 3,
+    "HP": 350,
+    "MP": 0,
+    "attack": 55,
+    "defence": 29,
+    "grass_able": true,
+    "water_able": false,
+    "stone_able": false,
+    "max_MP": 400,
+    "imgUrl": "Pics\\Pokemon\\pic0.jpg"
+  },
+  {
+    "id": 1,
+    "name": "Squirtle",
+    "level": 4,
+    "HP": 400,
+    "MP": 0,
+    "attack": 60,
+    "defence": 31,
+    "water_able": true,
+    "stone_able": false,
+    "imgUrl": "Pics\\Pokemon\\pic1.jpg"
+  }
+]
