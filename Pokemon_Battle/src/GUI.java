@@ -283,7 +283,7 @@ Map mapclass;
 
 
     // ----待设计
-    // map[][]里放每个图片名char型  s石头 g草 w水,  终点t
+    // map[][]里放每个图片名char型  s石头,g草,w水,h商店(暂不启用),r是可移动的路线,起点b,终点t
     // Kath
     public void initialMap(){
         //地图
@@ -294,20 +294,15 @@ Map mapclass;
             int row = 0;
             while((l = bfr.readLine()) != null) {
                 for (int i = 0; i < l.length(); i++){
-                    System.out.println("row:" + row + ", col:"+i+", char:"+l.charAt(i));
+//                    System.out.println("row:" + row + ", col:"+i+", char:"+l.charAt(i));
                     map[i][row] = l.charAt(i);
                 }
                 row++;
             }
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //入口
-//        map[0][0]='g';
-        //出口
-        map[39][23]='t';
+
     }
 
 
