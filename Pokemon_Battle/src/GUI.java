@@ -8,6 +8,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -47,6 +48,19 @@ public class GUI extends Application {
     private final Group controls = new Group();
 
     Pokemon user;
+    private static final DropShadow dropShadow;
+    private static final DropShadow borderGlow;
+    static {
+        dropShadow = new DropShadow();
+        dropShadow.setOffsetX(2.0);
+        dropShadow.setOffsetY(2.0);
+        dropShadow.setColor(Color.color(0, 0, 0, .4));
+    }
+    // Static initializer to initialize borderGlow
+    static {
+        borderGlow = new DropShadow();
+        borderGlow.setColor(Color.RED);
+    }
 
 
     public static void main(String[] args) {
@@ -212,8 +226,12 @@ Map mapclass;
             node.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
             });
         });
+        board.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+            node.requestFocus();
+            node.setEffect(null);
+        });
         node.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
-            System.out.println("keyevent able");
+            System.out.println("keyEvent able");
             mapclass = new Map();
             if(mapclass.ifTerminal(user,map))page4_initial();
             if(mapclass.ifBattle(user,map))page3_initial(3);
@@ -221,51 +239,63 @@ Map mapclass;
             if (keyCode.equals(KeyCode.RIGHT)) {
                 boolean canMove = mapclass.checkMoveEnable(user,'R',map);//check move or terminal or battle
                 if(canMove) {
-                    user.setPosition(new int[]{user.getPosition()[0] + 1, user.getPosition()[1]});
-                    node.setLayoutX(node.getLayoutX() + 30);
+                    int x=user.getPosition()[0];
+                    int y=user.getPosition()[1];
+                    moveAnimation(node,x*30,y*30,(x+1)*30,y*30);
+                    user.setPosition(new int[]{x+1,y});
                 }
-                System.out.println(user);
-                if(mapclass.ifTerminal(user,map))page4_initial();
-                if(mapclass.ifBattle(user,map))page3_initial(3);
             } else if (keyCode.equals(KeyCode.LEFT)) {
                 System.out.println("left");
                 boolean canMove = mapclass.checkMoveEnable(user,'L',map);//check move or terminal or battle
                 System.out.println(canMove);
                 if(canMove) {
-                    user.setPosition(new int[]{user.getPosition()[0] - 1, user.getPosition()[1]});
-                    node.setLayoutX(node.getLayoutX() - 30);
+                    int x=user.getPosition()[0];
+                    int y=user.getPosition()[1];
+                    moveAnimation(node,x*30,y*30,(x-1)*30,y*30);
+                    user.setPosition(new int[]{x-1,y});
                 }
-                System.out.println(user);
-                if(mapclass.ifTerminal(user,map))page4_initial();
-                if(mapclass.ifBattle(user,map))page3_initial(3);
             } else if (keyCode.equals(KeyCode.UP)) {
                 System.out.println("up");
                 boolean canMove = mapclass.checkMoveEnable(user,'U',map);//check move or terminal or battle
                 System.out.println(canMove);
                 if(canMove) {
-                    user.setPosition(new int[]{user.getPosition()[0], user.getPosition()[1] - 1});
-                    node.setLayoutY(node.getLayoutY() - 30);
+                    int x=user.getPosition()[0];
+                    int y=user.getPosition()[1];
+                    moveAnimation(node,x*30,y*30,x*30,(y-1)*30);
+                    user.setPosition(new int[]{x,y-1});
                 }
-                System.out.println(user);
-                if(mapclass.ifTerminal(user,map))page4_initial();
-                if(mapclass.ifBattle(user,map))page3_initial(3);
             } else if (keyCode.equals(KeyCode.DOWN)) {
                 System.out.println("down");
                 boolean canMove = mapclass.checkMoveEnable(user,'D',map);//check move or terminal or battle
                 System.out.println(canMove);
                 if(canMove) {
-                    user.setPosition(new int[]{user.getPosition()[0], user.getPosition()[1] + 1});
-                    node.setLayoutY(node.getLayoutY() + 30);
+                    int x=user.getPosition()[0];
+                    int y=user.getPosition()[1];
+                    moveAnimation(node,x*30,y*30,x*30,(y+1)*30);
+                    user.setPosition(new int[]{x,y+1});
                 }
-                System.out.println(user);
-                if(mapclass.ifTerminal(user,map))page4_initial();
-                if(mapclass.ifBattle(user,map))page3_initial(3);
             }
+            System.out.println(user);
+            if(mapclass.ifTerminal(user,map))page4_initial();
+            if(mapclass.ifBattle(user,map))page3_initial(3);
 
 
         });
     }
-
+    public void moveAnimation(Node node, double now_x, double now_y, double next_x, double next_y){
+        node.setEffect(borderGlow);
+        int adjsut=30;
+        Path path = new Path();
+        path.getElements().add(new MoveTo(now_x+0.5*adjsut, now_y+0.5*adjsut));
+        path.getElements().add(new LineTo(next_x+0.5*adjsut,next_y+0.5*adjsut));
+        PathTransition pathTransition = new PathTransition();
+        pathTransition.setDuration(Duration.millis(1000));
+        pathTransition.setPath(path);
+        pathTransition.setNode(node);
+        pathTransition.setCycleCount(1);
+        pathTransition.setAutoReverse(true);
+        pathTransition.play();
+    }
     // fx: add pieces to board (board只能显示map中的40*24个pieces)
     //-----------------暂时不需要（Note:不用更新地图, 目前只实现40*24）-------------------------
     public void showPartOfMap(char[][] showmap){
