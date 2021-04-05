@@ -35,7 +35,7 @@ public class GUI extends Application {
     private static final int WINDOW_WIDTH = 1200;
     private static final int WINDOW_HEIGHT = 740;
 
-    char[][] map = new char[100][100];
+    char[][] map = new char[80][48];
     char[][] showmap=new char[40][24];//char record the type of piece
 
     // Page indicator
@@ -272,7 +272,9 @@ Map mapclass;
         for (int i = 0; i < 40; i++){
             for (int j = 0; j < 24; j++){
                 Rectangle rect = new Rectangle(i * 30, j * 30, 30, 30);
-                rect.setFill(new ImagePattern(new Image("Pics/Maps/" + showmap[i][j] + ".png")));
+                if(showmap[i][j] != 'r') {
+                    rect.setFill(new ImagePattern(new Image("Pics/Maps/" + showmap[i][j] + ".png")));
+                }
                 board.getChildren().add(rect);
             }
         }
