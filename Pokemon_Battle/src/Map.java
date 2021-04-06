@@ -20,6 +20,9 @@ public class Map {
 
     //canMove
     public boolean checkMoveEnable(Pokemon user, char act ,char[][] map){
+        try { Thread.sleep(500); } catch (InterruptedException interruptedException) {
+            interruptedException.printStackTrace();
+        }
         int posx=user.getPosition()[0];
         int posy=user.getPosition()[1];
         //3. move: right  left  up  down

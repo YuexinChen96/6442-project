@@ -1,7 +1,10 @@
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import javafx.animation.FadeTransition;
 import javafx.animation.PathTransition;
+import javafx.animation.PauseTransition;
+import javafx.animation.SequentialTransition;
 import javafx.application.Application;
 import javafx.application.Preloader;
 import javafx.scene.Group;
@@ -217,6 +220,7 @@ Map mapclass;
         rect.setFill(new ImagePattern(new Image(user.getImgUrl())));
         board.getChildren().add(rect);
         rect.toFront();
+        startShowAnimation(rect);
         addKeyPressed(rect, board);
 
     }
@@ -278,9 +282,15 @@ Map mapclass;
             System.out.println(user);
             if(mapclass.ifTerminal(user,map))page4_initial();
             if(mapclass.ifBattle(user,map))page3_initial(3);
-
-
         });
+    }
+    public void startShowAnimation(Node node){
+        FadeTransition ft = new FadeTransition(Duration.millis(200), node);
+        ft.setFromValue(0);
+        ft.setToValue(1);
+        ft.setCycleCount(9);
+        ft.setAutoReverse(true);
+        ft.play();
     }
     public void moveAnimation(Node node, double now_x, double now_y, double next_x, double next_y){
         node.setEffect(borderGlow);
@@ -289,12 +299,21 @@ Map mapclass;
         path.getElements().add(new MoveTo(now_x+0.5*adjsut, now_y+0.5*adjsut));
         path.getElements().add(new LineTo(next_x+0.5*adjsut,next_y+0.5*adjsut));
         PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.millis(1000));
+        pathTransition.setDuration(Duration.millis(1300));
         pathTransition.setPath(path);
         pathTransition.setNode(node);
         pathTransition.setCycleCount(1);
         pathTransition.setAutoReverse(true);
-        pathTransition.play();
+        //pathTransition.play();
+
+        FadeTransition ft2 = new FadeTransition(Duration.millis(70), node);
+        ft2.setFromValue(1); ft2.setToValue(0); ft2.setCycleCount(2); ft2.setAutoReverse(true);
+        FadeTransition ft = new FadeTransition(Duration.millis(70), node);
+        ft.setFromValue(1); ft.setToValue(0); ft.setCycleCount(2); ft.setAutoReverse(true);
+        //ft.play();
+        //Playing Sequential Transition
+        SequentialTransition seqTransition = new SequentialTransition(ft2,pathTransition,ft);
+        seqTransition.play();
     }
     // fx: add pieces to board (board只能显示map中的40*24个pieces)
     //-----------------暂时不需要（Note:不用更新地图, 目前只实现40*24）-------------------------
