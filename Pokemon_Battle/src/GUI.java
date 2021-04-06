@@ -338,7 +338,7 @@ Map mapclass;
         JsonReader jsonReader = null;
         final Type CUS_LIST_TYPE = new TypeToken<List<Pokemon>>() {}.getType();
         try{
-            jsonReader = new JsonReader(new FileReader("src/pokemon.json"));
+            jsonReader = new JsonReader(new FileReader(System.getProperty("user.dir") + "/src/Pokemon.json"));
         }catch (Exception e) {
             e.printStackTrace();
         }
