@@ -14,7 +14,8 @@ public class Pokemon extends Role{
         JsonReader jsonReader = null;
         final Type CUS_LIST_TYPE = new TypeToken<List<Pokemon>>() {}.getType();
         try{
-            jsonReader = new JsonReader(new FileReader("D:\\JavaProject\\comp6442-rpg\\Pokemon_Battle\\src\\pokemon.json"));
+//            jsonReader = new JsonReader(new FileReader("D:\\JavaProject\\comp6442-rpg\\Pokemon_Battle\\src\\pokemon.json"));
+            jsonReader = new JsonReader(new FileReader(System.getProperty("user.dir") + "/src/pokemon.json"));
         }catch (Exception e) {
             e.printStackTrace();
         }
