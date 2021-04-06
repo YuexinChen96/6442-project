@@ -181,7 +181,7 @@ public class GUI extends Application {
 
         // ------待完善-----
         int id=0;  // 改成：int id=选择的角色（page1）
-        user=new Pokemon(id);
+        user=pokemonLoadFromJson(id);
 
         Button btn1 = new Button("Start");
         btn1.setLayoutX(1000);
@@ -311,7 +311,6 @@ Map mapclass;
         //记录当前的board中所有piece的type和position
     }
 
-
     // ----待设计
     // map[][]里放每个图片名char型  s石头,g草,w水,h商店(暂不启用),r是可移动的路线,起点b,终点t
     // Kath
@@ -334,6 +333,18 @@ Map mapclass;
         }
 
     }
+    public Pokemon pokemonLoadFromJson(int id){
+        Gson gson = new Gson();
+        JsonReader jsonReader = null;
+        final Type CUS_LIST_TYPE = new TypeToken<List<Pokemon>>() {}.getType();
+        try{
+            jsonReader = new JsonReader(new FileReader("src/pokemon.json"));
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<Pokemon> pl=gson.fromJson(jsonReader, CUS_LIST_TYPE);
+        return pl.get(id);
+    }
 
 
 
@@ -345,7 +356,7 @@ Map mapclass;
     // Kevin
     public void page3_initial(int enemy_id) {
         // this line use for test
-        this.user = new Pokemon(0);
+        this.user =pokemonLoadFromJson(0);
 
         System.out.println("Battle page");
         // Background area

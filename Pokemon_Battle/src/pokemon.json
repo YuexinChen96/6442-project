@@ -6,23 +6,16 @@
     "HP": 350,
     "MP": 0,
     "attack": 55,
-    "defence": 29,
+    "defense": 29,
     "grass_able": true,
     "water_able": false,
     "stone_able": false,
     "max_MP": 400,
-    "imgUrl": "Pics\\Pokemon\\pic0.jpg"
+    "imgUrl": "Pics\\Pokemon\\pic0.jpg",
+    "position": [1,0],
+    "skill_list": [1,2,3]
   },
   {
-    "id": 1,
-    "name": "Squirtle",
-    "level": 4,
-    "HP": 400,
-    "MP": 0,
-    "attack": 60,
-    "defence": 31,
-    "water_able": true,
-    "stone_able": false,
-    "imgUrl": "Pics\\Pokemon\\pic1.jpg"
+    "id": 1
   }
 ]
