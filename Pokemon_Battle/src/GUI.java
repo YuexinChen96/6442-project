@@ -53,12 +53,14 @@ public class GUI extends Application {
     Pokemon user;
     private static final DropShadow dropShadow;
     private static final DropShadow borderGlow;
+
     static {
         dropShadow = new DropShadow();
         dropShadow.setOffsetX(2.0);
         dropShadow.setOffsetY(2.0);
         dropShadow.setColor(Color.color(0, 0, 0, .4));
     }
+
     // Static initializer to initialize borderGlow
     static {
         borderGlow = new DropShadow();
@@ -88,11 +90,11 @@ public class GUI extends Application {
 
     }
 
-//-------------------------------------------------------------
+    //-------------------------------------------------------------
 //                 Page0_initial (Game Home)
 // ------------------------------------------------------------
     // Chloe
-    public void page0_initial(){
+    public void page0_initial() {
         ImageView background = new ImageView();
         final String PAGE0_BACKGROUND_URI = getClass().getResource("Pics/page1_background_example.jpg").toString();
         background.setImage(new Image(PAGE0_BACKGROUND_URI));
@@ -115,26 +117,47 @@ public class GUI extends Application {
         instructionsText.setFill(Color.BLACK);
         instructionsText.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
         instructionsText.setLayoutY(180 + 50);
-        instructionsText.setLayoutY(180 + 180 +55);
+        instructionsText.setLayoutY(180 + 180 + 55);
         instructionsText.setWrappingWidth(600);
         board.getChildren().add(instructionsText);
 
         Button btn1 = new Button("Start");
         btn1.setLayoutX(200);
         btn1.setLayoutY(200);
+        btn1.setMinSize(10, 10);
         btn1.setOnAction(e -> {
             board.getChildren().removeAll(board.getChildren());
             page1_initial();
         });
         board.getChildren().add(btn1);
 
+        Button btn2 = new Button("Play");
+        btn2.setLayoutX(200);
+        btn2.setLayoutY(200);
+        btn2.setMinSize(10, 10);
+        btn2.setOnAction(e -> {
+            board.getChildren().removeAll(board.getChildren());
+            page1_initial();
+        });
+        board.getChildren().add(btn2);
+
+        Button btn3 = new Button("Role");
+        btn3.setLayoutX(200);
+        btn3.setLayoutY(200);
+        btn3.setMinSize(10, 10);
+        btn3.setOnAction(e -> {
+            board.getChildren().removeAll(board.getChildren());
+            page2_initial();
+        });
+        board.getChildren().add(btn3);
+
     }
 
-//-------------------------------------------------------------
+    //-------------------------------------------------------------
 //                 Page1_initial (Role selection)
 // ------------------------------------------------------------
     // Chloe
-    public void page1_initial(){
+    public void page1_initial() {
         System.out.println("Pokemon.Pokemon Select");
         ImageView background = new ImageView();
         final String PAGE0_BACKGROUND_URI = getClass().getResource("Pics/page1_background_example.jpg").toString();
@@ -163,7 +186,7 @@ public class GUI extends Application {
         path.getElements().add(new LineTo(700, 300));
         path.getElements().add(new LineTo(700, 700));
         path.getElements().add(new LineTo(300, 700));
-        path.getElements().add(new LineTo(300,300));
+        path.getElements().add(new LineTo(300, 300));
 
         PathTransition pt = new PathTransition();
         pt.setDuration(Duration.millis(5000));
@@ -175,7 +198,7 @@ public class GUI extends Application {
         Button play = new Button("Play");
         play.setLayoutX(200);
         play.setLayoutY(200);
-        play.setOnAction(e->pt.play());
+        play.setOnAction(e -> pt.play());
 
         board.getChildren().add(i);
         board.getChildren().add(rect);
@@ -183,8 +206,8 @@ public class GUI extends Application {
         board.getChildren().add(play);
 
         // ------待完善-----
-        int id=0;  // 改成：int id=选择的角色（page1）
-        user=pokemonLoadFromJson(id);
+        int id = 0;  // 改成：int id=选择的角色（page1）
+        user = pokemonLoadFromJson(id);
 
         Button btn1 = new Button("Start");
         btn1.setLayoutX(1000);
@@ -196,27 +219,26 @@ public class GUI extends Application {
         board.getChildren().add(btn1);
 
 
-
     }
 
 
-
-//-------------------------------------------------------------
+    //-------------------------------------------------------------
 //                 Page2_initial (Game Map)
 // ------------------------------------------------------------
 // Kath & Natalie
-Map mapclass;
+    Map mapclass;
+
     public void page2_initial() {
         System.out.println("Map");
-        System.out.println("Current Role:"+user.toString());
+        System.out.println("Current Role:" + user.toString());
 
         //create and show the map
         initialMap();
         showPartOfMap(map);
 
         //showRole;
-        int[] role_pos=user.getPosition();
-        Rectangle rect = new Rectangle(role_pos[0]* 30, role_pos[1] * 30, 30, 30);
+        int[] role_pos = user.getPosition();
+        Rectangle rect = new Rectangle(role_pos[0] * 30, role_pos[1] * 30, 30, 30);
         rect.setFill(new ImagePattern(new Image(user.getImgUrl())));
         board.getChildren().add(rect);
         rect.toFront();
@@ -224,6 +246,7 @@ Map mapclass;
         addKeyPressed(rect, board);
 
     }
+
     public void addKeyPressed(Node node, Node board) {
         board.addEventHandler(MouseEvent.MOUSE_MOVED, e -> {
             node.requestFocus();
@@ -237,54 +260,55 @@ Map mapclass;
         node.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
             System.out.println("keyEvent able");
             mapclass = new Map();
-            if(mapclass.ifTerminal(user,map))page4_initial();
-            if(mapclass.ifBattle(user,map))page3_initial(3);
+            if (mapclass.ifTerminal(user, map)) page4_initial();
+            if (mapclass.ifBattle(user, map)) page3_initial(3);
             KeyCode keyCode = e.getCode();
             if (keyCode.equals(KeyCode.RIGHT)) {
-                boolean canMove = mapclass.checkMoveEnable(user,'R',map);
-                if(canMove) {
-                    int x=user.getPosition()[0];
-                    int y=user.getPosition()[1];
-                    moveAnimation(node,x*30,y*30,(x+1)*30,y*30);
-                    user.setPosition(new int[]{x+1,y});
+                boolean canMove = mapclass.checkMoveEnable(user, 'R', map);
+                if (canMove) {
+                    int x = user.getPosition()[0];
+                    int y = user.getPosition()[1];
+                    moveAnimation(node, x * 30, y * 30, (x + 1) * 30, y * 30);
+                    user.setPosition(new int[]{x + 1, y});
                 }
             } else if (keyCode.equals(KeyCode.LEFT)) {
                 System.out.println("left");
-                boolean canMove = mapclass.checkMoveEnable(user,'L',map);
+                boolean canMove = mapclass.checkMoveEnable(user, 'L', map);
                 System.out.println(canMove);
-                if(canMove) {
-                    int x=user.getPosition()[0];
-                    int y=user.getPosition()[1];
-                    moveAnimation(node,x*30,y*30,(x-1)*30,y*30);
-                    user.setPosition(new int[]{x-1,y});
+                if (canMove) {
+                    int x = user.getPosition()[0];
+                    int y = user.getPosition()[1];
+                    moveAnimation(node, x * 30, y * 30, (x - 1) * 30, y * 30);
+                    user.setPosition(new int[]{x - 1, y});
                 }
             } else if (keyCode.equals(KeyCode.UP)) {
                 System.out.println("up");
-                boolean canMove = mapclass.checkMoveEnable(user,'U',map);
+                boolean canMove = mapclass.checkMoveEnable(user, 'U', map);
                 System.out.println(canMove);
-                if(canMove) {
-                    int x=user.getPosition()[0];
-                    int y=user.getPosition()[1];
-                    moveAnimation(node,x*30,y*30,x*30,(y-1)*30);
-                    user.setPosition(new int[]{x,y-1});
+                if (canMove) {
+                    int x = user.getPosition()[0];
+                    int y = user.getPosition()[1];
+                    moveAnimation(node, x * 30, y * 30, x * 30, (y - 1) * 30);
+                    user.setPosition(new int[]{x, y - 1});
                 }
             } else if (keyCode.equals(KeyCode.DOWN)) {
                 System.out.println("down");
-                boolean canMove = mapclass.checkMoveEnable(user,'D',map);
+                boolean canMove = mapclass.checkMoveEnable(user, 'D', map);
                 System.out.println(canMove);
-                if(canMove) {
-                    int x=user.getPosition()[0];
-                    int y=user.getPosition()[1];
-                    moveAnimation(node,x*30,y*30,x*30,(y+1)*30);
-                    user.setPosition(new int[]{x,y+1});
+                if (canMove) {
+                    int x = user.getPosition()[0];
+                    int y = user.getPosition()[1];
+                    moveAnimation(node, x * 30, y * 30, x * 30, (y + 1) * 30);
+                    user.setPosition(new int[]{x, y + 1});
                 }
             }
             System.out.println(user);
-            if(mapclass.ifTerminal(user,map))page4_initial();
-            if(mapclass.ifBattle(user,map))page3_initial(3);
+            if (mapclass.ifTerminal(user, map)) page4_initial();
+            if (mapclass.ifBattle(user, map)) page3_initial(3);
         });
     }
-    public void startShowAnimation(Node node){
+
+    public void startShowAnimation(Node node) {
         FadeTransition ft = new FadeTransition(Duration.millis(200), node);
         ft.setFromValue(0);
         ft.setToValue(1);
@@ -292,12 +316,13 @@ Map mapclass;
         ft.setAutoReverse(true);
         ft.play();
     }
-    public void moveAnimation(Node node, double now_x, double now_y, double next_x, double next_y){
+
+    public void moveAnimation(Node node, double now_x, double now_y, double next_x, double next_y) {
         node.setEffect(borderGlow);
-        int adjsut=30;
+        int adjsut = 30;
         Path path = new Path();
-        path.getElements().add(new MoveTo(now_x+0.5*adjsut, now_y+0.5*adjsut));
-        path.getElements().add(new LineTo(next_x+0.5*adjsut,next_y+0.5*adjsut));
+        path.getElements().add(new MoveTo(now_x + 0.5 * adjsut, now_y + 0.5 * adjsut));
+        path.getElements().add(new LineTo(next_x + 0.5 * adjsut, next_y + 0.5 * adjsut));
         PathTransition pathTransition = new PathTransition();
         pathTransition.setDuration(Duration.millis(1300));
         pathTransition.setPath(path);
@@ -307,21 +332,28 @@ Map mapclass;
         //pathTransition.play();
 
         FadeTransition ft2 = new FadeTransition(Duration.millis(70), node);
-        ft2.setFromValue(1); ft2.setToValue(0); ft2.setCycleCount(2); ft2.setAutoReverse(true);
+        ft2.setFromValue(1);
+        ft2.setToValue(0);
+        ft2.setCycleCount(2);
+        ft2.setAutoReverse(true);
         FadeTransition ft = new FadeTransition(Duration.millis(70), node);
-        ft.setFromValue(1); ft.setToValue(0); ft.setCycleCount(2); ft.setAutoReverse(true);
+        ft.setFromValue(1);
+        ft.setToValue(0);
+        ft.setCycleCount(2);
+        ft.setAutoReverse(true);
         //ft.play();
         //Playing Sequential Transition
-        SequentialTransition seqTransition = new SequentialTransition(ft2,pathTransition,ft);
+        SequentialTransition seqTransition = new SequentialTransition(ft2, pathTransition, ft);
         seqTransition.play();
     }
+
     // fx: add pieces to board (board只能显示map中的40*24个pieces)
     //-----------------暂时不需要（Note:不用更新地图, 目前只实现40*24）-------------------------
-    public void showPartOfMap(char[][] showmap){
-        for (int i = 0; i < 40; i++){
-            for (int j = 0; j < 24; j++){
+    public void showPartOfMap(char[][] showmap) {
+        for (int i = 0; i < 40; i++) {
+            for (int j = 0; j < 24; j++) {
                 Rectangle rect = new Rectangle(i * 30, j * 30, 30, 30);
-                if(showmap[i][j] != 'r') {
+                if (showmap[i][j] != 'r') {
                     rect.setFill(new ImagePattern(new Image("Pics/Maps/" + showmap[i][j] + ".png")));
                 }
                 board.getChildren().add(rect);
@@ -333,15 +365,15 @@ Map mapclass;
     // ----待设计
     // map[][]里放每个图片名char型  s石头,g草,w水,h商店(暂不启用),r是可移动的路线,起点b,终点t
     // Kath
-    public void initialMap(){
+    public void initialMap() {
         //地图
         String battleMap = "src/battleMap1.txt";
         try {
             BufferedReader bfr = new BufferedReader(new FileReader(battleMap));
             String l;
             int row = 0;
-            while((l = bfr.readLine()) != null) {
-                for (int i = 0; i < l.length(); i++){
+            while ((l = bfr.readLine()) != null) {
+                for (int i = 0; i < l.length(); i++) {
 //                    System.out.println("row:" + row + ", col:"+i+", char:"+l.charAt(i));
                     map[i][row] = l.charAt(i);
                 }
@@ -352,30 +384,29 @@ Map mapclass;
         }
 
     }
-    public Pokemon pokemonLoadFromJson(int id){
+
+    public Pokemon pokemonLoadFromJson(int id) {
         Gson gson = new Gson();
         JsonReader jsonReader = null;
-        final Type CUS_LIST_TYPE = new TypeToken<List<Pokemon>>() {}.getType();
-        try{
+        final Type CUS_LIST_TYPE = new TypeToken<List<Pokemon>>() {
+        }.getType();
+        try {
             jsonReader = new JsonReader(new FileReader(System.getProperty("user.dir") + "/src/Pokemon.json"));
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        List<Pokemon> pl=gson.fromJson(jsonReader, CUS_LIST_TYPE);
+        List<Pokemon> pl = gson.fromJson(jsonReader, CUS_LIST_TYPE);
         return pl.get(id);
     }
 
 
-
-
-
-//-------------------------------------------------------------
+    //-------------------------------------------------------------
 //                 Page3_initial (Battle)
 // ------------------------------------------------------------
     // Kevin
     public void page3_initial(int enemy_id) {
         // this line use for test
-        this.user =pokemonLoadFromJson(0);
+        this.user = pokemonLoadFromJson(0);
 
         System.out.println("Battle page");
         // Background area
@@ -399,7 +430,7 @@ Map mapclass;
 
     }
 
-    public void page3_setupBackground(){
+    public void page3_setupBackground() {
         ImageView background = new ImageView();
         final String PAGE3_BACKGROUND_URI = getClass().getResource("Pics/page3_background.png").toString();
         background.setImage(new Image(PAGE3_BACKGROUND_URI));
@@ -421,7 +452,7 @@ Map mapclass;
         board.getChildren().add(control_area);
     }
 
-    public void page3_setupButton(){
+    public void page3_setupButton() {
         Button btn1 = new Button("Attack");
         btn1.setLayoutX(60);
         btn1.setLayoutY(640);
@@ -451,27 +482,26 @@ Map mapclass;
         board.getChildren().add(btn4);
     }
 
-    public Enemy enemy_loading(int enemy_id){
+    public Enemy enemy_loading(int enemy_id) {
         Gson gson = new Gson();
         JsonReader jsr = null;
         try {
             jsr = new JsonReader(new FileReader(System.getProperty("user.dir") + "/src/Enemy.json"));
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        final Type CUS_LIST_TYPE = new TypeToken<List<Enemy>>() {}.getType();
+        final Type CUS_LIST_TYPE = new TypeToken<List<Enemy>>() {
+        }.getType();
         assert jsr != null;
         List<Enemy> enemyList = gson.fromJson(jsr, CUS_LIST_TYPE);
         return enemyList.get(enemy_id - 1);
     }
 
 
-
-
-//-------------------------------------------------------------
+    //-------------------------------------------------------------
 //                 Page4_initial (Game end page)
 // ------------------------------------------------------------
-    public void page4_initial(){
+    public void page4_initial() {
         board.getChildren().removeAll(board.getChildren());
 
         Text endingText = new Text("Game over");
