@@ -96,7 +96,7 @@ public class GUI extends Application {
     // Chloe
     public void page0_initial() {
         ImageView background = new ImageView();
-        final String PAGE0_BACKGROUND_URI = getClass().getResource("Pics/page1_background_example.jpg").toString();
+        final String PAGE0_BACKGROUND_URI = getClass().getResource("Pics/page1_bg_pikachu.jpg").toString();
         background.setImage(new Image(PAGE0_BACKGROUND_URI));
         background.setFitHeight(600);
         background.setPreserveRatio(true);
@@ -140,9 +140,9 @@ public class GUI extends Application {
     public void page1_initial() {
         System.out.println("Pokemon.Pokemon Select");
         ImageView background = new ImageView();
-        final String PAGE0_BACKGROUND_URI = getClass().getResource("Pics/page1_background_example.jpg").toString();
+        final String PAGE0_BACKGROUND_URI = getClass().getResource("Pics/page1_bg_pikachu.jpg").toString();
         background.setImage(new Image(PAGE0_BACKGROUND_URI));
-        background.setFitHeight(600);
+        background.setFitHeight(700);
         background.setPreserveRatio(true);
         board.getChildren().add(background);
         board.setLayoutX(0);
@@ -158,7 +158,7 @@ public class GUI extends Application {
         i.setLayoutX(-100);
         i.setLayoutY(-100);
 
-        Image img = new Image("Pics/Pokemon/pic0.jpg");
+        Image img = new Image("Pics/Pokemon/pic0.png");
         Rectangle rect = new Rectangle(300, 300, 200, 200);
         rect.setFill(new ImagePattern(img));
         Path path = new Path();
@@ -226,10 +226,10 @@ public class GUI extends Application {
         //showRole;
         int[] role_pos = user.getPosition();
         Rectangle rect = new Rectangle(role_pos[0] * 30, role_pos[1] * 30, 30, 30);
-        System.out.println(System.getProperty("user.dir") + "/src/Pics/Pokemon/pic0.jpg");
+        System.out.println(System.getProperty("user.dir") + "/src/Pics/Pokemon/pic0.png");
 //        rect.setFill(new ImagePattern(new Image(user.getImgUrl())));
 //        rect.setFill(new ImagePattern(new Image(System.getProperty("user.dir") + "/src/Pics/Pokemon/pic0.jpg")));
-        rect.setFill(new ImagePattern(new Image("Pics/Pokemon/pic0.jpg")));
+        rect.setFill(new ImagePattern(new Image("Pics/Pokemon/pic0.png")));
         board.getChildren().add(rect);
         rect.toFront();
         startShowAnimation(rect);
