@@ -239,7 +239,10 @@ public class GUI extends Application {
         //showRole;
         int[] role_pos = user.getPosition();
         Rectangle rect = new Rectangle(role_pos[0] * 30, role_pos[1] * 30, 30, 30);
-        rect.setFill(new ImagePattern(new Image(user.getImgUrl())));
+        System.out.println(System.getProperty("user.dir") + "/src/Pics/Pokemon/pic0.jpg");
+//        rect.setFill(new ImagePattern(new Image(user.getImgUrl())));
+//        rect.setFill(new ImagePattern(new Image(System.getProperty("user.dir") + "/src/Pics/Pokemon/pic0.jpg")));
+        rect.setFill(new ImagePattern(new Image("Pics/Pokemon/pic0.jpg")));
         board.getChildren().add(rect);
         rect.toFront();
         startShowAnimation(rect);
