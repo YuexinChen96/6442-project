@@ -124,32 +124,12 @@ public class GUI extends Application {
         Button btn1 = new Button("Start");
         btn1.setLayoutX(200);
         btn1.setLayoutY(200);
-        btn1.setMinSize(10, 10);
+        //btn1.setMinSize(10, 10);
         btn1.setOnAction(e -> {
             board.getChildren().removeAll(board.getChildren());
             page1_initial();
         });
         board.getChildren().add(btn1);
-
-        Button btn2 = new Button("Play");
-        btn2.setLayoutX(200);
-        btn2.setLayoutY(200);
-        btn2.setMinSize(10, 10);
-        btn2.setOnAction(e -> {
-            board.getChildren().removeAll(board.getChildren());
-            page1_initial();
-        });
-        board.getChildren().add(btn2);
-
-        Button btn3 = new Button("Role");
-        btn3.setLayoutX(200);
-        btn3.setLayoutY(200);
-        btn3.setMinSize(10, 10);
-        btn3.setOnAction(e -> {
-            board.getChildren().removeAll(board.getChildren());
-            page2_initial();
-        });
-        board.getChildren().add(btn3);
 
     }
 
@@ -218,7 +198,14 @@ public class GUI extends Application {
         });
         board.getChildren().add(btn1);
 
-
+        Button btn2 = new Button("Choose a role");
+        btn1.setLayoutX(1000);
+        btn1.setLayoutY(200);
+        btn1.setOnAction(e -> {
+            board.getChildren().removeAll(board.getChildren());
+            page2_initial();
+        });
+        board.getChildren().add(btn2);
     }
 
 
