@@ -1,6 +1,7 @@
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 
 public class Battle {
     private int turn = 0;
@@ -34,13 +35,13 @@ public class Battle {
     public void user_action (int action,StringProperty textInfo,StringProperty user_HP_info,StringProperty user_MP_info,
                              StringProperty enemy_HP_info, StringProperty enemy_MP_info,DoubleProperty user_HP_bar,
                              DoubleProperty user_MP_bar,DoubleProperty enemy_HP_bar,DoubleProperty enemy_MP_bar,
-                             StringProperty user_AD_info,StringProperty enemy_AD_info){
+                             StringProperty user_AD_info,StringProperty enemy_AD_info, Pane board){
 
         System.out.println("Execute action: " + action);
 
         if (action == 0) {
             // animation may go here
-
+            action1_animation(board);
 
             int dmg = user.getAttack() - tar.getDefence();
             System.out.println("The damage is: " + dmg);
@@ -76,10 +77,14 @@ public class Battle {
         }
 
 
-        textInfo.setValue("Now is your turn... Choose one action.");
+        //textInfo.setValue("Now is your turn... Choose one action.");
         //this.turnInfo.setValue("Now is your turn, choose your action.");
         this.turn ++;
 
+    }
+
+    public void action1_animation(Pane board) {
+        //Circle attackBall = new Circle()
     }
 
     public void UIupdate(StringProperty user_HP_info,StringProperty user_MP_info,

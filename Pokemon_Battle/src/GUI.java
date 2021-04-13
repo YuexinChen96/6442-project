@@ -401,6 +401,7 @@ public class GUI extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        assert jsonReader != null;
         List<Pokemon> pl = gson.fromJson(jsonReader, CUS_LIST_TYPE);
         return pl.get(id);
     }
@@ -448,25 +449,11 @@ public class GUI extends Application {
         // Two Static boxes for user and enemy
         // Double boxes to create border
         Rectangle user_info_box = new Rectangle(700, 440, 300, 100);
-        user_info_box.setArcHeight(15);
-        user_info_box.setArcWidth(15);
-        Rectangle user_info_box_white = new Rectangle(702, 442, 296, 96);
-        user_info_box_white.setArcHeight(15);
-        user_info_box_white.setArcWidth(15);
+        box_format1(user_info_box);
         Rectangle enemy_info_box = new Rectangle(120,40, 300, 100);
-        enemy_info_box.setArcHeight(15);
-        enemy_info_box.setArcWidth(15);
-        Rectangle enemy_info_box_white = new Rectangle(122, 42, 296, 96);
-        enemy_info_box_white.setArcHeight(15);
-        enemy_info_box_white.setArcWidth(15);
-        user_info_box_white.setFill(Color.WHITE);
-        enemy_info_box_white.setFill(Color.WHITE);
-
-        // Order is important
+        box_format1(enemy_info_box);
         board.getChildren().add(user_info_box);
         board.getChildren().add(enemy_info_box);
-        board.getChildren().add(user_info_box_white);
-        board.getChildren().add(enemy_info_box_white);
 
         // User Information UI - Name part
         Label user_info = new Label(this.user.getName());
@@ -475,17 +462,13 @@ public class GUI extends Application {
         user_info.setLayoutY(450);
         board.getChildren().add(user_info);
 
-        // Black and White border
+        // HP and MP bar
         Rectangle user_hp_bg = new Rectangle(725, 480, 202, 12);
+        box_format2(user_hp_bg);
         board.getChildren().add(user_hp_bg);
         Rectangle user_mp_bg = new Rectangle(725, 500, 102, 12);
+        box_format2(user_mp_bg);
         board.getChildren().add(user_mp_bg);
-        Rectangle user_hp_bg_white = new Rectangle(726, 481, 200, 10);
-        user_hp_bg_white.setFill(Color.WHITE);
-        board.getChildren().add(user_hp_bg_white);
-        Rectangle user_mp_bg_white = new Rectangle(726, 501, 100, 10);
-        user_mp_bg_white.setFill(Color.WHITE);
-        board.getChildren().add(user_mp_bg_white);
 
         // enemy Information UI - Name part
         Label enemy_info = new Label(enemy.getName());
@@ -495,16 +478,30 @@ public class GUI extends Application {
         board.getChildren().add(enemy_info);
         // Black and White border
         Rectangle enemy_hp_bg = new Rectangle(145, 80, 202, 12);
+        box_format2(enemy_hp_bg);
         board.getChildren().add(enemy_hp_bg);
         Rectangle enemy_mp_bg = new Rectangle(145, 100, 102, 12);
+        box_format2(enemy_mp_bg);
         board.getChildren().add(enemy_mp_bg);
-        Rectangle enemy_hp_bg_white = new Rectangle(146, 81, 200, 10);
-        enemy_hp_bg_white.setFill(Color.WHITE);
-        board.getChildren().add(enemy_hp_bg_white);
-        Rectangle enemy_mp_bg_white = new Rectangle(146, 101, 100, 10);
-        enemy_mp_bg_white.setFill(Color.WHITE);
-        board.getChildren().add(enemy_mp_bg_white);
 
+    }
+
+    // helper function - format1
+    public void box_format1 (Rectangle rect) {
+        rect.setArcHeight(15);
+        rect.setArcWidth(15);
+        rect.setFill(Color.WHITE);
+        rect.setStroke(Color.BLACK);
+        rect.setStrokeWidth(2);
+    }
+
+    // helper function - format2
+    public void box_format2 (Rectangle rect) {
+        rect.setArcHeight(5);
+        rect.setArcWidth(5);
+        rect.setFill(Color.WHITE);
+        rect.setStroke(Color.BLACK);
+        rect.setStrokeWidth(1);
     }
 
     // highly related to Static position
@@ -515,22 +512,30 @@ public class GUI extends Application {
         user_HP_bar.setValue((user.getHP() * 1.0) / (user.getmaxHP() * 1.0) * 200);
         user_hp_bar.widthProperty().bindBidirectional(user_HP_bar);
         user_hp_bar.setFill(Color.RED);
+        user_hp_bar.setArcHeight(5);
+        user_hp_bar.setArcWidth(5);
         board.getChildren().add(user_hp_bar);
         Rectangle user_mp_bar = new Rectangle(726, 501, 100, 10);
         user_MP_bar.setValue(user.getMP() * 1.0);
         user_mp_bar.widthProperty().bindBidirectional(user_MP_bar);
         user_mp_bar.setFill(Color.BLUE);
+        user_mp_bar.setArcHeight(5);
+        user_mp_bar.setArcWidth(5);
         board.getChildren().add(user_mp_bar);
         // enemy part
         Rectangle enemy_hp_bar = new Rectangle(146,81,200,10);
         enemy_HP_bar.setValue((user.getHP() * 1.0) / (enemy.getmaxHP() * 1.0) * 200);
         enemy_hp_bar.widthProperty().bindBidirectional(enemy_HP_bar);
         enemy_hp_bar.setFill(Color.RED);
+        enemy_hp_bar.setArcHeight(5);
+        enemy_hp_bar.setArcWidth(5);
         board.getChildren().add(enemy_hp_bar);
         Rectangle enemy_mp_bar = new Rectangle(146, 101, 100, 10);
         enemy_MP_bar.setValue(user.getMP() * 1.0);
         enemy_mp_bar.widthProperty().bindBidirectional(enemy_MP_bar);
         enemy_mp_bar.setFill(Color.BLUE);
+        enemy_mp_bar.setArcHeight(5);
+        enemy_mp_bar.setArcWidth(5);
         board.getChildren().add(enemy_mp_bar);
 
         // Detailed Info Display - display format: HP / MaxHP ...
@@ -621,7 +626,7 @@ public class GUI extends Application {
         btn1.setMinSize(100, 40);
         btn1.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
         btn1.setOnAction(e -> battle.user_action(0,textInfo,user_HP_info,user_MP_info,enemy_HP_info,enemy_MP_info,user_HP_bar
-                ,user_MP_bar,enemy_HP_bar,enemy_MP_bar,user_AD_info,enemy_AD_info));
+                ,user_MP_bar,enemy_HP_bar,enemy_MP_bar,user_AD_info,enemy_AD_info,board));
         board.getChildren().add(btn1);
 
         Button btn2 = new Button("Spell1");
@@ -632,7 +637,7 @@ public class GUI extends Application {
         btn2.setOnAction(e -> {
             if (this.user.getMP() >= 20) {
                 battle.user_action(1,textInfo,user_HP_info,user_MP_info,enemy_HP_info,enemy_MP_info,user_HP_bar
-                        ,user_MP_bar,enemy_HP_bar,enemy_MP_bar,user_AD_info,enemy_AD_info);
+                        ,user_MP_bar,enemy_HP_bar,enemy_MP_bar,user_AD_info,enemy_AD_info,board);
             } else {
                 textInfo.setValue("You need at least 20 magic power to use this spell.");
             }
@@ -647,7 +652,7 @@ public class GUI extends Application {
         btn3.setOnAction(e -> {
             if (this.user.getMP() >= 20) {
                 battle.user_action(2,textInfo,user_HP_info,user_MP_info,enemy_HP_info,enemy_MP_info,user_HP_bar
-                        ,user_MP_bar,enemy_HP_bar,enemy_MP_bar,user_AD_info,enemy_AD_info);
+                        ,user_MP_bar,enemy_HP_bar,enemy_MP_bar,user_AD_info,enemy_AD_info,board);
             } else {
                 textInfo.setValue("You need at least 20 magic power to use this spell.");
             }
@@ -662,7 +667,7 @@ public class GUI extends Application {
         btn4.setOnAction(e -> {
             if (this.user.getMP() >= 80) {
                 battle.user_action(3,textInfo,user_HP_info,user_MP_info,enemy_HP_info,enemy_MP_info,user_HP_bar
-                        ,user_MP_bar,enemy_HP_bar,enemy_MP_bar,user_AD_info,enemy_AD_info);
+                        ,user_MP_bar,enemy_HP_bar,enemy_MP_bar,user_AD_info,enemy_AD_info,board);
             } else {
                 textInfo.setValue("You need at least 80 magic power to use this spell.");
             }
