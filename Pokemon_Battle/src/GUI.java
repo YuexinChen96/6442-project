@@ -98,8 +98,8 @@ public class GUI extends Application {
         root.getChildren().add(controls);
 
 
-        page3_initial(3);//change for test
-//        page0_initial();
+//        page3_initial(3);//change for test
+        page0_initial();
 
         primaryStage.setScene(scene);
 
@@ -243,10 +243,7 @@ public class GUI extends Application {
         //showRole;
         int[] role_pos = user.getPosition();
         Rectangle rect = new Rectangle(role_pos[0] * 30, role_pos[1] * 30, 30, 30);
-        System.out.println(System.getProperty("user.dir") + "/src/Pics/Pokemon/pic0.png");
-//        rect.setFill(new ImagePattern(new Image(user.getImgUrl())));
-//        rect.setFill(new ImagePattern(new Image(System.getProperty("user.dir") + "/src/Pics/Pokemon/pic0.jpg")));
-        rect.setFill(new ImagePattern(new Image("Pics/Pokemon/pic0.png")));
+        rect.setFill(new ImagePattern(new Image("Pics/Pokemon/pic"+user.getid()+".png")));
         board.getChildren().add(rect);
         rect.toFront();
         startShowAnimation(rect);
@@ -600,12 +597,12 @@ public class GUI extends Application {
         board.getChildren().add(background);
         // User image
         Rectangle user_area = new Rectangle(150, 360, 220, 220);
-        user_area.setFill(new ImagePattern(new Image(user.getImgUrl())));
+        user_area.setFill(new ImagePattern(new Image("Pics/Pokemon/pic"+user.getid()+".png")));
         board.getChildren().add(user_area);
         battle.setP_user(user_area);
         // Enemy image
         Rectangle enemy_area = new Rectangle(690, 20, 220, 220);
-        enemy_area.setFill(new ImagePattern(new Image(enemy.getImgUrl())));
+        enemy_area.setFill(new ImagePattern(new Image("Pics/Pokemon/pic"+enemy.getId()+".png")));
         board.getChildren().add(enemy_area);
         battle.setP_tar(enemy_area);
         // control area

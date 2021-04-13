@@ -4,8 +4,7 @@
   "attack": 55,
   "defence": 29,
   "HP": 420,
-  "MP": 0,
-  "imgUrl": "Pics\\Pokemon\\pic10.png"
+  "MP": 0
 },{
   "id": 2,
   "name": "haihuangya",
@@ -13,8 +12,7 @@
   "defence":29,
   "HP": 420,
   "maxHP": 420,
-  "MP": 0,
-  "imgUrl": "Pics\\Pokemon\\pic11.png"
+  "MP": 0
 },{
   "id": 3,
   "name": "tiankonglong",
@@ -22,8 +20,7 @@
   "defence": 17,
   "HP": 340,
   "maxHP": 420,
-  "MP": 0,
-  "imgUrl": "Pics\\Pokemon\\pic12.png"
+  "MP": 0
 },{
   "id": 4,
   "name": "luoqiya",
@@ -31,8 +28,7 @@
   "defence":20,
   "HP": 390,
   "maxHP": 420,
-  "MP": 0,
-  "imgUrl": "Pics\\Pokemon\\pic13.png"
+  "MP": 0
 },{
   "id": 5,
   "name": "leigong",
@@ -40,8 +36,7 @@
   "defence":25,
   "HP": 420,
   "maxHP": 420,
-  "MP": 0,
-  "imgUrl": "Pics\\Pokemon\\pic14.png"
+  "MP": 0
 }
 
 
