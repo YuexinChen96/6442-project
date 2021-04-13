@@ -7,16 +7,21 @@ import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
 import javafx.application.Application;
 import javafx.application.Preloader;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
@@ -54,6 +59,17 @@ public class GUI extends Application {
     private static final DropShadow dropShadow;
     private static final DropShadow borderGlow;
 
+    // UI and backend connect value
+    private StringProperty textInfo;
+    private StringProperty user_HP_info;
+    private StringProperty user_MP_info;
+    private StringProperty enemy_HP_info;
+    private StringProperty enemy_MP_info;
+    private IntegerProperty user_HP_bar;
+    private IntegerProperty user_MP_bar;
+    private IntegerProperty enemy_HP_bar;
+    private IntegerProperty enemy_MP_bar;
+
     static {
         dropShadow = new DropShadow();
         dropShadow.setOffsetX(2.0);
@@ -81,8 +97,8 @@ public class GUI extends Application {
         root.getChildren().add(controls);
 
 
-//        page3_initial(3);//change for test
-        page1_initial();
+        page3_initial(3);//change for test
+//        page0_initial();
 
         primaryStage.setScene(scene);
 
@@ -314,7 +330,7 @@ public class GUI extends Application {
         path.getElements().add(new MoveTo(now_x + 0.5 * adjsut, now_y + 0.5 * adjsut));
         path.getElements().add(new LineTo(next_x + 0.5 * adjsut, next_y + 0.5 * adjsut));
         PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.millis(1300));
+        pathTransition.setDuration(Duration.millis(1000));
         pathTransition.setPath(path);
         pathTransition.setNode(node);
         pathTransition.setCycleCount(1);
@@ -395,80 +411,205 @@ public class GUI extends Application {
 // ------------------------------------------------------------
     // Kevin
     public void page3_initial(int enemy_id) {
+        // safety remove all elements
+        board.getChildren().removeAll(board.getChildren());
+
         // this line use for test
         this.user = pokemonLoadFromJson(0);
 
         System.out.println("Battle page");
         // Background area
         page3_setupBackground();
-        // buttons
-        page3_setupButton();
         // enemy load
         Enemy enemy = enemy_loading(enemy_id);
         // start Battle
         Battle battle = new Battle(this.user, enemy);
+        // Information Box
+        textInfo = new SimpleStringProperty("Now is your turn... Choose one action.");
+        page3_setupStaticInfoBoxes(enemy);
+        page3_setupDynamicInfoBoxes();
+        // buttons
+        page3_setupButton(battle, textInfo);
 
 
-//        while (!battle.gameover_test()) {
-//            if (battle.getTurn() % 2 == 0){
-//                // able control for buttons
-//            } else {
-//
-//            }
-//        }
 
 
+
+
+    }
+
+
+    public void page3_setupStaticInfoBoxes(Enemy enemy) {
+        // Boxes painting
+        Label infoBox = new Label();
+        infoBox.setLayoutX(20);
+        infoBox.setLayoutY(610);
+        infoBox.setFont(Font.font("Arial", FontWeight.BOLD, 24));
+        infoBox.textProperty().bindBidirectional(textInfo);
+        board.getChildren().add(infoBox);
+
+        // Double boxes to create border
+        Rectangle user_info_box = new Rectangle(700, 440, 300, 100);
+        user_info_box.setArcHeight(15);
+        user_info_box.setArcWidth(15);
+        Rectangle user_info_box_white = new Rectangle(702, 442, 296, 96);
+        user_info_box_white.setArcHeight(15);
+        user_info_box_white.setArcWidth(15);
+        Rectangle enemy_info_box = new Rectangle(120,40, 300, 100);
+        enemy_info_box.setArcHeight(15);
+        enemy_info_box.setArcWidth(15);
+        Rectangle enemy_info_box_white = new Rectangle(122, 42, 296, 96);
+        enemy_info_box_white.setArcHeight(15);
+        enemy_info_box_white.setArcWidth(15);
+        user_info_box_white.setFill(Color.WHITE);
+        enemy_info_box_white.setFill(Color.WHITE);
+
+        // Order is important
+        board.getChildren().add(user_info_box);
+        board.getChildren().add(enemy_info_box);
+        board.getChildren().add(user_info_box_white);
+        board.getChildren().add(enemy_info_box_white);
+
+        // User Information UI
+        Label user_info = new Label(this.user.getName());
+        user_info.setFont(Font.font("Arial", FontWeight.BLACK, 18));
+        user_info.setLayoutX(725);
+        user_info.setLayoutY(450);
+        board.getChildren().add(user_info);
+        // Black and White border
+        Rectangle user_hp_bg = new Rectangle(725, 480, 202, 12);
+        board.getChildren().add(user_hp_bg);
+        Rectangle user_mp_bg = new Rectangle(725, 500, 102, 12);
+        board.getChildren().add(user_mp_bg);
+        Rectangle user_hp_bg_white = new Rectangle(726, 481, 200, 10);
+        user_hp_bg_white.setFill(Color.WHITE);
+        board.getChildren().add(user_hp_bg_white);
+        Rectangle user_mp_bg_white = new Rectangle(726, 501, 100, 10);
+        user_mp_bg_white.setFill(Color.WHITE);
+        board.getChildren().add(user_mp_bg_white);
+
+        // enemy Information UI
+        Label enemy_info = new Label(enemy.getName());
+        enemy_info.setFont(Font.font("Arial", FontWeight.BLACK, 18));
+        enemy_info.setLayoutX(145);
+        enemy_info.setLayoutY(50);
+        board.getChildren().add(enemy_info);
+        // Black and White border
+        Rectangle enemy_hp_bg = new Rectangle(145, 80, 202, 12);
+        board.getChildren().add(enemy_hp_bg);
+        Rectangle enemy_mp_bg = new Rectangle(145, 100, 102, 12);
+        board.getChildren().add(enemy_mp_bg);
+        Rectangle enemy_hp_bg_white = new Rectangle(146, 81, 200, 10);
+        enemy_hp_bg_white.setFill(Color.WHITE);
+        board.getChildren().add(enemy_hp_bg_white);
+        Rectangle enemy_mp_bg_white = new Rectangle(146, 101, 100, 10);
+        enemy_mp_bg_white.setFill(Color.WHITE);
+        board.getChildren().add(enemy_mp_bg_white);
+
+    }
+
+    // highly related to Static position
+    public void page3_setupDynamicInfoBoxes(){
+        // dynamic bar
+        Rectangle user_hp_bar = new Rectangle();
+        user_hp_bar.setLayoutX(726);
+        user_hp_bar.setLayoutY(481);
+        user_hp_bar.setHeight(10);
+        user_HP_bar.setValue(user.getHP() / user.getmaxHP() * 200);
+        user_hp_bar.widthProperty().bindBidirectional(user_HP_bar);
+        user_hp_bar.setFill(Color.RED);
+        board.getChildren().add(user_hp_bar);
+        Rectangle user_mp_bar = new Rectangle(726, 501, 100, 10);
+        user_mp_bar.setFill(Color.BLUE);
+        board.getChildren().add(user_mp_bar);
+
+        // Detailed Info Display
     }
 
     public void page3_setupBackground() {
         ImageView background = new ImageView();
         final String PAGE3_BACKGROUND_URI = getClass().getResource("Pics/page3_background.png").toString();
         background.setImage(new Image(PAGE3_BACKGROUND_URI));
-        background.setFitHeight(600);
+        background.setFitHeight(599);
         background.setPreserveRatio(true);
         board.getChildren().add(background);
         // User area
-        Rectangle user_area = new Rectangle(150, 360, 240, 240);
-        user_area.setFill(new ImagePattern(new Image("Pics/Pokemon/pic0.jpg")));
+        Rectangle user_area = new Rectangle(150, 360, 220, 220);
+        // ------------------------------------------- need to change the URL-------------------------------------
+        user_area.setFill(new ImagePattern(new Image("Pics/Pokemon/pic0.png")));
         board.getChildren().add(user_area);
         // Enemy area
-        Rectangle enemy_area = new Rectangle(690, 0, 240, 240);
-        enemy_area.setFill(new ImagePattern(new Image("Pics/Pokemon/pic1.jpg")));
+        Rectangle enemy_area = new Rectangle(690, 20, 220, 220);
+        // ------------------------------------------- need to change the URL-------------------------------------
+        enemy_area.setFill(new ImagePattern(new Image("Pics/Pokemon/pic1.png")));
         board.getChildren().add(enemy_area);
 
         // control area
         Rectangle control_area = new Rectangle(0, 600, 1080, 300);
-        control_area.setFill(new ImagePattern(new Image("Pics/page3_control_area.jpg")));
+        control_area.setFill(new ImagePattern(new Image("Pics/page3_control_area.png")));
         board.getChildren().add(control_area);
+
+        // Structure Line
+        Line line0 = new Line(0, 599, 1080, 599);
+        line0.setStrokeWidth(2);
+        board.getChildren().add(line0);
+        Line line1 = new Line(1080, 0, 1080, WINDOW_HEIGHT);
+        line1.setStrokeWidth(2);
+        board.getChildren().add(line1);
+        Line line2 = new Line(700, 599, 700, WINDOW_HEIGHT);
+        line2.setStrokeWidth(2);
+        board.getChildren().add(line2);
     }
 
-    public void page3_setupButton() {
+    public void page3_setupButton(Battle battle, StringProperty textInfo) {
         Button btn1 = new Button("Attack");
-        btn1.setLayoutX(60);
-        btn1.setLayoutY(640);
-        btn1.setMinSize(130, 60);
+        btn1.setLayoutX(760);
+        btn1.setLayoutY(620);
+        btn1.setMinSize(100, 40);
         btn1.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
+        btn1.setOnAction(e -> battle.user_action(0));
         board.getChildren().add(btn1);
 
         Button btn2 = new Button("Spell1");
-        btn2.setLayoutX(310);
-        btn2.setLayoutY(640);
-        btn2.setMinSize(130, 60);
+        btn2.setLayoutX(920);
+        btn2.setLayoutY(620);
+        btn2.setMinSize(100, 40);
         btn2.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
+        btn2.setOnAction(e -> {
+            if (this.user.getMP() >= 20) {
+                battle.user_action(1);
+            } else {
+                textInfo.setValue("More magic power is required. ");
+            }
+        });
         board.getChildren().add(btn2);
 
         Button btn3 = new Button("Spell2");
-        btn3.setLayoutX(560);
-        btn3.setLayoutY(640);
-        btn3.setMinSize(130, 60);
+        btn3.setLayoutX(760);
+        btn3.setLayoutY(680);
+        btn3.setMinSize(100, 40);
         btn3.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
+        btn3.setOnAction(e -> {
+            if (this.user.getMP() >= 20) {
+                battle.user_action(2);
+            } else {
+                textInfo.setValue("More magic power is required. ");
+            }
+        });
         board.getChildren().add(btn3);
 
         Button btn4 = new Button("Spell3");
-        btn4.setLayoutX(810);
-        btn4.setLayoutY(640);
-        btn4.setMinSize(130, 60);
+        btn4.setLayoutX(920);
+        btn4.setLayoutY(680);
+        btn4.setMinSize(100, 40);
         btn4.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
+        btn4.setOnAction(e -> {
+            if (this.user.getMP() >= 80) {
+                battle.user_action(3);
+            } else {
+                textInfo.setValue("More magic power is required. ");
+            }
+        });
         board.getChildren().add(btn4);
     }
 

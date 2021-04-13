@@ -1,11 +1,11 @@
-
-import javafx.beans.property.StringProperty;
+import javafx.scene.layout.Pane;
 
 public class Battle {
     private int turn = 0;
 
     private Enemy tar;
     private Pokemon user;
+
 
 
     public int getTurn() {
@@ -29,26 +29,31 @@ public class Battle {
     }
 
     // execute user action, 0 for attack, 1 for spell-1, 2 for spell-2, ...
-    public void user_action (int action, StringProperty info){
+    public void user_action (int action){
         System.out.println("Execute action: " + action);
+
+
+
+
+        //this.turnInfo.setValue("Waiting for enemy's response.");
+
         this.turn ++;
-        info.setValue("Waiting for enemy response.");
-        System.out.println(info.get());
-        this.enemy_action(info);
+
+        this.enemy_action();
     }
 
-    public void enemy_action (StringProperty info) {
+    public void enemy_action () {
         System.out.println("Now for enemy turn.");
         try {
-            Thread.sleep(1000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
+
+
+        //this.turnInfo.setValue("Now is your turn, choose your action.");
         this.turn ++;
-        info.setValue("Now is your turn.");
-        System.out.println(info.get());
-        System.out.println("Enemy turn finished.");
 
     }
 
