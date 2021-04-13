@@ -70,6 +70,7 @@ public class GUI extends Application {
     private DoubleProperty enemy_HP_bar = new SimpleDoubleProperty();
     private DoubleProperty enemy_MP_bar = new SimpleDoubleProperty();
 
+
     static {
         dropShadow = new DropShadow();
         dropShadow.setOffsetX(2.0);
@@ -422,10 +423,10 @@ public class GUI extends Application {
 
         // enemy load, create enemy
         Enemy enemy = enemy_loading(enemy_id);
-        // Background area
-        page3_setupBackground(enemy);
         // start Battle
         Battle battle = new Battle(this.user, enemy);
+        // Background area
+        page3_setupBackground(enemy, battle);
         // Information Box
         textInfo = new SimpleStringProperty("Now is your turn... Choose one action.");
         page3_setupStaticInfoBoxes(enemy);
@@ -584,7 +585,7 @@ public class GUI extends Application {
     }
 
     // Page3 basic background image and structure -- finished (less changed)
-    public void page3_setupBackground(Enemy enemy) {
+    public void page3_setupBackground(Enemy enemy, Battle battle) {
         // Background image part
         ImageView background = new ImageView();
         final String PAGE3_BACKGROUND_URI = getClass().getResource("Pics/page3_background.png").toString();
@@ -596,10 +597,12 @@ public class GUI extends Application {
         Rectangle user_area = new Rectangle(150, 360, 220, 220);
         user_area.setFill(new ImagePattern(new Image(user.getImgUrl())));
         board.getChildren().add(user_area);
+        battle.setP_user(user_area);
         // Enemy image
         Rectangle enemy_area = new Rectangle(690, 20, 220, 220);
         enemy_area.setFill(new ImagePattern(new Image(enemy.getImgUrl())));
         board.getChildren().add(enemy_area);
+        battle.setP_tar(enemy_area);
 
         // control area
         Rectangle control_area = new Rectangle(0, 600, 1080, 300);
