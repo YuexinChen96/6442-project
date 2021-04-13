@@ -547,12 +547,14 @@ public class GUI extends Application {
         user_hp_info.textProperty().bindBidirectional(user_HP_info);
         user_hp_info.setFont(Font.font("Arial", FontWeight.BLACK, 12));
         board.getChildren().add(user_hp_info);
+        // User MP
         Label user_mp_info = new Label();
         user_mp_info.setLayoutX(840);
         user_mp_info.setLayoutY(499);
         user_MP_info.setValue(user.getMP() + "/100");
         user_mp_info.textProperty().bindBidirectional(user_MP_info);
         user_mp_info.setFont(Font.font("Arial", FontWeight.BLACK, 12));
+        // User att/def
         Label user_ad_info = new Label();
         user_ad_info.setLayoutX(726);
         user_ad_info.setLayoutY(519);
@@ -561,6 +563,7 @@ public class GUI extends Application {
         user_ad_info.setFont(Font.font("Arial", FontWeight.BLACK, 12));
         board.getChildren().add(user_ad_info);
         board.getChildren().add(user_mp_info);
+        // Enemy HP
         Label enemy_hp_info = new Label();
         enemy_hp_info.setLayoutX(360);
         enemy_hp_info.setLayoutY(79);
@@ -568,6 +571,7 @@ public class GUI extends Application {
         enemy_hp_info.textProperty().bindBidirectional(enemy_HP_info);
         enemy_hp_info.setFont(Font.font("Arial", FontWeight.BLACK, 12));
         board.getChildren().add(enemy_hp_info);
+        // Enemy MP
         Label enemy_mp_info = new Label();
         enemy_mp_info.setLayoutX(260);
         enemy_mp_info.setLayoutY(99);
@@ -575,6 +579,7 @@ public class GUI extends Application {
         enemy_mp_info.textProperty().bindBidirectional(enemy_MP_info);
         enemy_mp_info.setFont(Font.font("Arial", FontWeight.BLACK, 12));
         board.getChildren().add(enemy_mp_info);
+        // Enemy att/def
         Label enemy_ad_info = new Label();
         enemy_ad_info.setLayoutX(146);
         enemy_ad_info.setLayoutY(119);
@@ -603,7 +608,6 @@ public class GUI extends Application {
         enemy_area.setFill(new ImagePattern(new Image(enemy.getImgUrl())));
         board.getChildren().add(enemy_area);
         battle.setP_tar(enemy_area);
-
         // control area
         Rectangle control_area = new Rectangle(0, 600, 1080, 300);
         control_area.setFill(new ImagePattern(new Image("Pics/page3_control_area.png")));
