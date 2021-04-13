@@ -11,6 +11,7 @@ public class Pokemon implements Serializable {
     private int MP;
     private int defence;
     private int attack;
+    private int exp;
     private boolean grass_able;
     private boolean water_able;
     private boolean stone_able;
@@ -26,7 +27,8 @@ public class Pokemon implements Serializable {
 
 
     public Pokemon(String name, int id, int level, int HP, int MP, int defence,
-                int attack, boolean grass_able,boolean water_able, boolean stone_able,int max_HP,String imgUrl,int[] position,int[] skill_list) {
+                int attack, int exp,boolean grass_able,boolean water_able, boolean stone_able,int max_HP,
+                   String imgUrl,int[] position,int[] skill_list) {
         this.name = name;
         this.id = id;
 
@@ -35,6 +37,7 @@ public class Pokemon implements Serializable {
         this.MP = MP;
         this.defence = defence;
         this.attack = attack;
+        this.exp=exp;
         this.grass_able=grass_able;
         this.water_able = water_able;
         this.stone_able = stone_able;
@@ -76,6 +79,9 @@ public class Pokemon implements Serializable {
     public void setDefence(int defence){this.defence=defence;}
     public int getAttack(){return attack;}
     public void setAttack(int attack){this.attack=attack;}
+
+    public int getExp(){return exp;}
+    public void setExp(int exp){this.exp=exp;}
 
     public boolean getGrassAble(){return grass_able;}
     public void setGrassAble(boolean grass_able){this.grass_able=grass_able;}
