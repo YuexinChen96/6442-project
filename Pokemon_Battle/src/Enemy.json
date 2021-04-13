@@ -12,6 +12,7 @@
   "attack": 55,
   "defence":29,
   "HP": 420,
+  "maxHP": 420,
   "MP": 0,
   "imgUrl": "Pics/Pokemon/pic11.jpg"
 },{
@@ -20,6 +21,7 @@
   "attack": 50,
   "defence": 17,
   "HP": 340,
+  "maxHP": 420,
   "MP": 0,
   "imgUrl": "Pics/Pokemon/pic12.jpg"
 },{
@@ -28,6 +30,7 @@
   "attack": 59,
   "defence":20,
   "HP": 390,
+  "maxHP": 420,
   "MP": 0,
   "imgUrl": "Pics/Pokemon/pic13.jpg"
 },{
@@ -36,6 +39,7 @@
   "attack": 55,
   "defence":25,
   "HP": 420,
+  "maxHP": 420,
   "MP": 0,
   "imgUrl": "Pics/Pokemon/pic14.jpg"
 }

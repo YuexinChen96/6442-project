@@ -7,9 +7,7 @@ import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
 import javafx.application.Application;
 import javafx.application.Preloader;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -61,14 +59,14 @@ public class GUI extends Application {
 
     // UI and backend connect value
     private StringProperty textInfo;
-    private StringProperty user_HP_info;
-    private StringProperty user_MP_info;
-    private StringProperty enemy_HP_info;
-    private StringProperty enemy_MP_info;
-    private IntegerProperty user_HP_bar;
-    private IntegerProperty user_MP_bar;
-    private IntegerProperty enemy_HP_bar;
-    private IntegerProperty enemy_MP_bar;
+    private StringProperty user_HP_info = new SimpleStringProperty();
+    private StringProperty user_MP_info = new SimpleStringProperty();
+    private StringProperty enemy_HP_info = new SimpleStringProperty();
+    private StringProperty enemy_MP_info = new SimpleStringProperty();
+    private DoubleProperty user_HP_bar = new SimpleDoubleProperty();
+    private DoubleProperty user_MP_bar = new SimpleDoubleProperty();
+    private DoubleProperty enemy_HP_bar = new SimpleDoubleProperty();
+    private DoubleProperty enemy_MP_bar = new SimpleDoubleProperty();
 
     static {
         dropShadow = new DropShadow();
@@ -411,36 +409,33 @@ public class GUI extends Application {
 // ------------------------------------------------------------
     // Kevin
     public void page3_initial(int enemy_id) {
-        // safety remove all elements
+        // For safety, remove all elements
         board.getChildren().removeAll(board.getChildren());
 
-        // this line use for test
+        // this line use for test ------------------------------------------------------ need remove in future
         this.user = pokemonLoadFromJson(0);
 
         System.out.println("Battle page");
-        // Background area
-        page3_setupBackground();
-        // enemy load
+
+        // enemy load, create enemy
         Enemy enemy = enemy_loading(enemy_id);
+        // Background area
+        page3_setupBackground(enemy);
         // start Battle
         Battle battle = new Battle(this.user, enemy);
         // Information Box
         textInfo = new SimpleStringProperty("Now is your turn... Choose one action.");
         page3_setupStaticInfoBoxes(enemy);
-        page3_setupDynamicInfoBoxes();
+        page3_setupDynamicInfoBoxes(enemy);
         // buttons
         page3_setupButton(battle, textInfo);
 
 
-
-
-
-
     }
 
-
+    // information boxes with static structure -- finished (less changed)
     public void page3_setupStaticInfoBoxes(Enemy enemy) {
-        // Boxes painting
+        // Text message info box
         Label infoBox = new Label();
         infoBox.setLayoutX(20);
         infoBox.setLayoutY(610);
@@ -448,6 +443,7 @@ public class GUI extends Application {
         infoBox.textProperty().bindBidirectional(textInfo);
         board.getChildren().add(infoBox);
 
+        // Two Static boxes for user and enemy
         // Double boxes to create border
         Rectangle user_info_box = new Rectangle(700, 440, 300, 100);
         user_info_box.setArcHeight(15);
@@ -470,12 +466,13 @@ public class GUI extends Application {
         board.getChildren().add(user_info_box_white);
         board.getChildren().add(enemy_info_box_white);
 
-        // User Information UI
+        // User Information UI - Name part
         Label user_info = new Label(this.user.getName());
         user_info.setFont(Font.font("Arial", FontWeight.BLACK, 18));
         user_info.setLayoutX(725);
         user_info.setLayoutY(450);
         board.getChildren().add(user_info);
+
         // Black and White border
         Rectangle user_hp_bg = new Rectangle(725, 480, 202, 12);
         board.getChildren().add(user_hp_bg);
@@ -488,7 +485,7 @@ public class GUI extends Application {
         user_mp_bg_white.setFill(Color.WHITE);
         board.getChildren().add(user_mp_bg_white);
 
-        // enemy Information UI
+        // enemy Information UI - Name part
         Label enemy_info = new Label(enemy.getName());
         enemy_info.setFont(Font.font("Arial", FontWeight.BLACK, 18));
         enemy_info.setLayoutX(145);
@@ -509,39 +506,79 @@ public class GUI extends Application {
     }
 
     // highly related to Static position
-    public void page3_setupDynamicInfoBoxes(){
-        // dynamic bar
-        Rectangle user_hp_bar = new Rectangle();
-        user_hp_bar.setLayoutX(726);
-        user_hp_bar.setLayoutY(481);
-        user_hp_bar.setHeight(10);
-        user_HP_bar.setValue(user.getHP() / user.getmaxHP() * 200);
+    // dynamic graphing HP bar and MP bar, so as the detail number -- finished (less changed)
+    public void page3_setupDynamicInfoBoxes(Enemy enemy){
+        // dynamic bar, user part
+        Rectangle user_hp_bar = new Rectangle(726,481,200,10);
+        user_HP_bar.setValue((user.getHP() * 1.0) / (user.getmaxHP() * 1.0) * 200);
         user_hp_bar.widthProperty().bindBidirectional(user_HP_bar);
         user_hp_bar.setFill(Color.RED);
         board.getChildren().add(user_hp_bar);
         Rectangle user_mp_bar = new Rectangle(726, 501, 100, 10);
+        user_MP_bar.setValue(user.getMP() * 1.0);
+        user_mp_bar.widthProperty().bindBidirectional(user_MP_bar);
         user_mp_bar.setFill(Color.BLUE);
         board.getChildren().add(user_mp_bar);
+        // enemy part
+        Rectangle enemy_hp_bar = new Rectangle(146,81,200,10);
+        enemy_HP_bar.setValue((user.getHP() * 1.0) / (enemy.getmaxHP() * 1.0) * 200);
+        enemy_hp_bar.widthProperty().bindBidirectional(enemy_HP_bar);
+        enemy_hp_bar.setFill(Color.RED);
+        board.getChildren().add(enemy_hp_bar);
+        Rectangle enemy_mp_bar = new Rectangle(146, 101, 100, 10);
+        enemy_MP_bar.setValue(user.getMP() * 1.0);
+        enemy_mp_bar.widthProperty().bindBidirectional(enemy_MP_bar);
+        enemy_mp_bar.setFill(Color.BLUE);
+        board.getChildren().add(enemy_mp_bar);
 
-        // Detailed Info Display
+        // Detailed Info Display - display format: HP / MaxHP ...
+        Label user_hp_info = new Label();
+        user_hp_info.setLayoutX(940);
+        user_hp_info.setLayoutY(479);
+        user_HP_info.setValue(user.getHP() + "/" + user.getmaxHP());
+        user_hp_info.textProperty().bindBidirectional(user_HP_info);
+        user_hp_info.setFont(Font.font("Arial", FontWeight.BLACK, 12));
+        board.getChildren().add(user_hp_info);
+        Label user_mp_info = new Label();
+        user_mp_info.setLayoutX(840);
+        user_mp_info.setLayoutY(499);
+        user_MP_info.setValue(user.getMP() + "/100");
+        user_mp_info.textProperty().bindBidirectional(user_MP_info);
+        user_mp_info.setFont(Font.font("Arial", FontWeight.BLACK, 12));
+        board.getChildren().add(user_mp_info);
+        Label enemy_hp_info = new Label();
+        enemy_hp_info.setLayoutX(360);
+        enemy_hp_info.setLayoutY(79);
+        enemy_HP_info.setValue(enemy.getHP() + "/" + enemy.getmaxHP());
+        enemy_hp_info.textProperty().bindBidirectional(enemy_HP_info);
+        enemy_hp_info.setFont(Font.font("Arial", FontWeight.BLACK, 12));
+        board.getChildren().add(enemy_hp_info);
+        Label enemy_mp_info = new Label();
+        enemy_mp_info.setLayoutX(260);
+        enemy_mp_info.setLayoutY(99);
+        enemy_MP_info.setValue(enemy.getMP() + "/100");
+        enemy_mp_info.textProperty().bindBidirectional(enemy_MP_info);
+        enemy_mp_info.setFont(Font.font("Arial", FontWeight.BLACK, 12));
+        board.getChildren().add(enemy_mp_info);
+
     }
 
-    public void page3_setupBackground() {
+    // Page3 basic background image and structure -- finished (less changed)
+    public void page3_setupBackground(Enemy enemy) {
+        // Background image part
         ImageView background = new ImageView();
         final String PAGE3_BACKGROUND_URI = getClass().getResource("Pics/page3_background.png").toString();
         background.setImage(new Image(PAGE3_BACKGROUND_URI));
         background.setFitHeight(599);
         background.setPreserveRatio(true);
         board.getChildren().add(background);
-        // User area
+        // User image
         Rectangle user_area = new Rectangle(150, 360, 220, 220);
-        // ------------------------------------------- need to change the URL-------------------------------------
-        user_area.setFill(new ImagePattern(new Image("Pics/Pokemon/pic0.png")));
+        user_area.setFill(new ImagePattern(new Image(user.getImgUrl())));
         board.getChildren().add(user_area);
-        // Enemy area
+        // Enemy image
         Rectangle enemy_area = new Rectangle(690, 20, 220, 220);
-        // ------------------------------------------- need to change the URL-------------------------------------
-        enemy_area.setFill(new ImagePattern(new Image("Pics/Pokemon/pic1.png")));
+        enemy_area.setFill(new ImagePattern(new Image(enemy.getImgUrl())));
         board.getChildren().add(enemy_area);
 
         // control area
@@ -561,6 +598,7 @@ public class GUI extends Application {
         board.getChildren().add(line2);
     }
 
+    // Page3 buttons and actions -- may add buttons in future
     public void page3_setupButton(Battle battle, StringProperty textInfo) {
         Button btn1 = new Button("Attack");
         btn1.setLayoutX(760);
@@ -613,6 +651,7 @@ public class GUI extends Application {
         board.getChildren().add(btn4);
     }
 
+    // loading enemy from Json file
     public Enemy enemy_loading(int enemy_id) {
         Gson gson = new Gson();
         JsonReader jsr = null;
