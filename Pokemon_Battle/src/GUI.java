@@ -61,8 +61,10 @@ public class GUI extends Application {
     private StringProperty textInfo;
     private StringProperty user_HP_info = new SimpleStringProperty();
     private StringProperty user_MP_info = new SimpleStringProperty();
+    private StringProperty user_AD_info = new SimpleStringProperty();
     private StringProperty enemy_HP_info = new SimpleStringProperty();
     private StringProperty enemy_MP_info = new SimpleStringProperty();
+    private StringProperty enemy_AD_info = new SimpleStringProperty();
     private DoubleProperty user_HP_bar = new SimpleDoubleProperty();
     private DoubleProperty user_MP_bar = new SimpleDoubleProperty();
     private DoubleProperty enemy_HP_bar = new SimpleDoubleProperty();
@@ -428,7 +430,7 @@ public class GUI extends Application {
         page3_setupStaticInfoBoxes(enemy);
         page3_setupDynamicInfoBoxes(enemy);
         // buttons
-        page3_setupButton(battle, textInfo);
+        page3_setupButton(battle);
 
 
     }
@@ -545,6 +547,13 @@ public class GUI extends Application {
         user_MP_info.setValue(user.getMP() + "/100");
         user_mp_info.textProperty().bindBidirectional(user_MP_info);
         user_mp_info.setFont(Font.font("Arial", FontWeight.BLACK, 12));
+        Label user_ad_info = new Label();
+        user_ad_info.setLayoutX(726);
+        user_ad_info.setLayoutY(519);
+        user_AD_info.setValue(user.getAttack() + " - " + user.getDefence());
+        user_ad_info.textProperty().bindBidirectional(user_AD_info);
+        user_ad_info.setFont(Font.font("Arial", FontWeight.BLACK, 12));
+        board.getChildren().add(user_ad_info);
         board.getChildren().add(user_mp_info);
         Label enemy_hp_info = new Label();
         enemy_hp_info.setLayoutX(360);
@@ -560,7 +569,13 @@ public class GUI extends Application {
         enemy_mp_info.textProperty().bindBidirectional(enemy_MP_info);
         enemy_mp_info.setFont(Font.font("Arial", FontWeight.BLACK, 12));
         board.getChildren().add(enemy_mp_info);
-
+        Label enemy_ad_info = new Label();
+        enemy_ad_info.setLayoutX(146);
+        enemy_ad_info.setLayoutY(119);
+        enemy_AD_info.setValue(enemy.getAttack() + " - " + enemy.getDefence());
+        enemy_ad_info.textProperty().bindBidirectional(enemy_AD_info);
+        enemy_ad_info.setFont(Font.font("Arial", FontWeight.BLACK, 12));
+        board.getChildren().add(enemy_ad_info);
     }
 
     // Page3 basic background image and structure -- finished (less changed)
@@ -599,13 +614,14 @@ public class GUI extends Application {
     }
 
     // Page3 buttons and actions -- may add buttons in future
-    public void page3_setupButton(Battle battle, StringProperty textInfo) {
+    public void page3_setupButton(Battle battle) {
         Button btn1 = new Button("Attack");
         btn1.setLayoutX(760);
         btn1.setLayoutY(620);
         btn1.setMinSize(100, 40);
         btn1.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
-        btn1.setOnAction(e -> battle.user_action(0));
+        btn1.setOnAction(e -> battle.user_action(0,textInfo,user_HP_info,user_MP_info,enemy_HP_info,enemy_MP_info,user_HP_bar
+                ,user_MP_bar,enemy_HP_bar,enemy_MP_bar,user_AD_info,enemy_AD_info));
         board.getChildren().add(btn1);
 
         Button btn2 = new Button("Spell1");
@@ -615,9 +631,10 @@ public class GUI extends Application {
         btn2.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
         btn2.setOnAction(e -> {
             if (this.user.getMP() >= 20) {
-                battle.user_action(1);
+                battle.user_action(1,textInfo,user_HP_info,user_MP_info,enemy_HP_info,enemy_MP_info,user_HP_bar
+                        ,user_MP_bar,enemy_HP_bar,enemy_MP_bar,user_AD_info,enemy_AD_info);
             } else {
-                textInfo.setValue("More magic power is required. ");
+                textInfo.setValue("You need at least 20 magic power to use this spell.");
             }
         });
         board.getChildren().add(btn2);
@@ -629,9 +646,10 @@ public class GUI extends Application {
         btn3.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
         btn3.setOnAction(e -> {
             if (this.user.getMP() >= 20) {
-                battle.user_action(2);
+                battle.user_action(2,textInfo,user_HP_info,user_MP_info,enemy_HP_info,enemy_MP_info,user_HP_bar
+                        ,user_MP_bar,enemy_HP_bar,enemy_MP_bar,user_AD_info,enemy_AD_info);
             } else {
-                textInfo.setValue("More magic power is required. ");
+                textInfo.setValue("You need at least 20 magic power to use this spell.");
             }
         });
         board.getChildren().add(btn3);
@@ -643,9 +661,10 @@ public class GUI extends Application {
         btn4.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
         btn4.setOnAction(e -> {
             if (this.user.getMP() >= 80) {
-                battle.user_action(3);
+                battle.user_action(3,textInfo,user_HP_info,user_MP_info,enemy_HP_info,enemy_MP_info,user_HP_bar
+                        ,user_MP_bar,enemy_HP_bar,enemy_MP_bar,user_AD_info,enemy_AD_info);
             } else {
-                textInfo.setValue("More magic power is required. ");
+                textInfo.setValue("You need at least 80 magic power to use this spell.");
             }
         });
         board.getChildren().add(btn4);
