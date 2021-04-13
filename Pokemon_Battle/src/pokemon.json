@@ -10,7 +10,7 @@
     "grass_able": true,
     "water_able": false,
     "stone_able": false,
-    "max_MP": 400,
+    "max_HP": 400,
     "imgUrl": "Pics\\Pokemon\\pic0.jpg",
     "position": [1,0],
     "skill_list": [1,2,3]

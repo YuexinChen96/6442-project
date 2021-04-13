@@ -17,7 +17,7 @@ public class Pokemon implements Serializable {
 
 
     private int max_HP;
-    final private int MAX_MP = 10;
+    final private int MAX_MP = 100;
 
     private String imgUrl;
     private int[] position; //[x,y]
