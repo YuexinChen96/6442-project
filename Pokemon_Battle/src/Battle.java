@@ -16,6 +16,8 @@ public class Battle {
     private Rectangle p_user;
     private Rectangle p_tar;
 
+    public boolean button_able = true;
+
     public void setP_user(Rectangle p_user) {
         this.p_user = p_user;
     }
@@ -49,6 +51,7 @@ public class Battle {
         Circle ball = null;
         if (action == 0) {
             t1 = new Timeline(new KeyFrame(Duration.millis(1),ae->{
+                button_able = false;
                 PathTransition pt1 = action1_animation(board, true);
                 pt1.play();
             }));
@@ -99,7 +102,8 @@ public class Battle {
             UIupdate(user_HP_info,user_MP_info,enemy_HP_info,enemy_MP_info,user_HP_bar,user_MP_bar,enemy_HP_bar
                     ,enemy_MP_bar,user_AD_info,enemy_AD_info);
             textInfo.setValue("Now is your turn... Choose one action.");
-            //end_check();
+            end_check();
+            button_able = true;
         }));
 
         SequentialTransition seqT = new SequentialTransition(t1, t2, t3, t4);
@@ -174,6 +178,7 @@ public class Battle {
         }
         return 0;
     }
+
     // gain EXP basic on enemy level
     public void winCal(){
 
