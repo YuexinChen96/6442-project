@@ -9,7 +9,6 @@ import javafx.util.Duration;
 
 
 public class Battle {
-    private int turn = 0;
 
     private Enemy tar;
     private Pokemon user;
@@ -17,25 +16,14 @@ public class Battle {
     private Rectangle p_user;
     private Rectangle p_tar;
 
-    public Rectangle getP_user() {
-        return p_user;
-    }
-
     public void setP_user(Rectangle p_user) {
         this.p_user = p_user;
-    }
-
-    public Rectangle getP_tar() {
-        return p_tar;
     }
 
     public void setP_tar(Rectangle p_tar) {
         this.p_tar = p_tar;
     }
 
-    public int getTurn() {
-        return turn;
-    }
 
     public Battle(){} // constructor
 
@@ -44,14 +32,10 @@ public class Battle {
         this.user = user;
     }
 
-    public boolean gameover_test (){
-        return this.tar.getHP() == 0 || this.user.getHP() == 0;
-    }
+    public boolean gameover_test (){return this.user.getHP() == 0;}
 
-    // return true for user turn, false for enemy turn
-    public boolean user_turn (){
-        return this.turn % 2 == 0;
-    }
+    public boolean win_test () { return this.tar.getHP() == 0;}
+
 
     // execute user action, 0 for attack, 1 for spell-1, 2 for spell-2, ...
     public void user_action (int action,StringProperty textInfo,StringProperty user_HP_info,StringProperty user_MP_info,
@@ -63,8 +47,8 @@ public class Battle {
 
         Timeline t1 = null;
         if (action == 0) {
-            t1 = new Timeline(new KeyFrame(Duration.millis(10),ae->{
-                PathTransition pt1 = action1_animation(board);
+            t1 = new Timeline(new KeyFrame(Duration.millis(1),ae->{
+                PathTransition pt1 = action1_animation(board, true);
                 pt1.play();
             }));
             // animation may go here
@@ -76,30 +60,73 @@ public class Battle {
 
         }
 
-        Timeline t2 = new Timeline(new KeyFrame(Duration.millis(4000),ae->
-                UIupdate(user_HP_info,user_MP_info,enemy_HP_info,enemy_MP_info,user_HP_bar,user_MP_bar,enemy_HP_bar
-                ,enemy_MP_bar,user_AD_info,enemy_AD_info)));
+        Timeline t2 = new Timeline(new KeyFrame(Duration.millis(4001),ae->{
+            UIupdate(user_HP_info,user_MP_info,enemy_HP_info,enemy_MP_info,user_HP_bar,user_MP_bar,enemy_HP_bar
+                    ,enemy_MP_bar,user_AD_info,enemy_AD_info);
+            textInfo.setValue("Waiting for enemy's response...");
+            end_check();
+        }));
 
-        SequentialTransition seqT = new SequentialTransition(t1, t2);
+        // enemy action
+        Timeline t3 = new Timeline(new KeyFrame(Duration.millis(1),ae->{
+            // Simple agent
+            if (tar.getMP() <= 20) {
+                PathTransition pt2 = action1_animation(board, false);
+                pt2.play();
+                int dmg = tar.getAttack() - user.getDefence();
+                user.setHP(damageInRange(user.getHP(), dmg));
+            } else{
+
+                System.out.println("Using Spell");
+            }
+        }));
+
+        Timeline t4 = new Timeline(new KeyFrame(Duration.millis(4001),ae->{
+            end_turn_cal();
+            UIupdate(user_HP_info,user_MP_info,enemy_HP_info,enemy_MP_info,user_HP_bar,user_MP_bar,enemy_HP_bar
+                    ,enemy_MP_bar,user_AD_info,enemy_AD_info);
+            textInfo.setValue("Now is your turn... Choose one action.");
+            end_check();
+        }));
+
+        SequentialTransition seqT = new SequentialTransition(t1, t2, t3, t4);
         seqT.play();
-
-        this.turn ++;
-
 
     }
 
+    public void end_turn_cal(){
+        user.setMP(mana_gain(user.getMP(), 10));
+        tar.setMP(mana_gain(tar.getMP(), 10));
+    }
+
+    public int mana_gain(int curr, int gain){
+        return Math.min(curr + gain, 100);
+    }
 
 
-    public PathTransition action1_animation(Pane board) {
+    public PathTransition action1_animation(Pane board, boolean user) {
         p_user.toFront();
         Path path = new Path();
-        path.getElements().add(new MoveTo(260,470));
-        path.getElements().add(new LineTo(800,130));
-        path.getElements().add(new LineTo(260,470));
         PathTransition pt = new PathTransition();
+
+        if (user) {
+            p_user.toFront();
+            path.getElements().add(new MoveTo(260,470));
+            path.getElements().add(new LineTo(800,130));
+            path.getElements().add(new LineTo(260,470));
+            pt.setNode(p_user);
+        } else {
+            p_tar.toFront();
+            path.getElements().add(new MoveTo(800,130));
+            path.getElements().add(new LineTo(260,470));
+            path.getElements().add(new LineTo(800,130));
+            pt.setNode(p_tar);
+        }
+
+
         pt.setDuration(Duration.millis(4000));
         pt.setPath(path);
-        pt.setNode(p_user);
+
         pt.setAutoReverse(true);
         pt.setCycleCount(1);
         return pt;
@@ -119,6 +146,23 @@ public class Battle {
         enemy_MP_bar.set(tar.getMP() * 1.0);
         user_AD_info.setValue(user.getAttack() + "-" + user.getDefence());
         enemy_AD_info.setValue(tar.getAttack() + "-" + tar.getDefence());
+    }
+
+    // end check works -- need API from Natalie
+    public void end_check(){
+        if (gameover_test()){
+            System.out.println("Game Over.");
+            // page3_to_page2(false);
+        } else if (win_test()){
+            System.out.println("You have win this game.");
+            winCal();
+            // page3_to_page2(true);
+        }
+    }
+
+    // gain EXP basic on enemy level
+    public void winCal(){
+
     }
 
     public int damageInRange(int HP, int dmg){
