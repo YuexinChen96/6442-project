@@ -39,9 +39,11 @@ public class GUI extends Application {
     // Dimensions of the display window
     private static final int WINDOW_WIDTH = 1200;
     private static final int WINDOW_HEIGHT = 740;
-
-    char[][] map = new char[80][48];
-    char[][] showmap = new char[40][24];//char record the type of piece
+    private static final int mapLength =80;
+    private static final int mapHeight =48;
+    char[][] map = new char[mapLength][mapHeight];
+    char[][] showMap = new char[mapLength/2][mapHeight/2];
+    int currentMapIndex = -1;
 
     // Page indicator
     private int page_number = 0; // change for page testing
@@ -219,7 +221,8 @@ public class GUI extends Application {
         btn1.setLayoutY(200);
         btn1.setOnAction(e -> {
             board.getChildren().removeAll(board.getChildren());
-            page2_choose_map(0);
+            // map index: 0,1,2,3
+            page2_choose_map(2);
         });
         board.getChildren().add(btn2);
     }
@@ -231,8 +234,10 @@ public class GUI extends Application {
 // Kath & Natalie
     Map mapclass;
     //have four maps
-    public void page2_choose_map(int mapindex){
-        initialMap();//initial map[][] according .txt
+    public void page2_choose_map(int mapIndex){
+        initialMap(mapIndex);//initial map[][] according separate .txt
+        currentMapIndex = mapIndex;
+        System.out.println("which map:" + currentMapIndex);
         page2_initial();
     }
     boolean keyable;
@@ -242,7 +247,7 @@ public class GUI extends Application {
         System.out.println("Current Role:" + user.toString());
 
         //create and show the map
-        showPartOfMap(map);
+        showMap(showMap);
         System.out.println("already show map");
 
         //showPokemon
@@ -296,39 +301,135 @@ public class GUI extends Application {
                 //if (mapclass.ifTerminal(user, map)) page4_initial();
                 //if (mapclass.ifBattle(user, map)) page3_initial(3);
                 KeyCode keyCode = e.getCode();
+                boolean mapEnd = mapclass.ifMapEnd(user,showMap);
                 if (keyCode.equals(KeyCode.RIGHT)) {
                     System.out.println("right");
-                    boolean canMove = mapclass.checkMoveEnable(user, 'R', map);
-                    if (canMove) {
-                        int x = user.getPosition()[0];
-                        int y = user.getPosition()[1];
+                    boolean canMove = mapclass.checkMoveEnable(user, 'R', showMap);
+                    int x = user.getPosition()[0];
+                    int y = user.getPosition()[1];
+                    if(mapEnd) {
+                        boolean NextMap = mapclass.nextMap(user, 'R', map, currentMapIndex);
+                        boolean LastMap = mapclass.lastMap(user, 'R', map, currentMapIndex);
+                        if (NextMap) {
+                            currentMapIndex++;
+                            moveAnimation(node, x * 30, y * 30, (x + 1) * 30, y * 30);
+                            initialMap(currentMapIndex);//initial map[][] according separate .txt
+                            System.out.println("which map:" + currentMapIndex);
+                            page2_initial();
+                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                        } else if (LastMap) {
+                            currentMapIndex--;
+                            moveAnimation(node, x * 30, y * 30, (x + 1) * 30, y * 30);
+                            initialMap(currentMapIndex);//initial map[][] according separate .txt
+                            System.out.println("which map:" + currentMapIndex);
+                            page2_initial();
+                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                        }
+                        else if (canMove) {
+                            moveAnimation(node, x * 30, y * 30, (x + 1) * 30, y * 30);
+                            user.setPosition(new int[]{x + 1, y});
+                        }
+                    }
+                    else if (canMove) {
                         moveAnimation(node, x * 30, y * 30, (x + 1) * 30, y * 30);
                         user.setPosition(new int[]{x + 1, y});
                     }
                 } else if (keyCode.equals(KeyCode.LEFT)) {
                     System.out.println("left");
-                    boolean canMove = mapclass.checkMoveEnable(user, 'L', map);
-                    if (canMove) {
-                        int x = user.getPosition()[0];
-                        int y = user.getPosition()[1];
+                    boolean canMove = mapclass.checkMoveEnable(user, 'L', showMap);
+                    int x = user.getPosition()[0];
+                    int y = user.getPosition()[1];
+                    if(mapEnd) {
+                        boolean NextMap = mapclass.nextMap(user, 'L', map, currentMapIndex);
+                        boolean LastMap = mapclass.lastMap(user,'L',map, currentMapIndex);
+                        if (NextMap) {
+                            currentMapIndex++;
+                            moveAnimation(node, x * 30, y * 30, (x - 1) * 30, y * 30);
+                            initialMap(currentMapIndex);//initial map[][] according separate .txt
+                            System.out.println("which map:" + currentMapIndex);
+                            page2_initial();
+                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                        }
+                        else if(LastMap) {
+                            currentMapIndex--;
+                            moveAnimation(node, x * 30, y * 30, (x - 1) * 30, y * 30);
+                            initialMap(currentMapIndex);//initial map[][] according separate .txt
+                            System.out.println("which map:" + currentMapIndex);
+                            page2_initial();
+                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                        }
+                        else if (canMove) {
+                            moveAnimation(node, x * 30, y * 30, (x - 1) * 30, y * 30);
+                            user.setPosition(new int[]{x - 1, y});
+                        }
+                    }
+                    else if (canMove) {
                         moveAnimation(node, x * 30, y * 30, (x - 1) * 30, y * 30);
                         user.setPosition(new int[]{x - 1, y});
                     }
                 } else if (keyCode.equals(KeyCode.UP)) {
                     System.out.println("up");
-                    boolean canMove = mapclass.checkMoveEnable(user, 'U', map);
-                    if (canMove) {
-                        int x = user.getPosition()[0];
-                        int y = user.getPosition()[1];
+                    boolean canMove = mapclass.checkMoveEnable(user, 'U', showMap);
+                    int x = user.getPosition()[0];
+                    int y = user.getPosition()[1];
+                    if(mapEnd) {
+                        boolean NextMap = mapclass.nextMap(user, 'U', map, currentMapIndex);
+                        boolean LastMap = mapclass.lastMap(user,'U',map, currentMapIndex);
+                        if (NextMap) {
+                            currentMapIndex++;
+                            moveAnimation(node, x * 30, y * 30, x * 30, (y - 1) * 30);
+                            initialMap(currentMapIndex);//initial map[][] according separate .txt
+                            System.out.println("which map:" + currentMapIndex);
+                            page2_initial();
+                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                        }
+                        else if(LastMap) {
+                            currentMapIndex--;
+                            moveAnimation(node, x * 30, y * 30, x * 30, (y - 1) * 30);
+                            initialMap(currentMapIndex);//initial map[][] according separate .txt
+                            System.out.println("which map:" + currentMapIndex);
+                            page2_initial();
+                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                        }
+                        else if (canMove) {
+                            moveAnimation(node, x * 30, y * 30, x * 30, (y + 1) * 30);
+                            user.setPosition(new int[]{x, y + 1});
+                        }
+                    }
+                    else if (canMove) {
                         moveAnimation(node, x * 30, y * 30, x * 30, (y - 1) * 30);
                         user.setPosition(new int[]{x, y - 1});
                     }
                 } else if (keyCode.equals(KeyCode.DOWN)) {
                     System.out.println("down");
-                    boolean canMove = mapclass.checkMoveEnable(user, 'D', map);
-                    if (canMove) {
-                        int x = user.getPosition()[0];
-                        int y = user.getPosition()[1];
+                    boolean canMove = mapclass.checkMoveEnable(user, 'D', showMap);
+                    int x = user.getPosition()[0];
+                    int y = user.getPosition()[1];
+                    if(mapEnd) {
+                        boolean NextMap = mapclass.nextMap(user, 'D', map, currentMapIndex);
+                        boolean LastMap = mapclass.lastMap(user,'D',map, currentMapIndex);
+                        if (NextMap) {
+                            currentMapIndex++;
+                            moveAnimation(node, x * 30, y * 30, x * 30, (y + 1) * 30);
+                            initialMap(currentMapIndex);//initial map[][] according separate .txt
+                            System.out.println("which map:" + currentMapIndex);
+                            page2_initial();
+                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                        }
+                        else if(LastMap) {
+                            currentMapIndex--;
+                            moveAnimation(node, x * 30, y * 30, x * 30, (y + 1) * 30);
+                            initialMap(currentMapIndex);//initial map[][] according separate .txt
+                            System.out.println("which map:" + currentMapIndex);
+                            page2_initial();
+                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                        }
+                        else if (canMove) {
+                            moveAnimation(node, x * 30, y * 30, x * 30, (y + 1) * 30);
+                            user.setPosition(new int[]{x, y + 1});
+                        }
+                    }
+                    else if (canMove) {
                         moveAnimation(node, x * 30, y * 30, x * 30, (y + 1) * 30);
                         user.setPosition(new int[]{x, y + 1});
                     }
@@ -374,9 +475,9 @@ public class GUI extends Application {
 
     // fx: add pieces to board (board只能显示map中的40*24个pieces)
     //-----------------暂时不需要（Note:不用更新地图, 目前只实现40*24）-------------------------
-    public void showPartOfMap(char[][] showmap) {
-        for (int i = 0; i < 40; i++) {
-            for (int j = 0; j < 24; j++) {
+    public void showMap(char[][] showmap) {
+        for (int i = 0; i < mapLength/2; i++) {
+            for (int j = 0; j < mapHeight/2; j++) {
                 Rectangle rect = new Rectangle(i * 30, j * 30, 30, 30);
                 if (showmap[i][j] != 'r') {
                     if(showmap[i][j]>060 && showmap[i][j] < 066) {
@@ -403,23 +504,33 @@ public class GUI extends Application {
     // ----待设计
     // map[][]对应元素char，说明见elementNote.txt
     // Kath
-    public void initialMap() {
-        //地图
-        String battleMap = "src/battleMap1.txt";
+    public void initialMap(int mapIndex) {
+        String battleMap = "src/battleMap.txt";
+        String partMap = "src/battleMap"+mapIndex+".txt";
         try {
-            BufferedReader bfr = new BufferedReader(new FileReader(battleMap));
-            String l;
-            int row = 0;
-            while ((l = bfr.readLine()) != null) {
-                for (int i = 0; i < l.length(); i++) {
-                    map[i][row] = l.charAt(i);
+            // initial whole map:
+            BufferedReader bfr1 = new BufferedReader(new FileReader(battleMap));
+            String l1;
+            int row1 = 0;
+            while ((l1 = bfr1.readLine()) != null) {
+                for (int i = 0; i < l1.length(); i++) {
+                    map[i][row1] = l1.charAt(i);
                 }
-                row++;
+                row1++;
+            }
+            // initial showMap:
+            BufferedReader bfr2 = new BufferedReader(new FileReader(partMap));
+            String l2;
+            int row2 = 0;
+            while ((l2 = bfr2.readLine()) != null) {
+                for (int i = 0; i < l2.length(); i++) {
+                    showMap[i][row2] = l2.charAt(i);
+                }
+                row2++;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public Pokemon pokemonLoadFromJson(int id) {
