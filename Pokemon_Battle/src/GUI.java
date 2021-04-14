@@ -235,7 +235,7 @@ public class GUI extends Application {
         initialMap();//initial map[][] according .txt
         page2_initial();
     }
-
+    boolean keyable;
     public void page2_initial() {
         board.getChildren().removeAll(board.getChildren());
         System.out.println("Map");
@@ -253,6 +253,7 @@ public class GUI extends Application {
         rect.toFront();
         //some functions of Pokemon
         startShowAnimation(rect);
+        keyable=true;
         addKeyPressed(rect, board);
 
         //show attributes of pokemon
@@ -289,45 +290,48 @@ public class GUI extends Application {
             node.setEffect(null);
         });
         node.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
-            System.out.println("keyEvent able");
-            //if (mapclass.ifTerminal(user, map)) page4_initial();
-            //if (mapclass.ifBattle(user, map)) page3_initial(3);
-            KeyCode keyCode = e.getCode();
-            if (keyCode.equals(KeyCode.RIGHT)) {
-                System.out.println("right");
-                boolean canMove = mapclass.checkMoveEnable(user, 'R', map);
-                if (canMove) {
-                    int x = user.getPosition()[0];
-                    int y = user.getPosition()[1];
-                    moveAnimation(node, x * 30, y * 30, (x + 1) * 30, y * 30);
-                    user.setPosition(new int[]{x + 1, y});
-                }
-            } else if (keyCode.equals(KeyCode.LEFT)) {
-                System.out.println("left");
-                boolean canMove = mapclass.checkMoveEnable(user, 'L', map);
-                if (canMove) {
-                    int x = user.getPosition()[0];
-                    int y = user.getPosition()[1];
-                    moveAnimation(node, x * 30, y * 30, (x - 1) * 30, y * 30);
-                    user.setPosition(new int[]{x - 1, y});
-                }
-            } else if (keyCode.equals(KeyCode.UP)) {
-                System.out.println("up");
-                boolean canMove = mapclass.checkMoveEnable(user, 'U', map);
-                if (canMove) {
-                    int x = user.getPosition()[0];
-                    int y = user.getPosition()[1];
-                    moveAnimation(node, x * 30, y * 30, x * 30, (y - 1) * 30);
-                    user.setPosition(new int[]{x, y - 1});
-                }
-            } else if (keyCode.equals(KeyCode.DOWN)) {
-                System.out.println("down");
-                boolean canMove = mapclass.checkMoveEnable(user, 'D', map);
-                if (canMove) {
-                    int x = user.getPosition()[0];
-                    int y = user.getPosition()[1];
-                    moveAnimation(node, x * 30, y * 30, x * 30, (y + 1) * 30);
-                    user.setPosition(new int[]{x, y + 1});
+            System.out.println(keyable);
+            if(this.keyable) {
+                System.out.println("key able");
+                //if (mapclass.ifTerminal(user, map)) page4_initial();
+                //if (mapclass.ifBattle(user, map)) page3_initial(3);
+                KeyCode keyCode = e.getCode();
+                if (keyCode.equals(KeyCode.RIGHT)) {
+                    System.out.println("right");
+                    boolean canMove = mapclass.checkMoveEnable(user, 'R', map);
+                    if (canMove) {
+                        int x = user.getPosition()[0];
+                        int y = user.getPosition()[1];
+                        moveAnimation(node, x * 30, y * 30, (x + 1) * 30, y * 30);
+                        user.setPosition(new int[]{x + 1, y});
+                    }
+                } else if (keyCode.equals(KeyCode.LEFT)) {
+                    System.out.println("left");
+                    boolean canMove = mapclass.checkMoveEnable(user, 'L', map);
+                    if (canMove) {
+                        int x = user.getPosition()[0];
+                        int y = user.getPosition()[1];
+                        moveAnimation(node, x * 30, y * 30, (x - 1) * 30, y * 30);
+                        user.setPosition(new int[]{x - 1, y});
+                    }
+                } else if (keyCode.equals(KeyCode.UP)) {
+                    System.out.println("up");
+                    boolean canMove = mapclass.checkMoveEnable(user, 'U', map);
+                    if (canMove) {
+                        int x = user.getPosition()[0];
+                        int y = user.getPosition()[1];
+                        moveAnimation(node, x * 30, y * 30, x * 30, (y - 1) * 30);
+                        user.setPosition(new int[]{x, y - 1});
+                    }
+                } else if (keyCode.equals(KeyCode.DOWN)) {
+                    System.out.println("down");
+                    boolean canMove = mapclass.checkMoveEnable(user, 'D', map);
+                    if (canMove) {
+                        int x = user.getPosition()[0];
+                        int y = user.getPosition()[1];
+                        moveAnimation(node, x * 30, y * 30, x * 30, (y + 1) * 30);
+                        user.setPosition(new int[]{x, y + 1});
+                    }
                 }
             }
         });
@@ -343,6 +347,7 @@ public class GUI extends Application {
     }
 
     public void moveAnimation(Node node, double now_x, double now_y, double next_x, double next_y) {
+        keyable=false;
         node.setEffect(borderGlow);
         int adjsut = 30;
         Path path = new Path();
@@ -359,8 +364,11 @@ public class GUI extends Application {
             System.out.println(user.strPos());
             if (mapclass.ifTerminal(user, map)) page4_initial();
             if (mapclass.ifBattle(user, map)) page3_initial(3);
+            this.keyable=true;
+            System.out.println("keyture:"+keyable);
+            node.setEffect(null);
         }));
-        SequentialTransition seqTransition = new SequentialTransition(pathTransition,new PauseTransition(Duration.millis(600)),check3or4);
+        SequentialTransition seqTransition = new SequentialTransition(pathTransition,new PauseTransition(Duration.millis(350)),check3or4);
         seqTransition.play();
     }
 
