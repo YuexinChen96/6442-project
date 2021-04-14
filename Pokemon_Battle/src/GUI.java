@@ -1,13 +1,11 @@
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import javafx.animation.FadeTransition;
-import javafx.animation.PathTransition;
-import javafx.animation.PauseTransition;
-import javafx.animation.SequentialTransition;
+import javafx.animation.*;
 import javafx.application.Application;
 import javafx.application.Preloader;
 import javafx.beans.property.*;
+import javafx.event.EventType;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -204,7 +202,8 @@ public class GUI extends Application {
 
         // ------待完善-----
         int id = 0;  // 改成：int id=选择的角色（page1）
-        user = pokemonLoadFromJson(id);
+        user=new Pokemon(id);
+        user = pokemonLoadFromJson(user.getid());
 
         Button btn1 = new Button("Start");
         btn1.setLayoutX(1000);
@@ -220,7 +219,7 @@ public class GUI extends Application {
         btn1.setLayoutY(200);
         btn1.setOnAction(e -> {
             board.getChildren().removeAll(board.getChildren());
-            page2_initial();
+            page2_choose_map(0);
         });
         board.getChildren().add(btn2);
     }
@@ -231,48 +230,56 @@ public class GUI extends Application {
 // ------------------------------------------------------------
 // Kath & Natalie
     Map mapclass;
+    //have four maps
+    public void page2_choose_map(int mapindex){
+        initialMap();//initial map[][] according .txt
+        page2_initial();
+    }
 
     public void page2_initial() {
+        board.getChildren().removeAll(board.getChildren());
         System.out.println("Map");
         System.out.println("Current Role:" + user.toString());
 
         //create and show the map
-        initialMap();
         showPartOfMap(map);
+        System.out.println("already show map");
 
-        //showRole;
+        //showPokemon
         int[] role_pos = user.getPosition();
         Rectangle rect = new Rectangle(role_pos[0] * 30, role_pos[1] * 30, 30, 30);
         rect.setFill(new ImagePattern(new Image("Pics/Pokemon/pic"+user.getid()+".png")));
         board.getChildren().add(rect);
         rect.toFront();
+        //some functions of Pokemon
         startShowAnimation(rect);
         addKeyPressed(rect, board);
+
         //show attributes of pokemon
         Button attributes=new Button("My attributes");
-        attributes.setLayoutX(5);attributes.setLayoutY(719);
-        attributes.setStyle("-fx-background-color:lightpink; -fx-border-width:30;-fx-border-height:9; -fx-font-size:10; -fx-font-weight:bold;-fx-font-color:black");
+        attributes.setLayoutX(5);attributes.setLayoutY(720);
+        attributes.setMaxSize(100,20);attributes.setMinSize(100,20);
+        attributes.setFont(Font.font("Arial", FontWeight.BOLD, 11));
+        attributes.setFocusTraversable(false);
         board.getChildren().add(attributes);
-        Text text=new Text();
-        text.setLayoutX(100);text.setLayoutY(733);
+        Label attrinfo=new Label();
+        attrinfo.setLayoutX(150);attrinfo.setLayoutY(722);
         attributes.setOnMousePressed(e->{
-            attributes.setFocusTraversable(true);
             String attr="Name:"+user.getName()+", Level:"+user.getLevel()+", HP:"+ user.getHP() +"/"+user.getmaxHP()+
                     ", MP:" + user.getMP()+"/"+user.getMaxMP()
-                    + ", defense:" + user.getDefence() + ", attack:" + user.getAttack()+", experience:"+user.getExp()+", water_able:" +
+                    + ", Defense:" + user.getDefence() + ", Attack:" + user.getAttack()+", Experience:"+user.getExp()+", water_able:" +
                     user.getWaterAble()+ ", stone_able:" + user.getStoneAble();
-            text.setText(attr); text.setStyle("-fx-font-weight:bold ;-fx-font-color:black");
-            board.getChildren().add(text);
+            attrinfo.setText(attr); attrinfo.setStyle("-fx-font-color:#656a66");
+            board.getChildren().add(attrinfo);
         });
         attributes.setOnMouseReleased(e->{
-            attributes.setFocusTraversable(false);
-            board.getChildren().remove(text);
+            board.getChildren().remove(attrinfo);
         });
-
     }
 
     public void addKeyPressed(Node node, Node board) {
-        board.addEventHandler(MouseEvent.MOUSE_MOVED, e -> {
+        mapclass = new Map();
+        board.addEventHandler(EventType.ROOT,e-> {
             node.requestFocus();
             node.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
             });
@@ -283,11 +290,11 @@ public class GUI extends Application {
         });
         node.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
             System.out.println("keyEvent able");
-            mapclass = new Map();
-            if (mapclass.ifTerminal(user, map)) page4_initial();
-            if (mapclass.ifBattle(user, map)) page3_initial(3);
+            //if (mapclass.ifTerminal(user, map)) page4_initial();
+            //if (mapclass.ifBattle(user, map)) page3_initial(3);
             KeyCode keyCode = e.getCode();
             if (keyCode.equals(KeyCode.RIGHT)) {
+                System.out.println("right");
                 boolean canMove = mapclass.checkMoveEnable(user, 'R', map);
                 if (canMove) {
                     int x = user.getPosition()[0];
@@ -298,7 +305,6 @@ public class GUI extends Application {
             } else if (keyCode.equals(KeyCode.LEFT)) {
                 System.out.println("left");
                 boolean canMove = mapclass.checkMoveEnable(user, 'L', map);
-                System.out.println(canMove);
                 if (canMove) {
                     int x = user.getPosition()[0];
                     int y = user.getPosition()[1];
@@ -308,7 +314,6 @@ public class GUI extends Application {
             } else if (keyCode.equals(KeyCode.UP)) {
                 System.out.println("up");
                 boolean canMove = mapclass.checkMoveEnable(user, 'U', map);
-                System.out.println(canMove);
                 if (canMove) {
                     int x = user.getPosition()[0];
                     int y = user.getPosition()[1];
@@ -318,7 +323,6 @@ public class GUI extends Application {
             } else if (keyCode.equals(KeyCode.DOWN)) {
                 System.out.println("down");
                 boolean canMove = mapclass.checkMoveEnable(user, 'D', map);
-                System.out.println(canMove);
                 if (canMove) {
                     int x = user.getPosition()[0];
                     int y = user.getPosition()[1];
@@ -326,9 +330,6 @@ public class GUI extends Application {
                     user.setPosition(new int[]{x, y + 1});
                 }
             }
-            System.out.println(user);
-            if (mapclass.ifTerminal(user, map)) page4_initial();
-            if (mapclass.ifBattle(user, map)) page3_initial(3);
         });
     }
 
@@ -348,26 +349,18 @@ public class GUI extends Application {
         path.getElements().add(new MoveTo(now_x + 0.5 * adjsut, now_y + 0.5 * adjsut));
         path.getElements().add(new LineTo(next_x + 0.5 * adjsut, next_y + 0.5 * adjsut));
         PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.millis(1000));
+        pathTransition.setDuration(Duration.millis(500));
         pathTransition.setPath(path);
         pathTransition.setNode(node);
         pathTransition.setCycleCount(1);
         pathTransition.setAutoReverse(true);
-        //pathTransition.play();
-
-        FadeTransition ft2 = new FadeTransition(Duration.millis(70), node);
-        ft2.setFromValue(1);
-        ft2.setToValue(0);
-        ft2.setCycleCount(2);
-        ft2.setAutoReverse(true);
-        FadeTransition ft = new FadeTransition(Duration.millis(70), node);
-        ft.setFromValue(1);
-        ft.setToValue(0);
-        ft.setCycleCount(2);
-        ft.setAutoReverse(true);
-        //ft.play();
         //Playing Sequential Transition
-        SequentialTransition seqTransition = new SequentialTransition(ft2, pathTransition, ft);
+        Timeline check3or4=new Timeline(new KeyFrame(Duration.millis(1),ae->{
+            System.out.println(user.strPos());
+            if (mapclass.ifTerminal(user, map)) page4_initial();
+            if (mapclass.ifBattle(user, map)) page3_initial(3);
+        }));
+        SequentialTransition seqTransition = new SequentialTransition(pathTransition,new PauseTransition(Duration.millis(800)),check3or4);
         seqTransition.play();
     }
 
@@ -423,8 +416,18 @@ public class GUI extends Application {
         List<Pokemon> pl = gson.fromJson(jsonReader, CUS_LIST_TYPE);
         return pl.get(id);
     }
-
-
+    public void page3_to_page2(boolean win, Pokemon user){
+        if(win){
+            System.out.println("go to page2test");
+            this.user=user;
+            System.out.println(user.strPos());
+            map[user.getPosition()[0]][user.getPosition()[1]]='r';
+            page2_initial();
+        }
+        else{
+            page4_initial();
+        }
+    }
     //-------------------------------------------------------------
 //                 Page3_initial (Battle)
 // ------------------------------------------------------------
@@ -434,7 +437,7 @@ public class GUI extends Application {
         board.getChildren().removeAll(board.getChildren());
 
         // this line use for test ------------------------------------------------------ need remove in future
-        this.user = pokemonLoadFromJson(0);
+        //this.user = pokemonLoadFromJson(0);
 
         System.out.println("Battle page");
 
@@ -649,8 +652,11 @@ public class GUI extends Application {
         btn1.setLayoutY(620);
         btn1.setMinSize(100, 40);
         btn1.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
-        btn1.setOnAction(e -> battle.user_action(0,textInfo,user_HP_info,user_MP_info,enemy_HP_info,enemy_MP_info,user_HP_bar
-                ,user_MP_bar,enemy_HP_bar,enemy_MP_bar,user_AD_info,enemy_AD_info,board));
+        btn1.setOnAction(e -> {int result=battle.user_action(0,textInfo,user_HP_info,user_MP_info,enemy_HP_info,enemy_MP_info,user_HP_bar
+                ,user_MP_bar,enemy_HP_bar,enemy_MP_bar,user_AD_info,enemy_AD_info,board);
+            System.out.println("result:"+result);
+        if(result==1) page3_to_page2(true,battle.user);
+        });
         board.getChildren().add(btn1);
 
         Button btn2 = new Button("Spell1");

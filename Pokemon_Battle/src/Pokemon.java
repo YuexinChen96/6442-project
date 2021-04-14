@@ -1,6 +1,5 @@
 
 import java.io.Serializable;
-import java.util.List;
 
 public class Pokemon implements Serializable {
     private String name;
@@ -25,7 +24,9 @@ public class Pokemon implements Serializable {
 
     private int[] skill_list;//contain 3 skill types
 
-
+    public Pokemon(int id){
+        this.id=id;
+    }
     public Pokemon(String name, int id, int level, int HP, int MP, int defence,
                 int attack, int exp,boolean grass_able,boolean water_able, boolean stone_able,int max_HP,
                    String imgUrl,int[] position,int[] skill_list) {
@@ -61,6 +62,7 @@ public class Pokemon implements Serializable {
     public void setName(String name){this.name=name;}
 
     public int getid(){return id;}
+    public void setid(int id){this.id=id;}
 
     public int getLevel(){return level;}
     public void setLevel(int level){this.level=level;}

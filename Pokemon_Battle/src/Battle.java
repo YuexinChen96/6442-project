@@ -11,7 +11,7 @@ import javafx.util.Duration;
 public class Battle {
 
     private Enemy tar;
-    private Pokemon user;
+    Pokemon user;
 
     private Rectangle p_user;
     private Rectangle p_tar;
@@ -38,7 +38,7 @@ public class Battle {
 
 
     // execute user action, 0 for attack, 1 for spell-1, 2 for spell-2, ...
-    public void user_action (int action,StringProperty textInfo,StringProperty user_HP_info,StringProperty user_MP_info,
+    public int user_action (int action,StringProperty textInfo,StringProperty user_HP_info,StringProperty user_MP_info,
                              StringProperty enemy_HP_info, StringProperty enemy_MP_info,DoubleProperty user_HP_bar,
                              DoubleProperty user_MP_bar,DoubleProperty enemy_HP_bar,DoubleProperty enemy_MP_bar,
                              StringProperty user_AD_info,StringProperty enemy_AD_info, Pane board){
@@ -99,12 +99,12 @@ public class Battle {
             UIupdate(user_HP_info,user_MP_info,enemy_HP_info,enemy_MP_info,user_HP_bar,user_MP_bar,enemy_HP_bar
                     ,enemy_MP_bar,user_AD_info,enemy_AD_info);
             textInfo.setValue("Now is your turn... Choose one action.");
-            end_check();
+            //end_check();
         }));
 
         SequentialTransition seqT = new SequentialTransition(t1, t2, t3, t4);
         seqT.play();
-
+        return end_check();
     }
 
     public void end_turn_cal(){
@@ -162,17 +162,18 @@ public class Battle {
     }
 
     // end check works -- need API from Natalie
-    public void end_check(){
+    public int end_check(){
+
         if (gameover_test()){
             System.out.println("Game Over.");
-            // page3_to_page2(false);
+            return -1;
         } else if (win_test()){
             System.out.println("You have win this game.");
             winCal();
-            // page3_to_page2(true);
+            return 1;
         }
+        return 0;
     }
-
     // gain EXP basic on enemy level
     public void winCal(){
 
