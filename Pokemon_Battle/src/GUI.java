@@ -99,7 +99,7 @@ public class GUI extends Application {
 
 
 //        page3_initial(3);//change for test
-        page0_initial();
+        page1_initial();
 
         primaryStage.setScene(scene);
 
@@ -248,6 +248,26 @@ public class GUI extends Application {
         rect.toFront();
         startShowAnimation(rect);
         addKeyPressed(rect, board);
+        //show attributes of pokemon
+        Button attributes=new Button("My attributes");
+        attributes.setLayoutX(5);attributes.setLayoutY(719);
+        attributes.setStyle("-fx-background-color:lightpink; -fx-border-width:30;-fx-border-height:9; -fx-font-size:10; -fx-font-weight:bold;-fx-font-color:black");
+        board.getChildren().add(attributes);
+        Text text=new Text();
+        text.setLayoutX(100);text.setLayoutY(733);
+        attributes.setOnMousePressed(e->{
+            attributes.setFocusTraversable(true);
+            String attr="Name:"+user.getName()+", Level:"+user.getLevel()+", HP:"+ user.getHP() +"/"+user.getmaxHP()+
+                    ", MP:" + user.getMP()+"/"+user.getMaxMP()
+                    + ", defense:" + user.getDefence() + ", attack:" + user.getAttack()+", experience:"+user.getExp()+", water_able:" +
+                    user.getWaterAble()+ ", stone_able:" + user.getStoneAble();
+            text.setText(attr); text.setStyle("-fx-font-weight:bold ;-fx-font-color:black");
+            board.getChildren().add(text);
+        });
+        attributes.setOnMouseReleased(e->{
+            attributes.setFocusTraversable(false);
+            board.getChildren().remove(text);
+        });
 
     }
 

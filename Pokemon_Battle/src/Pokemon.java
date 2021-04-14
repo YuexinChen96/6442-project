@@ -133,8 +133,8 @@ public class Pokemon implements Serializable {
     }
     @Override
     public String toString() {
-        return "id:" + this.id + ", name:" + this.name +  ", level:" + this.level + ", HP:" + this.HP + ", MP:" + this.MP
-                + ", defense:" + this.defence + ", attack:" + this.attack + ", water_able:" + this.water_able + ", stone_able:" + this.stone_able
+        return "id:" + this.id + ", name:" + this.name +  ", level:" + this.level + ", HP:" + this.HP +"/"+this.max_HP+", MP:" + this.MP +"/"+this.MAX_MP
+                + ", defense:" + this.defence + ", attack:" + this.attack +", experience:"+this.exp+", water_able:" + this.water_able + ", stone_able:" + this.stone_able
                 + "\n" + this.strPos()+", image:"+this.imgUrl+", "+strSkillList();
     }
 
