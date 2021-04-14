@@ -48,7 +48,7 @@ public class Battle {
         System.out.println("Execute action: " + action);
 
         Timeline t1 = null;
-        Circle ball = null;
+        Circle ball = new Circle();
         if (action == 0) {
             t1 = new Timeline(new KeyFrame(Duration.millis(1),ae->{
                 button_able = false;
@@ -75,8 +75,6 @@ public class Battle {
                     ,enemy_MP_bar,user_AD_info,enemy_AD_info);
             textInfo.setValue("Waiting for enemy's response...");
             board.getChildren().remove(ball);
-            //winorlose.set(end_check());
-            //System.out.println(winorlose.get());
         }));
 
         // enemy action
@@ -111,9 +109,8 @@ public class Battle {
         SequentialTransition seqT = new SequentialTransition(t1, t2, t3, t4);
         seqT.play();
 
-        int r=end_check();
-        //System.out.println(r);
-        return r;
+
+        return end_check();
     }
 
     public void end_turn_cal(){
