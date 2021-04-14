@@ -98,8 +98,8 @@ public class GUI extends Application {
         root.getChildren().add(controls);
 
 
-//        page3_initial(3);//change for test
-        page1_initial();
+        //page3_initial(3);//change for test
+        page0_initial();
 
         primaryStage.setScene(scene);
 
