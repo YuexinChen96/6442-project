@@ -29,12 +29,16 @@ public class Spell {
         Path path = new Path();
         PathTransition pt = new PathTransition();
         if (user) {
-            ball = new Circle(260, 470, 50);
+            ball.setCenterX(260);
+            ball.setCenterY(470);
+            ball.setRadius(40);
             ball.toFront();
             path.getElements().add(new MoveTo(260,470));
             path.getElements().add(new LineTo(800,130));
         } else {
-            ball = new Circle(800, 130, 50);
+            ball.setCenterX(800);
+            ball.setCenterY(130);
+            ball.setRadius(40);
             ball.toFront();
             path.getElements().add(new MoveTo(800,130));
             path.getElements().add(new LineTo(260,470));
