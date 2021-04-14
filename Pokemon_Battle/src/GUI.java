@@ -349,7 +349,7 @@ public class GUI extends Application {
         path.getElements().add(new MoveTo(now_x + 0.5 * adjsut, now_y + 0.5 * adjsut));
         path.getElements().add(new LineTo(next_x + 0.5 * adjsut, next_y + 0.5 * adjsut));
         PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.millis(500));
+        pathTransition.setDuration(Duration.millis(300));
         pathTransition.setPath(path);
         pathTransition.setNode(node);
         pathTransition.setCycleCount(1);
@@ -360,7 +360,7 @@ public class GUI extends Application {
             if (mapclass.ifTerminal(user, map)) page4_initial();
             if (mapclass.ifBattle(user, map)) page3_initial(3);
         }));
-        SequentialTransition seqTransition = new SequentialTransition(pathTransition,new PauseTransition(Duration.millis(800)),check3or4);
+        SequentialTransition seqTransition = new SequentialTransition(pathTransition,new PauseTransition(Duration.millis(600)),check3or4);
         seqTransition.play();
     }
 
@@ -420,7 +420,7 @@ public class GUI extends Application {
         if(win){
             System.out.println("go to page2test");
             this.user=user;
-            System.out.println(user.strPos());
+            //System.out.println(user.strPos());
             map[user.getPosition()[0]][user.getPosition()[1]]='r';
             page2_initial();
         }
@@ -657,7 +657,7 @@ public class GUI extends Application {
                 int result=battle.user_action(0, textInfo, user_HP_info, user_MP_info, enemy_HP_info, enemy_MP_info, user_HP_bar
                         , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info, board);
                 System.out.println("result:"+result);
-                if(result==1) page3_to_page2(true,battle.user);
+                if(result!=0) page3_to_page2(true,battle.user);
             }
         });
         board.getChildren().add(btn1);

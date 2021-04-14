@@ -1,11 +1,11 @@
 import javafx.animation.*;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.StringProperty;
-import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.*;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class Battle {
@@ -75,7 +75,8 @@ public class Battle {
                     ,enemy_MP_bar,user_AD_info,enemy_AD_info);
             textInfo.setValue("Waiting for enemy's response...");
             board.getChildren().remove(ball);
-            end_check();
+            //winorlose.set(end_check());
+            //System.out.println(winorlose.get());
         }));
 
         // enemy action
@@ -102,13 +103,17 @@ public class Battle {
             UIupdate(user_HP_info,user_MP_info,enemy_HP_info,enemy_MP_info,user_HP_bar,user_MP_bar,enemy_HP_bar
                     ,enemy_MP_bar,user_AD_info,enemy_AD_info);
             textInfo.setValue("Now is your turn... Choose one action.");
-            end_check();
+            //winorlose.set(end_check());
+            //System.out.println(winorlose.get());
             button_able = true;
         }));
 
         SequentialTransition seqT = new SequentialTransition(t1, t2, t3, t4);
         seqT.play();
-        return end_check();
+
+        int r=end_check();
+        //System.out.println(r);
+        return r;
     }
 
     public void end_turn_cal(){
@@ -167,7 +172,6 @@ public class Battle {
 
     // end check works -- need API from Natalie
     public int end_check(){
-
         if (gameover_test()){
             System.out.println("Game Over.");
             return -1;
