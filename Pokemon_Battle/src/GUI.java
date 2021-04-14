@@ -379,7 +379,20 @@ public class GUI extends Application {
             for (int j = 0; j < 24; j++) {
                 Rectangle rect = new Rectangle(i * 30, j * 30, 30, 30);
                 if (showmap[i][j] != 'r') {
-                    rect.setFill(new ImagePattern(new Image("Pics/Maps/" + showmap[i][j] + ".png")));
+                    if(showmap[i][j]>060 && showmap[i][j] < 066) {
+                        int enemyID = showmap[i][j]-'0'+9;
+                        rect.setFill(new ImagePattern(new Image("Pics/Pokemon/pic"+enemyID+".png")));
+                    }
+                    else if(showmap[i][j] == 's') {
+                        int r = (int)Math.random()*2;
+                        rect.setFill(new ImagePattern(new Image("Pics/Maps/s" + r + ".png")));
+                    }
+                    else {
+                        rect.setFill(new ImagePattern(new Image("Pics/Maps/" + showmap[i][j] + ".png")));
+                    }
+                }
+                else {
+                    rect.setFill(Color.WHITE);
                 }
                 board.getChildren().add(rect);
             }
@@ -388,7 +401,7 @@ public class GUI extends Application {
     }
 
     // ----待设计
-    // map[][]里放每个图片名char型  s石头,g草,w水,h商店(暂不启用),r是可移动的路线,起点b,终点t
+    // map[][]对应元素char，说明见elementNote.txt
     // Kath
     public void initialMap() {
         //地图
@@ -399,7 +412,6 @@ public class GUI extends Application {
             int row = 0;
             while ((l = bfr.readLine()) != null) {
                 for (int i = 0; i < l.length(); i++) {
-//                    System.out.println("row:" + row + ", col:"+i+", char:"+l.charAt(i));
                     map[i][row] = l.charAt(i);
                 }
                 row++;
