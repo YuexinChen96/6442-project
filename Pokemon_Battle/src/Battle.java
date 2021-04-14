@@ -46,6 +46,7 @@ public class Battle {
         System.out.println("Execute action: " + action);
 
         Timeline t1 = null;
+        Circle ball = null;
         if (action == 0) {
             t1 = new Timeline(new KeyFrame(Duration.millis(1),ae->{
                 PathTransition pt1 = action1_animation(board, true);
@@ -58,30 +59,42 @@ public class Battle {
             System.out.println("The damage is: " + dmg);
             tar.setHP(damageInRange(tar.getHP(), dmg));
 
+        } else if (action == 1) {
+            Spell my = new Spell();
+            t1 = new Timeline(new KeyFrame(Duration.millis(1),ae->{
+                PathTransition pt1 = my.execute(0,user,tar,true,board, ball);
+                pt1.play();
+            }));
         }
 
-        Timeline t2 = new Timeline(new KeyFrame(Duration.millis(4001),ae->{
+        Timeline t2 = new Timeline(new KeyFrame(Duration.millis(3001),ae->{
             UIupdate(user_HP_info,user_MP_info,enemy_HP_info,enemy_MP_info,user_HP_bar,user_MP_bar,enemy_HP_bar
                     ,enemy_MP_bar,user_AD_info,enemy_AD_info);
             textInfo.setValue("Waiting for enemy's response...");
+            board.getChildren().remove(ball);
             end_check();
         }));
 
         // enemy action
         Timeline t3 = new Timeline(new KeyFrame(Duration.millis(1),ae->{
             // Simple agent
-            if (tar.getMP() <= 20) {
-                PathTransition pt2 = action1_animation(board, false);
-                pt2.play();
-                int dmg = tar.getAttack() - user.getDefence();
-                user.setHP(damageInRange(user.getHP(), dmg));
-            } else{
-
-                System.out.println("Using Spell");
-            }
+//            if (tar.getMP() <= 20) {
+//                PathTransition pt2 = action1_animation(board, false);
+//                pt2.play();
+//                int dmg = tar.getAttack() - user.getDefence();
+//                user.setHP(damageInRange(user.getHP(), dmg));
+//            } else{
+//
+//                System.out.println("Using Spell");
+//            }
+            // attack
+            PathTransition pt2 = action1_animation(board, false);
+            pt2.play();
+            int dmg = tar.getAttack() - user.getDefence();
+            user.setHP(damageInRange(user.getHP(), dmg));
         }));
 
-        Timeline t4 = new Timeline(new KeyFrame(Duration.millis(4001),ae->{
+        Timeline t4 = new Timeline(new KeyFrame(Duration.millis(3001),ae->{
             end_turn_cal();
             UIupdate(user_HP_info,user_MP_info,enemy_HP_info,enemy_MP_info,user_HP_bar,user_MP_bar,enemy_HP_bar
                     ,enemy_MP_bar,user_AD_info,enemy_AD_info);
@@ -124,7 +137,7 @@ public class Battle {
         }
 
 
-        pt.setDuration(Duration.millis(4000));
+        pt.setDuration(Duration.millis(3000));
         pt.setPath(path);
 
         pt.setAutoReverse(true);

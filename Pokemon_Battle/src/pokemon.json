@@ -5,7 +5,7 @@
     "level": 3,
     "HP": 350,
     "MP": 0,
-    "attack": 55,
+    "attack": 100,
     "defense": 29,
     "grass_able": true,
     "water_able": false,
