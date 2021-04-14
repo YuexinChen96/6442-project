@@ -1,5 +1,15 @@
 public class Map {
 
+    //singleMapEnd
+    public boolean ifMapEnd(Pokemon user,char[][] map){
+        int posx=user.getPosition()[0];
+        int posy=user.getPosition()[1];
+        if(map[posx][posy]=='o'){
+            return true;
+        }
+        return false;
+    }
+
     //terminal
     public boolean ifTerminal(Pokemon user,char[][] map){
         int posx=user.getPosition()[0];
@@ -39,6 +49,25 @@ public class Map {
                 (type=='g'&&user.getGrassAble())||
                 (type=='s'&& user.getStoneAble()) ||
                 (type=='w'&& user.getWaterAble())){
+            return true;
+        }
+        else return false;
+    }
+
+    // changeMap
+    public boolean changeMap(Pokemon user,char act, char[][] map) {
+        try { Thread.sleep(500); } catch (InterruptedException interruptedException) {
+            interruptedException.printStackTrace();
+        }
+        int posx=user.getPosition()[0];
+        int posy=user.getPosition()[1];
+        int next_posx=posx;
+        int next_posy=posy;
+        if(act=='R') next_posx=posx+1;
+        else if(act=='L') next_posx = posx - 1;
+        else if(act=='U') next_posy=posy-1;
+        else if(act=='D') next_posy=posy+1;
+        if(map[next_posx][next_posy] == 'i') {
             return true;
         }
         else return false;
