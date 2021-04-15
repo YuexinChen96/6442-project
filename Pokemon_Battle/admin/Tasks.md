@@ -15,6 +15,12 @@ Qixuan Ren: Pokemon move and Map class and Gui
 Yuexin Chen: Battle function and Gui
 Xi chen: design gui of page0&1 and make some pictures
 
+Problem:
+1.怪太多
+2.地图上加提升防御的标志，放后面map里
+
+
+
 ## Week 7
 
 
