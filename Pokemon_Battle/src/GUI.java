@@ -49,11 +49,7 @@ public class GUI extends Application {
     int currentMapIndex = -1;
 
     // Page indicator
-    private int page_number = 0; // change for page testing
-
-    int countRedBottle=0;
-    int countBlueBottle=0;
-    int countSword=0;
+    //private int page_number = 0; // change for page testing
 
     private final Group root = new Group();
     private final Pane board = new Pane();
@@ -78,8 +74,8 @@ public class GUI extends Application {
     private DoubleProperty enemy_HP_bar = new SimpleDoubleProperty();
     private DoubleProperty enemy_MP_bar = new SimpleDoubleProperty();
 
-    private StringProperty number_HP_poison = new SimpleStringProperty("2");
-    private StringProperty number_MP_poison = new SimpleStringProperty("2");
+    private StringProperty number_HP_poison = new SimpleStringProperty("0");//the number of red bottles you picked up
+    private StringProperty number_MP_poison = new SimpleStringProperty("0");//the number of blue bottles you picked up
 
 
     static {
@@ -219,7 +215,7 @@ public class GUI extends Application {
         int id = 0;  // 改成：int id=选择的角色（page1）
         user=new Pokemon(id);
         user = pokemonLoadFromJson(user.getid());
-        user.setPosition(new int[]{29,1});
+        user.setPosition(new int[]{1,0});
         currentMapIndex=0;
         //-------------------
 
@@ -288,7 +284,7 @@ public class GUI extends Application {
                     ", MP:" + user.getMP()+"/"+user.getMaxMP()
                     + ", Defense:" + user.getDefence() + ", Attack:" + user.getAttack()+", Experience:"+user.getExp();
             String able="grass_able:"+user.getGrassAble()+", water_able:"+user.getWaterAble()+ ", stone_able:" + user.getStoneAble();
-            String pack="My backpack: "+"RedBottle("+countRedBottle+")"+", BlueBottle("+countBlueBottle+")"+", Sword("+countSword+")";
+            String pack="My backpack: "+"RedBottle("+number_HP_poison.get()+")"+", BlueBottle("+number_MP_poison.get()+")";//+", Sword("+countSword+")";
             attrinfo.setText(name+"\n\n"+attr+"\n\n"+able+"\n\n"+pack);
             board.getChildren().addAll(rec_attr,attrinfo);
         });
@@ -459,9 +455,9 @@ public class GUI extends Application {
             if (mapclass.ifTerminal(user, whichMap(currentMapIndex))) page4_initial();
             if (mapclass.ifBattle(user, whichMap(currentMapIndex))) page3_initial((int)e - 48);
             if (e=='h'||e=='m'||e=='a'){
-                if(e=='h') countRedBottle++;
-                else if(e=='m') countBlueBottle++;
-                else if(e=='a') countSword++;
+                if(e=='h') number_HP_poison.set(String.valueOf(Integer.valueOf(number_HP_poison.get())+1));
+                else if(e=='m') number_MP_poison.set(String.valueOf(Integer.valueOf(number_MP_poison.get())+1));
+                //else if(e=='a') ;
                 whichMap(currentMapIndex)[user.getPosition()[0]][user.getPosition()[1]]='r';
                 page2_initial();
             }
