@@ -5,7 +5,7 @@
   "defence": 0,
   "HP": 12,
   "MP": 0,
-  "max_HP": 12,
+  "maxHP": 12,
   "skill_list": [0,0,0]
 },{
   "id": 1,
@@ -14,7 +14,7 @@
   "defence": 1,
   "HP": 30,
   "MP": 0,
-  "max_HP": 30,
+  "maxHP": 30,
   "skill_list": [0,0,0]
 },{
   "id": 2,
@@ -23,7 +23,7 @@
   "defence": 2,
   "HP": 60,
   "MP": 0,
-  "max_HP": 60,
+  "maxHP": 60,
   "skill_list": [0,0,0]
 },{
   "id": 3,
@@ -32,7 +32,7 @@
   "defence": 5,
   "HP": 90,
   "MP": 0,
-  "max_HP": 90,
+  "maxHP": 90,
   "skill_list": [0,0,0]
 },{
   "id": 4,
@@ -41,7 +41,34 @@
   "defence": 8,
   "HP": 120,
   "MP": 0,
-  "max_HP": 120,
+  "maxHP": 120,
+  "skill_list": [2,3,5]
+},{
+  "id": 5,
+  "name": "Enemy6",
+  "attack": 45,
+  "defence": 12,
+  "HP": 180,
+  "MP": 0,
+  "maxHP": 180,
+  "skill_list": [2,3,5]
+},{
+  "id": 6,
+  "name": "Enemy7",
+  "attack": 55,
+  "defence": 16,
+  "HP": 260,
+  "MP": 0,
+  "maxHP": 260,
+  "skill_list": [2,3,5]
+},{
+  "id": 7,
+  "name": "Enemy8",
+  "attack": 80,
+  "defence": 25,
+  "HP": 480,
+  "MP": 0,
+  "maxHP": 480,
   "skill_list": [2,3,5]
 }
 

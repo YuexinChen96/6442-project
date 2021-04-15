@@ -211,6 +211,7 @@ public class GUI extends Application {
         int id = 0;  // 改成：int id=选择的角色（page1）
         user=new Pokemon(id);
         user = pokemonLoadFromJson(user.getid());
+        user.setPosition(new int[]{1,0});
 
         Button btn1 = new Button("Start");
         btn1.setLayoutX(1000);
@@ -283,9 +284,7 @@ public class GUI extends Application {
             attrinfo.setText(attr); attrinfo.setStyle("-fx-font-color:#656a66");
             board.getChildren().add(attrinfo);
         });
-        attributes.setOnMouseReleased(e->{
-            board.getChildren().remove(attrinfo);
-        });
+        attributes.setOnMouseReleased(e-> board.getChildren().remove(attrinfo));
     }
 
     public void addKeyPressed(Node node, Node board) {
@@ -469,9 +468,10 @@ public class GUI extends Application {
         pathTransition.setAutoReverse(true);
         //Playing Sequential Transition
         Timeline check3or4=new Timeline(new KeyFrame(Duration.millis(1),ae->{
+            char e = whichMap(currentMapIndex)[user.getPosition()[0]][user.getPosition()[1]];
             System.out.println(user.strPos());
             if (mapclass.ifTerminal(user, whichMap(currentMapIndex))) page4_initial();
-            if (mapclass.ifBattle(user, whichMap(currentMapIndex))) page3_initial(3);
+            if (mapclass.ifBattle(user, whichMap(currentMapIndex))) page3_initial((int)e - 48);
             this.keyable=true;
             System.out.println("keyture:"+keyable);
             node.setEffect(null);
@@ -488,11 +488,11 @@ public class GUI extends Application {
                 Rectangle rect = new Rectangle(i * 30, j * 30, 30, 30);
                 if (showmap[i][j] != 'r') {
                     if(showmap[i][j]>47 && showmap[i][j] < 56) {
-                        int enemyID = showmap[i][j]-'0'+9;
-                        rect.setFill(new ImagePattern(new Image("Pics/Pokemon/pic"+enemyID+".png")));
+                        int enemyID = showmap[i][j]-'0';
+                        rect.setFill(new ImagePattern(new Image("Pics/Pokemon/enemy"+enemyID+".png")));
                     }
                     else if(showmap[i][j] == 's') {
-                        int r = (int)Math.random()*2;
+                        int r = (int) (Math.random() * 2);
                         rect.setFill(new ImagePattern(new Image("Pics/Maps/s" + r + ".png")));
                     }
                     else {
@@ -605,6 +605,8 @@ public class GUI extends Application {
 
         // enemy load, create enemy
         Enemy enemy = enemy_loading(enemy_id);
+        // update UI info
+        updateEnemy(enemy);
         // start Battle
         Battle battle = new Battle(this.user, enemy);
         // Background area
@@ -617,6 +619,14 @@ public class GUI extends Application {
         page3_setupButton(battle);
 
 
+    }
+
+    public void updateEnemy(Enemy enemy) {
+        enemy_HP_info.setValue(enemy.getHP() + "/" + enemy.getmaxHP());
+        enemy_MP_info.setValue("0/100");
+        enemy_AD_info.setValue(enemy.getAttack() + "-" + enemy.getDefence());
+        enemy_HP_bar.set(200);
+        enemy_MP_bar.set(0);
     }
 
     // information boxes with static structure -- finished (less changed)
@@ -707,7 +717,7 @@ public class GUI extends Application {
         board.getChildren().add(user_mp_bar);
         // enemy part
         Rectangle enemy_hp_bar = new Rectangle(146,81,200,10);
-        enemy_HP_bar.setValue((user.getHP() * 1.0) / (enemy.getmaxHP() * 1.0) * 200);
+        enemy_HP_bar.setValue((enemy.getHP() * 1.0) / (enemy.getmaxHP() * 1.0) * 200);
         enemy_hp_bar.widthProperty().bindBidirectional(enemy_HP_bar);
         enemy_hp_bar.setFill(Color.RED);
         enemy_hp_bar.setArcHeight(5);
@@ -782,12 +792,12 @@ public class GUI extends Application {
         board.getChildren().add(background);
         // User image
         Rectangle user_area = new Rectangle(150, 360, 220, 220);
-        user_area.setFill(new ImagePattern(new Image("Pics/Pokemon/pic"+user.getid()+".png")));
+        user_area.setFill(new ImagePattern(new Image("Pics/Pokemon/user"+user.getid()+".png")));
         board.getChildren().add(user_area);
         battle.setP_user(user_area);
         // Enemy image
         Rectangle enemy_area = new Rectangle(690, 20, 220, 220);
-        enemy_area.setFill(new ImagePattern(new Image("Pics/Pokemon/pic"+enemy.getId()+".png")));
+        enemy_area.setFill(new ImagePattern(new Image("Pics/Pokemon/enemy"+enemy.getId()+".png")));
         board.getChildren().add(enemy_area);
         battle.setP_tar(enemy_area);
         // control area
@@ -892,7 +902,7 @@ public class GUI extends Application {
         }.getType();
         assert jsr != null;
         List<Enemy> enemyList = gson.fromJson(jsr, CUS_LIST_TYPE);
-        return enemyList.get(enemy_id - 1);
+        return enemyList.get(enemy_id);
     }
 
 
