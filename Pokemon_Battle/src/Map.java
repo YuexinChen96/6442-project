@@ -28,11 +28,8 @@ public class Map {
         return false;
     }
 
-    //canMove
+    //canMove(user, action, currentmap)
     public boolean checkMoveEnable(Pokemon user, char act ,char[][] map){
-        try { Thread.sleep(500); } catch (InterruptedException interruptedException) {
-            interruptedException.printStackTrace();
-        }
         int posx=user.getPosition()[0];
         int posy=user.getPosition()[1];
         //3. move: right  left  up  down
@@ -62,9 +59,6 @@ public class Map {
         int mapxy[] = showMapToMap(posx,posy,currentMapIndex);
         int mapPosx = mapxy[0];
         int mapPosy = mapxy[1];
-        try { Thread.sleep(500); } catch (InterruptedException interruptedException) {
-            interruptedException.printStackTrace();
-        }
         int next_posx=mapPosx;
         int next_posy=mapPosy;
         if(act=='R') next_posx=mapPosx+1;
@@ -87,9 +81,6 @@ public class Map {
         int mapxy[] = showMapToMap(posx,posy,currentMapIndex);
         int mapPosx = mapxy[0];
         int mapPosy = mapxy[1];
-        try { Thread.sleep(500); } catch (InterruptedException interruptedException) {
-            interruptedException.printStackTrace();
-        }
         int next_posx=mapPosx;
         int next_posy=mapPosy;
         if(act=='R') next_posx=mapPosx+1;

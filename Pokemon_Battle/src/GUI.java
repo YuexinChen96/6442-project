@@ -211,7 +211,11 @@ public class GUI extends Application {
         int id = 0;  // 改成：int id=选择的角色（page1）
         user=new Pokemon(id);
         user = pokemonLoadFromJson(user.getid());
-        user.setPosition(new int[]{1,0});
+        user.setPosition(new int[]{36,22});
+        currentMapIndex=0;
+        //-------------------
+
+
 
         Button btn1 = new Button("Start");
         btn1.setLayoutX(1000);
@@ -228,7 +232,7 @@ public class GUI extends Application {
         btn1.setOnAction(e -> {
             board.getChildren().removeAll(board.getChildren());
             // map index: 0,1,2,3
-            page2_choose_map(0);
+            page2_initial();
         });
         board.getChildren().add(btn2);
     }
@@ -240,12 +244,6 @@ public class GUI extends Application {
 // Kath & Natalie
     Map mapclass;
     //have four maps
-    public void page2_choose_map(int mapIndex){
-        initialMap(mapIndex,whichMap(mapIndex));//initial map[][] according separate .txt
-        currentMapIndex = mapIndex;
-        System.out.println("which map:" + currentMapIndex);
-        page2_initial();
-    }
     boolean keyable;
     public void page2_initial() {
         board.getChildren().removeAll(board.getChildren());
@@ -302,8 +300,6 @@ public class GUI extends Application {
             System.out.println(keyable);
             if(this.keyable) {
                 System.out.println("key able");
-                //if (mapclass.ifTerminal(user, map)) page4_initial();
-                //if (mapclass.ifBattle(user, map)) page3_initial(3);
                 KeyCode keyCode = e.getCode();
                 boolean mapEnd = mapclass.ifMapEnd(user,whichMap(currentMapIndex));
                 if (keyCode.equals(KeyCode.RIGHT)) {
@@ -316,14 +312,12 @@ public class GUI extends Application {
                         boolean LastMap = mapclass.lastMap(user, 'R', map, currentMapIndex);
                         if (NextMap) {
                             currentMapIndex++;
-                            initialMap(currentMapIndex,whichMap(currentMapIndex));//initial map[][] according separate .txt
                             user.setPosition(mapclass.startPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
                             user.setPosition(mapclass.startPosition(currentMapIndex));
                         } else if (LastMap) {
                             currentMapIndex--;
-                            initialMap(currentMapIndex,whichMap(currentMapIndex));//initial map[][] according separate .txt
                             user.setPosition(mapclass.startPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
@@ -350,7 +344,6 @@ public class GUI extends Application {
                         boolean LastMap = mapclass.lastMap(user,'L',map, currentMapIndex);
                         if (NextMap) {
                             currentMapIndex++;
-                            initialMap(currentMapIndex,whichMap(currentMapIndex));//initial map[][] according separate .txt
                             user.setPosition(mapclass.startPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
@@ -358,7 +351,6 @@ public class GUI extends Application {
                         }
                         else if(LastMap) {
                             currentMapIndex--;
-                            initialMap(currentMapIndex,whichMap(currentMapIndex));//initial map[][] according separate .txt
                             user.setPosition(mapclass.startPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
@@ -383,7 +375,6 @@ public class GUI extends Application {
                         boolean LastMap = mapclass.lastMap(user,'U',map, currentMapIndex);
                         if (NextMap) {
                             currentMapIndex++;
-                            initialMap(currentMapIndex,whichMap(currentMapIndex));//initial map[][] according separate .txt
                             user.setPosition(mapclass.startPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
@@ -391,7 +382,6 @@ public class GUI extends Application {
                         }
                         else if(LastMap) {
                             currentMapIndex--;
-                            initialMap(currentMapIndex,whichMap(currentMapIndex));//initial map[][] according separate .txt
                             user.setPosition(mapclass.startPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
@@ -416,7 +406,6 @@ public class GUI extends Application {
                         boolean LastMap = mapclass.lastMap(user,'D',map, currentMapIndex);
                         if (NextMap) {
                             currentMapIndex++;
-                            initialMap(currentMapIndex,whichMap(currentMapIndex));//initial map[][] according separate .txt
                             user.setPosition(mapclass.startPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
@@ -424,7 +413,6 @@ public class GUI extends Application {
                         }
                         else if(LastMap) {
                             currentMapIndex--;
-                            initialMap(currentMapIndex,whichMap(currentMapIndex));//initial map[][] according separate .txt
                             user.setPosition(mapclass.startPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
@@ -508,9 +496,10 @@ public class GUI extends Application {
         //记录当前的board中所有piece的type和position
     }
 
-    // ----待设计
-    // map[][]对应元素char，说明见elementNote.txt
+
     // Kath
+    //-------------------------------------------------
+    // 调一次
     public void initialAllMap() {
         String battleMap = "src/battleMap.txt";
         try {
@@ -528,7 +517,7 @@ public class GUI extends Application {
             e.printStackTrace();
         }
     }
-
+    //只用于initialShowMap
     public void initialMap(int mapIndex,char[][] showmap) {
         String partMap = "src/battleMap"+mapIndex+".txt";
         try {
@@ -546,14 +535,15 @@ public class GUI extends Application {
             e.printStackTrace();
         }
     }
-
+    //只用一次
     public void initialShowMap() {
         initialMap(0,showMap0);
         initialMap(1,showMap1);
         initialMap(2,showMap2);
         initialMap(3,showMap3);
     }
-
+//-------------------------------------------------------
+    // find current map
     public char[][] whichMap(int mapIndex) {
         switch(mapIndex) {
             case 0: return showMap0;
