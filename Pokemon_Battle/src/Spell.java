@@ -49,7 +49,7 @@ public class Spell {
         board.getChildren().add(ball);
         pt.setNode(ball);
 
-        pt.setDuration(Duration.millis(3000));
+        pt.setDuration(Duration.millis(1500));
         pt.setPath(path);
 
         pt.setAutoReverse(true);

@@ -43,7 +43,7 @@ public class Battle {
     public void user_action (int action,StringProperty textInfo,StringProperty user_HP_info,StringProperty user_MP_info,
                              StringProperty enemy_HP_info, StringProperty enemy_MP_info,DoubleProperty user_HP_bar,
                              DoubleProperty user_MP_bar,DoubleProperty enemy_HP_bar,DoubleProperty enemy_MP_bar,
-                             StringProperty user_AD_info,StringProperty enemy_AD_info, Pane board, GUI gui){
+                             StringProperty user_AD_info,StringProperty enemy_AD_info, StringProperty user_LEVEL, Pane board, GUI gui){
 
         System.out.println("Execute action: " + action);
 
@@ -69,13 +69,14 @@ public class Battle {
             }));
         }
 
-        Timeline t2 = new Timeline(new KeyFrame(Duration.millis(3001),ae->{
+        Timeline t2 = new Timeline(new KeyFrame(Duration.millis(1500),ae->{
             UIupdate(user_HP_info,user_MP_info,enemy_HP_info,enemy_MP_info,user_HP_bar,user_MP_bar,enemy_HP_bar
-                    ,enemy_MP_bar,user_AD_info,enemy_AD_info);
+                    ,enemy_MP_bar,user_AD_info,enemy_AD_info, user_LEVEL);
             textInfo.setValue("Waiting for enemy's response...");
             board.getChildren().remove(ball);
-            if (end_check(textInfo) != 0) {
-                gui.page3_to_page2(end_check(textInfo) == 1,this.user);
+            int ret = end_check(textInfo);
+            if (ret != 0) {
+                gui.page3_to_page2(ret == 1,this.user);
             }
         }));
 
@@ -91,16 +92,17 @@ public class Battle {
             // advanced agent
         }));
 
-        Timeline t4 = new Timeline(new KeyFrame(Duration.millis(3001),ae->{
+        Timeline t4 = new Timeline(new KeyFrame(Duration.millis(1500),ae->{
             end_turn_cal();
             UIupdate(user_HP_info,user_MP_info,enemy_HP_info,enemy_MP_info,user_HP_bar,user_MP_bar,enemy_HP_bar
-                    ,enemy_MP_bar,user_AD_info,enemy_AD_info);
+                    ,enemy_MP_bar,user_AD_info,enemy_AD_info, user_LEVEL);
             textInfo.setValue("Now is your turn... Choose one action.");
             //winorlose.set(end_check());
             //System.out.println(winorlose.get());
             button_able = true;
-            if (end_check(textInfo) != 0) {
-                gui.page3_to_page2(end_check(textInfo) == 1,this.user);
+            int ret = end_check(textInfo);
+            if (ret != 0) {
+                gui.page3_to_page2(ret == 1,this.user);
             }
         }));
 
@@ -141,7 +143,7 @@ public class Battle {
         }
 
 
-        pt.setDuration(Duration.millis(3000));
+        pt.setDuration(Duration.millis(1500));
         pt.setPath(path);
 
         pt.setAutoReverse(true);
@@ -152,7 +154,7 @@ public class Battle {
     public void UIupdate(StringProperty user_HP_info,StringProperty user_MP_info,
                          StringProperty enemy_HP_info, StringProperty enemy_MP_info,DoubleProperty user_HP_bar,
                          DoubleProperty user_MP_bar,DoubleProperty enemy_HP_bar,DoubleProperty enemy_MP_bar,
-                         StringProperty user_AD_info,StringProperty enemy_AD_info){
+                         StringProperty user_AD_info,StringProperty enemy_AD_info, StringProperty user_LEVEL){
         user_HP_info.setValue(user.getHP() + "/" + user.getmaxHP());
         user_MP_info.setValue(user.getMP() + "/100");
         enemy_HP_info.setValue(tar.getHP() + "/" + tar.getmaxHP());
@@ -163,6 +165,7 @@ public class Battle {
         enemy_MP_bar.set(tar.getMP() * 1.0);
         user_AD_info.setValue(user.getAttack() + "-" + user.getDefence());
         enemy_AD_info.setValue(tar.getAttack() + "-" + tar.getDefence());
+        user_LEVEL.setValue("lvl " + user.getLevel());
     }
 
     // end check works -- need API from Natalie
@@ -180,6 +183,7 @@ public class Battle {
 
     // gain EXP basic on enemy level
     public void winCal(StringProperty textInfo){
+        System.out.println("Check here.");
         Timeline t1 = new Timeline(new KeyFrame(Duration.millis(1),ae-> textInfo.setValue("Enemy loses all HP. You win !!!")));
         // exp gain
         user.setExp(user.getExp() + tar.getEXP());
@@ -199,14 +203,21 @@ public class Battle {
 
     public void levelUpCal(int from, int to){
         while (from != to) {
-            levelCal(user.getid(), (from / 10) + 1);
+            levelCal(user.getid(), (from / 10) + 1, from % 5 == 0 && from != 0);
             from++;
         }
         user.setHP(user.getmaxHP());
     }
 
-    public void levelCal(int id, int base){
-
+    public void levelCal(int id, int base, boolean lvl5){
+        user.setAttack(user.getAttack() + base);
+        if (lvl5){
+            switch(user.getid()) {
+                case 0:
+                    user.setDefence(user.getDefence() + 3 * base);
+                    user.setmaxHP(user.getmaxHP() + 25 * base);
+            }
+        }
     }
 
 

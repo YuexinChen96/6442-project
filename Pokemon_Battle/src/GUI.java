@@ -68,6 +68,8 @@ public class GUI extends Application {
     private StringProperty enemy_HP_info = new SimpleStringProperty();
     private StringProperty enemy_MP_info = new SimpleStringProperty();
     private StringProperty enemy_AD_info = new SimpleStringProperty();
+    private StringProperty user_LEVEL = new SimpleStringProperty();
+
     private DoubleProperty user_HP_bar = new SimpleDoubleProperty();
     private DoubleProperty user_MP_bar = new SimpleDoubleProperty();
     private DoubleProperty enemy_HP_bar = new SimpleDoubleProperty();
@@ -604,6 +606,14 @@ public class GUI extends Application {
         user_info.setLayoutX(725);
         user_info.setLayoutY(450);
         board.getChildren().add(user_info);
+        // user level
+        Label user_level = new Label();
+        user_level.setFont(Font.font("Arial", FontWeight.BLACK, 18));
+        user_level.setLayoutX(925);
+        user_level.setLayoutY(450);
+        user_level.textProperty().bindBidirectional(user_LEVEL);
+        user_LEVEL.setValue("lvl " + user.getLevel());
+        board.getChildren().add(user_level);
 
         // HP and MP bar
         Rectangle user_hp_bg = new Rectangle(725, 480, 202, 12);
@@ -777,7 +787,7 @@ public class GUI extends Application {
         btn1.setOnAction(e -> {
             if (battle.button_able) {
                 battle.user_action(0, textInfo, user_HP_info, user_MP_info, enemy_HP_info, enemy_MP_info, user_HP_bar
-                        , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info, board, this);
+                        , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info, user_LEVEL, board, this);
             }
         });
         board.getChildren().add(btn1);
@@ -791,7 +801,7 @@ public class GUI extends Application {
             if (battle.button_able) {
                 if (this.user.getMP() >= 20) {
                     battle.user_action(1, textInfo, user_HP_info, user_MP_info, enemy_HP_info, enemy_MP_info, user_HP_bar
-                            , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info, board, this);
+                            , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info,user_LEVEL, board, this);
                 } else {
                     textInfo.setValue("You need at least 20 magic power to use this spell.");
                 }
@@ -808,7 +818,7 @@ public class GUI extends Application {
             if (battle.button_able) {
                 if (this.user.getMP() >= 20) {
                     battle.user_action(2, textInfo, user_HP_info, user_MP_info, enemy_HP_info, enemy_MP_info, user_HP_bar
-                            , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info, board,this);
+                            , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info,user_LEVEL, board,this);
                 } else {
                     textInfo.setValue("You need at least 20 magic power to use this spell.");
                 }
@@ -825,7 +835,7 @@ public class GUI extends Application {
             if (battle.button_able) {
                 if (this.user.getMP() >= 80) {
                     battle.user_action(3, textInfo, user_HP_info, user_MP_info, enemy_HP_info, enemy_MP_info, user_HP_bar
-                            , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info, board,this);
+                            , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info,user_LEVEL, board,this);
                 } else {
                     textInfo.setValue("You need at least 80 magic power to use this spell.");
                 }
