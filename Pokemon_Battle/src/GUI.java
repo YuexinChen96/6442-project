@@ -211,7 +211,7 @@ public class GUI extends Application {
         int id = 0;  // 改成：int id=选择的角色（page1）
         user=new Pokemon(id);
         user = pokemonLoadFromJson(user.getid());
-        user.setPosition(new int[]{36,22});
+        user.setPosition(new int[]{1,0});
         currentMapIndex=0;
         //-------------------
 
@@ -443,7 +443,6 @@ public class GUI extends Application {
     }
 
     // fx: add pieces to board (board只能显示map中的40*24个pieces)
-    //-----------------暂时不需要（Note:不用更新地图, 目前只实现40*24）-------------------------
     public void showMap(char[][] showmap) {
         for (int i = 0; i < mapLength/2; i++) {
             for (int j = 0; j < mapHeight/2; j++) {
@@ -452,10 +451,6 @@ public class GUI extends Application {
                     if(showmap[i][j]>47 && showmap[i][j] < 56) {
                         int enemyID = showmap[i][j]-'0';
                         rect.setFill(new ImagePattern(new Image("Pics/Pokemon/enemy"+enemyID+".png")));
-                    }
-                    else if(showmap[i][j] == 's') {
-                        int r = (int) (Math.random() * 2);
-                        rect.setFill(new ImagePattern(new Image("Pics/Maps/s" + r + ".png")));
                     }
                     else {
                         rect.setFill(new ImagePattern(new Image("Pics/Maps/" + showmap[i][j] + ".png")));
