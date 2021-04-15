@@ -51,6 +51,9 @@ public class GUI extends Application {
     // Page indicator
     private int page_number = 0; // change for page testing
 
+    int countRedBottle=0;
+    int countBlueBottle=0;
+    int countSword=0;
 
     private final Group root = new Group();
     private final Pane board = new Pane();
@@ -213,7 +216,7 @@ public class GUI extends Application {
         int id = 0;  // 改成：int id=选择的角色（page1）
         user=new Pokemon(id);
         user = pokemonLoadFromJson(user.getid());
-        user.setPosition(new int[]{1,0});
+        user.setPosition(new int[]{29,1});
         currentMapIndex=0;
         //-------------------
 
@@ -274,17 +277,33 @@ public class GUI extends Application {
         attributes.setFont(Font.font("Arial", FontWeight.BOLD, 11));
         attributes.setFocusTraversable(false);
         board.getChildren().add(attributes);
-        Label attrinfo=new Label();
-        attrinfo.setLayoutX(150);attrinfo.setLayoutY(722);
+        Rectangle rec_attr=new Rectangle(5,580,500,140); rec_attr.setFill(Color.WHITE);rec_attr.setOpacity(0.9);
+        Label attrinfo=new Label(); attrinfo.setLayoutX(10);attrinfo.setLayoutY(590); attrinfo.setStyle("-fx-font-color:black");
         attributes.setOnMousePressed(e->{
-            String attr="Name:"+user.getName()+", Level:"+user.getLevel()+", HP:"+ user.getHP() +"/"+user.getmaxHP()+
+            String name="Name:"+user.getName();
+            String attr="Level:"+user.getLevel()+", HP:"+ user.getHP() +"/"+user.getmaxHP()+
                     ", MP:" + user.getMP()+"/"+user.getMaxMP()
-                    + ", Defense:" + user.getDefence() + ", Attack:" + user.getAttack()+", Experience:"+user.getExp()+", water_able:" +
-                    user.getWaterAble()+ ", stone_able:" + user.getStoneAble();
-            attrinfo.setText(attr); attrinfo.setStyle("-fx-font-color:#656a66");
-            board.getChildren().add(attrinfo);
+                    + ", Defense:" + user.getDefence() + ", Attack:" + user.getAttack()+", Experience:"+user.getExp();
+            String able="grass_able:"+user.getGrassAble()+", water_able:"+user.getWaterAble()+ ", stone_able:" + user.getStoneAble();
+            String pack="My backpack: "+"RedBottle("+countRedBottle+")"+", BlueBottle("+countBlueBottle+")"+", Sword("+countSword+")";
+            attrinfo.setText(name+"\n\n"+attr+"\n\n"+able+"\n\n"+pack);
+            board.getChildren().addAll(rec_attr,attrinfo);
         });
-        attributes.setOnMouseReleased(e-> board.getChildren().remove(attrinfo));
+        attributes.setOnMouseReleased(e-> board.getChildren().removeAll(rec_attr,attrinfo));
+        //show enemy info
+        Button enemyinfo=new Button("Enemy info");
+        enemyinfo.setLayoutX(1000);enemyinfo.setLayoutY(720);
+        enemyinfo.setMaxSize(100,20);enemyinfo.setMinSize(100,20);
+        enemyinfo.setFont(Font.font("Arial", FontWeight.BOLD, 11));
+        enemyinfo.setFocusTraversable(false);
+        board.getChildren().add(enemyinfo);
+        Label label_einfo=new Label();
+        label_einfo.setLayoutX(150);label_einfo.setLayoutY(722);
+        enemyinfo.setOnMousePressed(e->{
+            Rectangle rec_einfo=new Rectangle(1000,620,100,100);
+            rec_einfo.setFill(Color.BLUE); rec_einfo.setOpacity(0.7);
+            String einfo="";//To be completed
+        });
     }
 
     public void addKeyPressed(Node node, Node board) {
@@ -327,7 +346,6 @@ public class GUI extends Application {
                     if (canMove) {
                         moveAnimation(node, x * 30, y * 30, (x + 1) * 30, y * 30);
                         user.setPosition(new int[]{x + 1, y});
-                        System.out.println(user.strPos());
                     }
                 } else if (keyCode.equals(KeyCode.LEFT)) {
                     System.out.println("left");
@@ -437,6 +455,14 @@ public class GUI extends Application {
             System.out.println(user.strPos());
             if (mapclass.ifTerminal(user, whichMap(currentMapIndex))) page4_initial();
             if (mapclass.ifBattle(user, whichMap(currentMapIndex))) page3_initial((int)e - 48);
+            if (e=='h'||e=='m'||e=='a'){
+                if(e=='h') countRedBottle++;
+                else if(e=='m') countBlueBottle++;
+                else if(e=='a') countSword++;
+                whichMap(currentMapIndex)[user.getPosition()[0]][user.getPosition()[1]]='r';
+                page2_initial();
+            }
+
             this.keyable=true;
             node.setEffect(null);
         }));
