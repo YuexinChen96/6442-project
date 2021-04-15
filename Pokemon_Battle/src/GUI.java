@@ -817,10 +817,8 @@ public class GUI extends Application {
         btn1.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
         btn1.setOnAction(e -> {
             if (battle.button_able) {
-                int result=battle.user_action(0, textInfo, user_HP_info, user_MP_info, enemy_HP_info, enemy_MP_info, user_HP_bar
-                        , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info, board);
-                System.out.println("result:"+result);
-                if(result!=0) page3_to_page2(true,battle.user);
+                battle.user_action(0, textInfo, user_HP_info, user_MP_info, enemy_HP_info, enemy_MP_info, user_HP_bar
+                        , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info, board, this);
             }
         });
         board.getChildren().add(btn1);
@@ -833,9 +831,8 @@ public class GUI extends Application {
         btn2.setOnAction(e -> {
             if (battle.button_able) {
                 if (this.user.getMP() >= 20) {
-                    int result=battle.user_action(1, textInfo, user_HP_info, user_MP_info, enemy_HP_info, enemy_MP_info, user_HP_bar
-                            , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info, board);
-                    if(result!=0) page3_to_page2(true,battle.user);
+                    battle.user_action(1, textInfo, user_HP_info, user_MP_info, enemy_HP_info, enemy_MP_info, user_HP_bar
+                            , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info, board, this);
                 } else {
                     textInfo.setValue("You need at least 20 magic power to use this spell.");
                 }
@@ -851,9 +848,8 @@ public class GUI extends Application {
         btn3.setOnAction(e -> {
             if (battle.button_able) {
                 if (this.user.getMP() >= 20) {
-                    int result=battle.user_action(2, textInfo, user_HP_info, user_MP_info, enemy_HP_info, enemy_MP_info, user_HP_bar
-                            , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info, board);
-                    if(result!=0) page3_to_page2(true,battle.user);
+                    battle.user_action(2, textInfo, user_HP_info, user_MP_info, enemy_HP_info, enemy_MP_info, user_HP_bar
+                            , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info, board,this);
                 } else {
                     textInfo.setValue("You need at least 20 magic power to use this spell.");
                 }
@@ -869,9 +865,8 @@ public class GUI extends Application {
         btn4.setOnAction(e -> {
             if (battle.button_able) {
                 if (this.user.getMP() >= 80) {
-                    int result=battle.user_action(3, textInfo, user_HP_info, user_MP_info, enemy_HP_info, enemy_MP_info, user_HP_bar
-                            , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info, board);
-                    if(result!=0) page3_to_page2(true,battle.user);
+                    battle.user_action(3, textInfo, user_HP_info, user_MP_info, enemy_HP_info, enemy_MP_info, user_HP_bar
+                            , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info, board,this);
                 } else {
                     textInfo.setValue("You need at least 80 magic power to use this spell.");
                 }

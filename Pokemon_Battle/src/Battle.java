@@ -40,18 +40,21 @@ public class Battle {
 
 
     // execute user action, 0 for attack, 1 for spell-1, 2 for spell-2, ...
-    public int user_action (int action,StringProperty textInfo,StringProperty user_HP_info,StringProperty user_MP_info,
+    public void user_action (int action,StringProperty textInfo,StringProperty user_HP_info,StringProperty user_MP_info,
                              StringProperty enemy_HP_info, StringProperty enemy_MP_info,DoubleProperty user_HP_bar,
                              DoubleProperty user_MP_bar,DoubleProperty enemy_HP_bar,DoubleProperty enemy_MP_bar,
-                             StringProperty user_AD_info,StringProperty enemy_AD_info, Pane board){
+                             StringProperty user_AD_info,StringProperty enemy_AD_info, Pane board, GUI gui){
 
         System.out.println("Execute action: " + action);
 
         Timeline t1 = null;
         Circle ball = new Circle();
+        button_able = false;
         if (action == 0) {
             t1 = new Timeline(new KeyFrame(Duration.millis(1),ae->{
-                button_able = false;
+                if (end_check() != 0) {
+                    gui.page3_to_page2(end_check() == 1,this.user);
+                }
                 PathTransition pt1 = action1_animation(board, true);
                 pt1.play();
             }));
@@ -75,6 +78,7 @@ public class Battle {
                     ,enemy_MP_bar,user_AD_info,enemy_AD_info);
             textInfo.setValue("Waiting for enemy's response...");
             board.getChildren().remove(ball);
+
         }));
 
         // enemy action
@@ -90,6 +94,9 @@ public class Battle {
 //                System.out.println("Using Spell");
 //            }
             // attack
+            if (end_check() != 0) {
+                gui.page3_to_page2(end_check() == 1,this.user);
+            }
             PathTransition pt2 = action1_animation(board, false);
             pt2.play();
             int dmg = tar.getAttack() - user.getDefence();
@@ -104,13 +111,14 @@ public class Battle {
             //winorlose.set(end_check());
             //System.out.println(winorlose.get());
             button_able = true;
+
         }));
 
         SequentialTransition seqT = new SequentialTransition(t1, t2, t3, t4);
         seqT.play();
 
 
-        return end_check();
+        // return end_check();
     }
 
     public void end_turn_cal(){
