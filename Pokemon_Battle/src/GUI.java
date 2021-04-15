@@ -42,7 +42,10 @@ public class GUI extends Application {
     private static final int mapLength =80;
     private static final int mapHeight =48;
     char[][] map = new char[mapLength][mapHeight];
-    char[][] showMap = new char[mapLength/2][mapHeight/2];
+    char[][] showMap0 = new char[mapLength/2][mapHeight/2];
+    char[][] showMap1 = new char[mapLength/2][mapHeight/2];
+    char[][] showMap2 = new char[mapLength/2][mapHeight/2];
+    char[][] showMap3 = new char[mapLength/2][mapHeight/2];
     int currentMapIndex = -1;
 
     // Page indicator
@@ -97,6 +100,8 @@ public class GUI extends Application {
         root.getChildren().add(board);
         root.getChildren().add(controls);
 
+        initialAllMap();
+        initialShowMap();
 
         //page3_initial(3);//change for test
         page0_initial();
@@ -222,7 +227,7 @@ public class GUI extends Application {
         btn1.setOnAction(e -> {
             board.getChildren().removeAll(board.getChildren());
             // map index: 0,1,2,3
-            page2_choose_map(2);
+            page2_choose_map(0);
         });
         board.getChildren().add(btn2);
     }
@@ -235,7 +240,7 @@ public class GUI extends Application {
     Map mapclass;
     //have four maps
     public void page2_choose_map(int mapIndex){
-        initialMap(mapIndex);//initial map[][] according separate .txt
+        initialMap(mapIndex,whichMap(mapIndex));//initial map[][] according separate .txt
         currentMapIndex = mapIndex;
         System.out.println("which map:" + currentMapIndex);
         page2_initial();
@@ -247,7 +252,7 @@ public class GUI extends Application {
         System.out.println("Current Role:" + user.toString());
 
         //create and show the map
-        showMap(showMap);
+        showMap(whichMap(currentMapIndex));
         System.out.println("already show map");
 
         //showPokemon
@@ -301,10 +306,10 @@ public class GUI extends Application {
                 //if (mapclass.ifTerminal(user, map)) page4_initial();
                 //if (mapclass.ifBattle(user, map)) page3_initial(3);
                 KeyCode keyCode = e.getCode();
-                boolean mapEnd = mapclass.ifMapEnd(user,showMap);
+                boolean mapEnd = mapclass.ifMapEnd(user,whichMap(currentMapIndex));
                 if (keyCode.equals(KeyCode.RIGHT)) {
                     System.out.println("right");
-                    boolean canMove = mapclass.checkMoveEnable(user, 'R', showMap);
+                    boolean canMove = mapclass.checkMoveEnable(user, 'R', whichMap(currentMapIndex));
                     int x = user.getPosition()[0];
                     int y = user.getPosition()[1];
                     if(mapEnd) {
@@ -312,14 +317,14 @@ public class GUI extends Application {
                         boolean LastMap = mapclass.lastMap(user, 'R', map, currentMapIndex);
                         if (NextMap) {
                             currentMapIndex++;
-                            initialMap(currentMapIndex);//initial map[][] according separate .txt
+                            initialMap(currentMapIndex,whichMap(currentMapIndex));//initial map[][] according separate .txt
                             user.setPosition(mapclass.startPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
                             user.setPosition(mapclass.startPosition(currentMapIndex));
                         } else if (LastMap) {
                             currentMapIndex--;
-                            initialMap(currentMapIndex);//initial map[][] according separate .txt
+                            initialMap(currentMapIndex,whichMap(currentMapIndex));//initial map[][] according separate .txt
                             user.setPosition(mapclass.startPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
@@ -338,7 +343,7 @@ public class GUI extends Application {
                     }
                 } else if (keyCode.equals(KeyCode.LEFT)) {
                     System.out.println("left");
-                    boolean canMove = mapclass.checkMoveEnable(user, 'L', showMap);
+                    boolean canMove = mapclass.checkMoveEnable(user, 'L', whichMap(currentMapIndex));
                     int x = user.getPosition()[0];
                     int y = user.getPosition()[1];
                     if(mapEnd) {
@@ -346,7 +351,7 @@ public class GUI extends Application {
                         boolean LastMap = mapclass.lastMap(user,'L',map, currentMapIndex);
                         if (NextMap) {
                             currentMapIndex++;
-                            initialMap(currentMapIndex);//initial map[][] according separate .txt
+                            initialMap(currentMapIndex,whichMap(currentMapIndex));//initial map[][] according separate .txt
                             user.setPosition(mapclass.startPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
@@ -354,7 +359,7 @@ public class GUI extends Application {
                         }
                         else if(LastMap) {
                             currentMapIndex--;
-                            initialMap(currentMapIndex);//initial map[][] according separate .txt
+                            initialMap(currentMapIndex,whichMap(currentMapIndex));//initial map[][] according separate .txt
                             user.setPosition(mapclass.startPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
@@ -371,7 +376,7 @@ public class GUI extends Application {
                     }
                 } else if (keyCode.equals(KeyCode.UP)) {
                     System.out.println("up");
-                    boolean canMove = mapclass.checkMoveEnable(user, 'U', showMap);
+                    boolean canMove = mapclass.checkMoveEnable(user, 'U', whichMap(currentMapIndex));
                     int x = user.getPosition()[0];
                     int y = user.getPosition()[1];
                     if(mapEnd) {
@@ -379,7 +384,7 @@ public class GUI extends Application {
                         boolean LastMap = mapclass.lastMap(user,'U',map, currentMapIndex);
                         if (NextMap) {
                             currentMapIndex++;
-                            initialMap(currentMapIndex);//initial map[][] according separate .txt
+                            initialMap(currentMapIndex,whichMap(currentMapIndex));//initial map[][] according separate .txt
                             user.setPosition(mapclass.startPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
@@ -387,7 +392,7 @@ public class GUI extends Application {
                         }
                         else if(LastMap) {
                             currentMapIndex--;
-                            initialMap(currentMapIndex);//initial map[][] according separate .txt
+                            initialMap(currentMapIndex,whichMap(currentMapIndex));//initial map[][] according separate .txt
                             user.setPosition(mapclass.startPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
@@ -404,7 +409,7 @@ public class GUI extends Application {
                     }
                 } else if (keyCode.equals(KeyCode.DOWN)) {
                     System.out.println("down");
-                    boolean canMove = mapclass.checkMoveEnable(user, 'D', showMap);
+                    boolean canMove = mapclass.checkMoveEnable(user, 'D', whichMap(currentMapIndex));
                     int x = user.getPosition()[0];
                     int y = user.getPosition()[1];
                     if(mapEnd) {
@@ -412,7 +417,7 @@ public class GUI extends Application {
                         boolean LastMap = mapclass.lastMap(user,'D',map, currentMapIndex);
                         if (NextMap) {
                             currentMapIndex++;
-                            initialMap(currentMapIndex);//initial map[][] according separate .txt
+                            initialMap(currentMapIndex,whichMap(currentMapIndex));//initial map[][] according separate .txt
                             user.setPosition(mapclass.startPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
@@ -420,7 +425,7 @@ public class GUI extends Application {
                         }
                         else if(LastMap) {
                             currentMapIndex--;
-                            initialMap(currentMapIndex);//initial map[][] according separate .txt
+                            initialMap(currentMapIndex,whichMap(currentMapIndex));//initial map[][] according separate .txt
                             user.setPosition(mapclass.startPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
@@ -465,9 +470,8 @@ public class GUI extends Application {
         //Playing Sequential Transition
         Timeline check3or4=new Timeline(new KeyFrame(Duration.millis(1),ae->{
             System.out.println(user.strPos());
-            System.out.println(showMap[user.getPosition()[0]][user.getPosition()[1]]);
-            if (mapclass.ifTerminal(user, showMap)) page4_initial();
-            if (mapclass.ifBattle(user, showMap)) page3_initial(3);
+            if (mapclass.ifTerminal(user, whichMap(currentMapIndex))) page4_initial();
+            if (mapclass.ifBattle(user, whichMap(currentMapIndex))) page3_initial(3);
             this.keyable=true;
             System.out.println("keyture:"+keyable);
             node.setEffect(null);
@@ -507,9 +511,8 @@ public class GUI extends Application {
     // ----待设计
     // map[][]对应元素char，说明见elementNote.txt
     // Kath
-    public void initialMap(int mapIndex) {
+    public void initialAllMap() {
         String battleMap = "src/battleMap.txt";
-        String partMap = "src/battleMap"+mapIndex+".txt";
         try {
             // initial whole map:
             BufferedReader bfr1 = new BufferedReader(new FileReader(battleMap));
@@ -521,20 +524,45 @@ public class GUI extends Application {
                 }
                 row1++;
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void initialMap(int mapIndex,char[][] showmap) {
+        String partMap = "src/battleMap"+mapIndex+".txt";
+        try {
             // initial showMap:
-            BufferedReader bfr2 = new BufferedReader(new FileReader(partMap));
-            String l2;
-            int row2 = 0;
-            while ((l2 = bfr2.readLine()) != null) {
-                for (int i = 0; i < l2.length(); i++) {
-                    showMap[i][row2] = l2.charAt(i);
+            BufferedReader bfr = new BufferedReader(new FileReader(partMap));
+            String l0;
+            int row0 = 0;
+            while ((l0 = bfr.readLine()) != null) {
+                for (int i = 0; i < l0.length(); i++) {
+                    showmap[i][row0] = l0.charAt(i);
                 }
-                row2++;
+                row0++;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    public void initialShowMap() {
+        initialMap(0,showMap0);
+        initialMap(1,showMap1);
+        initialMap(2,showMap2);
+        initialMap(3,showMap3);
+    }
+
+    public char[][] whichMap(int mapIndex) {
+        switch(mapIndex) {
+            case 0: return showMap0;
+            case 1: return showMap1;
+            case 2: return showMap2;
+            default: return showMap3;
+        }
+    }
+
 
     public Pokemon pokemonLoadFromJson(int id) {
         Gson gson = new Gson();
@@ -555,7 +583,7 @@ public class GUI extends Application {
             System.out.println("go to page2test");
             this.user=user;
             //System.out.println(user.strPos());
-            showMap[user.getPosition()[0]][user.getPosition()[1]]='r';
+            showMap0[user.getPosition()[0]][user.getPosition()[1]]='r';
             page2_initial();
         }
         else{
