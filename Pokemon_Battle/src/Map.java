@@ -24,7 +24,7 @@ public class Map {
     public boolean ifBattle(Pokemon user,char[][] map){
         int posx=user.getPosition()[0];
         int posy=user.getPosition()[1];
-        if(map[posx][posy]=='a') return true;
+        if(map[posx][posy]>060 || map[posx][posy] < 066) return true;
         return false;
     }
 

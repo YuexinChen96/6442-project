@@ -12,7 +12,7 @@
     "water_able": false,
     "stone_able": false,
     "max_HP": 400,
-    "position": [1,0],
+    "position": [0,22],
     "skill_list": [1,2,3]
   },
   {
