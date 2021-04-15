@@ -24,7 +24,7 @@ public class Map {
     public boolean ifBattle(Pokemon user,char[][] map){
         int posx=user.getPosition()[0];
         int posy=user.getPosition()[1];
-        if(map[posx][posy]>060 || map[posx][posy] < 066) return true;
+        if(map[posx][posy]>47 && map[posx][posy] < 56) return true;
         return false;
     }
 
@@ -44,7 +44,8 @@ public class Map {
         else if(act=='D') next_posy=posy+1;
         if((next_posx<0 || next_posx>=40)||(next_posy<0||next_posy>=24))return false;
         char type=map[next_posx][next_posy];
-        if(type=='r'|| type=='h'||
+        if((type > 47 && type < 56) ||
+                type=='r'|| type=='h'||
                 type=='t'|| type=='a'|| type=='i' || type=='o' || type=='d' || type=='m' ||
                 (type=='g'&&user.getGrassAble())||
                 (type=='b'&& user.getStoneAble()) ||
