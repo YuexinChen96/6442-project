@@ -448,7 +448,7 @@ public class GUI extends Application {
         FadeTransition ft = new FadeTransition(Duration.millis(200), node);
         ft.setFromValue(0);
         ft.setToValue(1);
-        ft.setCycleCount(9);
+        ft.setCycleCount(7);
         ft.setAutoReverse(true);
         ft.play();
     }
@@ -461,7 +461,7 @@ public class GUI extends Application {
         path.getElements().add(new MoveTo(now_x + 0.5 * adjsut, now_y + 0.5 * adjsut));
         path.getElements().add(new LineTo(next_x + 0.5 * adjsut, next_y + 0.5 * adjsut));
         PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.millis(300));
+        pathTransition.setDuration(Duration.millis(200));
         pathTransition.setPath(path);
         pathTransition.setNode(node);
         pathTransition.setCycleCount(1);
@@ -476,7 +476,7 @@ public class GUI extends Application {
             System.out.println("keyture:"+keyable);
             node.setEffect(null);
         }));
-        SequentialTransition seqTransition = new SequentialTransition(pathTransition,new PauseTransition(Duration.millis(350)),check3or4);
+        SequentialTransition seqTransition = new SequentialTransition(pathTransition,new PauseTransition(Duration.millis(230)),check3or4);
         seqTransition.play();
     }
 
@@ -583,7 +583,7 @@ public class GUI extends Application {
             System.out.println("go to page2test");
             this.user=user;
             //System.out.println(user.strPos());
-            showMap0[user.getPosition()[0]][user.getPosition()[1]]='r';
+            whichMap(currentMapIndex)[user.getPosition()[0]][user.getPosition()[1]]='r';
             page2_initial();
         }
         else{
