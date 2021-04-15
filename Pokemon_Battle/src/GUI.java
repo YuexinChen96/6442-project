@@ -615,7 +615,7 @@ public class GUI extends Application {
         MP_btn.setOnAction(e -> {
             int i = Integer.parseInt(number_MP_poison.get());
             // full MP or no poison
-            if (i != 0 && user.getMP() == user.getMaxMP()) {
+            if (i != 0 && user.getMP() != 100) {
                 i--;
                 poisonUsed(false);
                 number_MP_poison.set(i+"");
