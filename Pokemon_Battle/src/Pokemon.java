@@ -1,6 +1,5 @@
 
 import java.io.Serializable;
-import java.util.List;
 
 public class Pokemon implements Serializable {
     private String name;
@@ -11,22 +10,26 @@ public class Pokemon implements Serializable {
     private int MP;
     private int defence;
     private int attack;
+    private int exp;
     private boolean grass_able;
     private boolean water_able;
     private boolean stone_able;
 
 
     private int max_HP;
-    final private int MAX_MP = 10;
+    final private int MAX_MP = 100;
 
     private String imgUrl;
     private int[] position; //[x,y]
 
     private int[] skill_list;//contain 3 skill types
 
-
+    public Pokemon(int id){
+        this.id=id;
+    }
     public Pokemon(String name, int id, int level, int HP, int MP, int defence,
-                int attack, boolean grass_able,boolean water_able, boolean stone_able,int max_HP,String imgUrl,int[] position,int[] skill_list) {
+                int attack, int exp,boolean grass_able,boolean water_able, boolean stone_able,int max_HP,
+                   String imgUrl,int[] position,int[] skill_list) {
         this.name = name;
         this.id = id;
 
@@ -35,6 +38,7 @@ public class Pokemon implements Serializable {
         this.MP = MP;
         this.defence = defence;
         this.attack = attack;
+        this.exp=exp;
         this.grass_able=grass_able;
         this.water_able = water_able;
         this.stone_able = stone_able;
@@ -58,6 +62,7 @@ public class Pokemon implements Serializable {
     public void setName(String name){this.name=name;}
 
     public int getid(){return id;}
+    public void setid(int id){this.id=id;}
 
     public int getLevel(){return level;}
     public void setLevel(int level){this.level=level;}
@@ -76,6 +81,9 @@ public class Pokemon implements Serializable {
     public void setDefence(int defence){this.defence=defence;}
     public int getAttack(){return attack;}
     public void setAttack(int attack){this.attack=attack;}
+
+    public int getExp(){return exp;}
+    public void setExp(int exp){this.exp=exp;}
 
     public boolean getGrassAble(){return grass_able;}
     public void setGrassAble(boolean grass_able){this.grass_able=grass_able;}
@@ -127,8 +135,8 @@ public class Pokemon implements Serializable {
     }
     @Override
     public String toString() {
-        return "id:" + this.id + ", name:" + this.name +  ", level:" + this.level + ", HP:" + this.HP + ", MP:" + this.MP
-                + ", defense:" + this.defence + ", attack:" + this.attack + ", water_able:" + this.water_able + ", stone_able:" + this.stone_able
+        return "id:" + this.id + ", name:" + this.name +  ", level:" + this.level + ", HP:" + this.HP +"/"+this.max_HP+", MP:" + this.MP +"/"+this.MAX_MP
+                + ", defense:" + this.defence + ", attack:" + this.attack +", experience:"+this.exp+", water_able:" + this.water_able + ", stone_able:" + this.stone_able
                 + "\n" + this.strPos()+", image:"+this.imgUrl+", "+strSkillList();
     }
 

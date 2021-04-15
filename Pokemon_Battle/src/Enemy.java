@@ -9,7 +9,26 @@ public class Enemy implements Serializable {
     private int defence;
     private int HP;
     private int MP;
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
     private int maxHP;
+    private String imgUrl;
+
+    public int getmaxHP() {
+        return maxHP;
+    }
+
+    public void setmaxHP(int maxHP) {
+        this.maxHP = maxHP;
+    }
+
     final private int maxMP = 100;
 
     public Enemy(){}
@@ -69,8 +88,6 @@ public class Enemy implements Serializable {
         this.defence = defence;
         this.HP = HP;
         this.MP = MP;
-        this.maxHP = HP;
     }
-
 
 }

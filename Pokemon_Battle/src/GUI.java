@@ -1,22 +1,23 @@
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import javafx.animation.FadeTransition;
-import javafx.animation.PathTransition;
-import javafx.animation.PauseTransition;
-import javafx.animation.SequentialTransition;
+import javafx.animation.*;
 import javafx.application.Application;
 import javafx.application.Preloader;
+import javafx.beans.property.*;
+import javafx.event.EventType;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
@@ -38,9 +39,11 @@ public class GUI extends Application {
     // Dimensions of the display window
     private static final int WINDOW_WIDTH = 1200;
     private static final int WINDOW_HEIGHT = 740;
-
-    char[][] map = new char[80][48];
-    char[][] showmap = new char[40][24];//char record the type of piece
+    private static final int mapLength =80;
+    private static final int mapHeight =48;
+    char[][] map = new char[mapLength][mapHeight];
+    char[][] showMap = new char[mapLength/2][mapHeight/2];
+    int currentMapIndex = -1;
 
     // Page indicator
     private int page_number = 0; // change for page testing
@@ -53,6 +56,20 @@ public class GUI extends Application {
     Pokemon user;
     private static final DropShadow dropShadow;
     private static final DropShadow borderGlow;
+
+    // UI and backend connect value
+    private StringProperty textInfo;
+    private StringProperty user_HP_info = new SimpleStringProperty();
+    private StringProperty user_MP_info = new SimpleStringProperty();
+    private StringProperty user_AD_info = new SimpleStringProperty();
+    private StringProperty enemy_HP_info = new SimpleStringProperty();
+    private StringProperty enemy_MP_info = new SimpleStringProperty();
+    private StringProperty enemy_AD_info = new SimpleStringProperty();
+    private DoubleProperty user_HP_bar = new SimpleDoubleProperty();
+    private DoubleProperty user_MP_bar = new SimpleDoubleProperty();
+    private DoubleProperty enemy_HP_bar = new SimpleDoubleProperty();
+    private DoubleProperty enemy_MP_bar = new SimpleDoubleProperty();
+
 
     static {
         dropShadow = new DropShadow();
@@ -81,8 +98,8 @@ public class GUI extends Application {
         root.getChildren().add(controls);
 
 
-//        page3_initial(3);//change for test
-        page1_initial();
+        //page3_initial(3);//change for test
+        page0_initial();
 
         primaryStage.setScene(scene);
 
@@ -187,7 +204,8 @@ public class GUI extends Application {
 
         // ------待完善-----
         int id = 0;  // 改成：int id=选择的角色（page1）
-        user = pokemonLoadFromJson(id);
+        user=new Pokemon(id);
+        user = pokemonLoadFromJson(user.getid());
 
         Button btn1 = new Button("Start");
         btn1.setLayoutX(1000);
@@ -203,7 +221,8 @@ public class GUI extends Application {
         btn1.setLayoutY(200);
         btn1.setOnAction(e -> {
             board.getChildren().removeAll(board.getChildren());
-            page2_initial();
+            // map index: 0,1,2,3
+            page2_choose_map(2);
         });
         board.getChildren().add(btn2);
     }
@@ -214,31 +233,59 @@ public class GUI extends Application {
 // ------------------------------------------------------------
 // Kath & Natalie
     Map mapclass;
-
+    //have four maps
+    public void page2_choose_map(int mapIndex){
+        initialMap(mapIndex);//initial map[][] according separate .txt
+        currentMapIndex = mapIndex;
+        System.out.println("which map:" + currentMapIndex);
+        page2_initial();
+    }
+    boolean keyable;
     public void page2_initial() {
+        board.getChildren().removeAll(board.getChildren());
         System.out.println("Map");
         System.out.println("Current Role:" + user.toString());
 
         //create and show the map
-        initialMap();
-        showPartOfMap(map);
+        showMap(showMap);
+        System.out.println("already show map");
 
-        //showRole;
+        //showPokemon
         int[] role_pos = user.getPosition();
         Rectangle rect = new Rectangle(role_pos[0] * 30, role_pos[1] * 30, 30, 30);
-        System.out.println(System.getProperty("user.dir") + "/src/Pics/Pokemon/pic0.png");
-//        rect.setFill(new ImagePattern(new Image(user.getImgUrl())));
-//        rect.setFill(new ImagePattern(new Image(System.getProperty("user.dir") + "/src/Pics/Pokemon/pic0.jpg")));
-        rect.setFill(new ImagePattern(new Image("Pics/Pokemon/pic0.png")));
+        rect.setFill(new ImagePattern(new Image("Pics/Pokemon/pic"+user.getid()+".png")));
         board.getChildren().add(rect);
         rect.toFront();
+        //some functions of Pokemon
         startShowAnimation(rect);
+        keyable=true;
         addKeyPressed(rect, board);
 
+        //show attributes of pokemon
+        Button attributes=new Button("My attributes");
+        attributes.setLayoutX(5);attributes.setLayoutY(720);
+        attributes.setMaxSize(100,20);attributes.setMinSize(100,20);
+        attributes.setFont(Font.font("Arial", FontWeight.BOLD, 11));
+        attributes.setFocusTraversable(false);
+        board.getChildren().add(attributes);
+        Label attrinfo=new Label();
+        attrinfo.setLayoutX(150);attrinfo.setLayoutY(722);
+        attributes.setOnMousePressed(e->{
+            String attr="Name:"+user.getName()+", Level:"+user.getLevel()+", HP:"+ user.getHP() +"/"+user.getmaxHP()+
+                    ", MP:" + user.getMP()+"/"+user.getMaxMP()
+                    + ", Defense:" + user.getDefence() + ", Attack:" + user.getAttack()+", Experience:"+user.getExp()+", water_able:" +
+                    user.getWaterAble()+ ", stone_able:" + user.getStoneAble();
+            attrinfo.setText(attr); attrinfo.setStyle("-fx-font-color:#656a66");
+            board.getChildren().add(attrinfo);
+        });
+        attributes.setOnMouseReleased(e->{
+            board.getChildren().remove(attrinfo);
+        });
     }
 
     public void addKeyPressed(Node node, Node board) {
-        board.addEventHandler(MouseEvent.MOUSE_MOVED, e -> {
+        mapclass = new Map();
+        board.addEventHandler(EventType.ROOT,e-> {
             node.requestFocus();
             node.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
             });
@@ -248,53 +295,154 @@ public class GUI extends Application {
             node.setEffect(null);
         });
         node.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
-            System.out.println("keyEvent able");
-            mapclass = new Map();
-            if (mapclass.ifTerminal(user, map)) page4_initial();
-            if (mapclass.ifBattle(user, map)) page3_initial(3);
-            KeyCode keyCode = e.getCode();
-            if (keyCode.equals(KeyCode.RIGHT)) {
-                boolean canMove = mapclass.checkMoveEnable(user, 'R', map);
-                if (canMove) {
+            System.out.println(keyable);
+            if(this.keyable) {
+                System.out.println("key able");
+                //if (mapclass.ifTerminal(user, map)) page4_initial();
+                //if (mapclass.ifBattle(user, map)) page3_initial(3);
+                KeyCode keyCode = e.getCode();
+                boolean mapEnd = mapclass.ifMapEnd(user,showMap);
+                if (keyCode.equals(KeyCode.RIGHT)) {
+                    System.out.println("right");
+                    boolean canMove = mapclass.checkMoveEnable(user, 'R', showMap);
                     int x = user.getPosition()[0];
                     int y = user.getPosition()[1];
-                    moveAnimation(node, x * 30, y * 30, (x + 1) * 30, y * 30);
-                    user.setPosition(new int[]{x + 1, y});
-                }
-            } else if (keyCode.equals(KeyCode.LEFT)) {
-                System.out.println("left");
-                boolean canMove = mapclass.checkMoveEnable(user, 'L', map);
-                System.out.println(canMove);
-                if (canMove) {
+                    if(mapEnd) {
+                        boolean NextMap = mapclass.nextMap(user, 'R', map, currentMapIndex);
+                        boolean LastMap = mapclass.lastMap(user, 'R', map, currentMapIndex);
+                        if (NextMap) {
+                            currentMapIndex++;
+//                            moveAnimation(node, x * 30, y * 30, (x + 1) * 30, y * 30);
+                            initialMap(currentMapIndex);//initial map[][] according separate .txt
+                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                            System.out.println("which map:" + currentMapIndex);
+                            page2_initial();
+                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                        } else if (LastMap) {
+                            currentMapIndex--;
+//                            moveAnimation(node, x * 30, y * 30, (x + 1) * 30, y * 30);
+                            initialMap(currentMapIndex);//initial map[][] according separate .txt
+                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                            System.out.println("which map:" + currentMapIndex);
+                            page2_initial();
+                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                        }
+                        else if (canMove) {
+                            moveAnimation(node, x * 30, y * 30, (x + 1) * 30, y * 30);
+                            user.setPosition(new int[]{x + 1, y});
+                        }
+                    }
+                    else if (canMove) {
+                        moveAnimation(node, x * 30, y * 30, (x + 1) * 30, y * 30);
+                        user.setPosition(new int[]{x + 1, y});
+                    }
+                } else if (keyCode.equals(KeyCode.LEFT)) {
+                    System.out.println("left");
+                    boolean canMove = mapclass.checkMoveEnable(user, 'L', showMap);
                     int x = user.getPosition()[0];
                     int y = user.getPosition()[1];
-                    moveAnimation(node, x * 30, y * 30, (x - 1) * 30, y * 30);
-                    user.setPosition(new int[]{x - 1, y});
-                }
-            } else if (keyCode.equals(KeyCode.UP)) {
-                System.out.println("up");
-                boolean canMove = mapclass.checkMoveEnable(user, 'U', map);
-                System.out.println(canMove);
-                if (canMove) {
+                    if(mapEnd) {
+                        boolean NextMap = mapclass.nextMap(user, 'L', map, currentMapIndex);
+                        boolean LastMap = mapclass.lastMap(user,'L',map, currentMapIndex);
+                        if (NextMap) {
+                            currentMapIndex++;
+//                            moveAnimation(node, x * 30, y * 30, (x - 1) * 30, y * 30);
+                            initialMap(currentMapIndex);//initial map[][] according separate .txt
+                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                            System.out.println("which map:" + currentMapIndex);
+                            page2_initial();
+                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                        }
+                        else if(LastMap) {
+                            currentMapIndex--;
+//                            moveAnimation(node, x * 30, y * 30, (x - 1) * 30, y * 30);
+                            initialMap(currentMapIndex);//initial map[][] according separate .txt
+                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                            System.out.println("which map:" + currentMapIndex);
+                            page2_initial();
+                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                        }
+                        else if (canMove) {
+                            moveAnimation(node, x * 30, y * 30, (x - 1) * 30, y * 30);
+                            user.setPosition(new int[]{x - 1, y});
+                        }
+                    }
+                    else if (canMove) {
+                        moveAnimation(node, x * 30, y * 30, (x - 1) * 30, y * 30);
+                        user.setPosition(new int[]{x - 1, y});
+                    }
+                } else if (keyCode.equals(KeyCode.UP)) {
+                    System.out.println("up");
+                    boolean canMove = mapclass.checkMoveEnable(user, 'U', showMap);
                     int x = user.getPosition()[0];
                     int y = user.getPosition()[1];
-                    moveAnimation(node, x * 30, y * 30, x * 30, (y - 1) * 30);
-                    user.setPosition(new int[]{x, y - 1});
-                }
-            } else if (keyCode.equals(KeyCode.DOWN)) {
-                System.out.println("down");
-                boolean canMove = mapclass.checkMoveEnable(user, 'D', map);
-                System.out.println(canMove);
-                if (canMove) {
+                    if(mapEnd) {
+                        boolean NextMap = mapclass.nextMap(user, 'U', map, currentMapIndex);
+                        boolean LastMap = mapclass.lastMap(user,'U',map, currentMapIndex);
+                        if (NextMap) {
+                            currentMapIndex++;
+//                            moveAnimation(node, x * 30, y * 30, x * 30, (y - 1) * 30);
+                            initialMap(currentMapIndex);//initial map[][] according separate .txt
+                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                            System.out.println("which map:" + currentMapIndex);
+                            page2_initial();
+                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                        }
+                        else if(LastMap) {
+                            currentMapIndex--;
+//                            moveAnimation(node, x * 30, y * 30, x * 30, (y - 1) * 30);
+                            initialMap(currentMapIndex);//initial map[][] according separate .txt
+                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                            System.out.println("which map:" + currentMapIndex);
+                            page2_initial();
+                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                        }
+                        else if (canMove) {
+                            moveAnimation(node, x * 30, y * 30, x * 30, (y + 1) * 30);
+                            user.setPosition(new int[]{x, y + 1});
+                        }
+                    }
+                    else if (canMove) {
+                        moveAnimation(node, x * 30, y * 30, x * 30, (y - 1) * 30);
+                        user.setPosition(new int[]{x, y - 1});
+                    }
+                } else if (keyCode.equals(KeyCode.DOWN)) {
+                    System.out.println("down");
+                    boolean canMove = mapclass.checkMoveEnable(user, 'D', showMap);
                     int x = user.getPosition()[0];
                     int y = user.getPosition()[1];
-                    moveAnimation(node, x * 30, y * 30, x * 30, (y + 1) * 30);
-                    user.setPosition(new int[]{x, y + 1});
+                    if(mapEnd) {
+                        boolean NextMap = mapclass.nextMap(user, 'D', map, currentMapIndex);
+                        boolean LastMap = mapclass.lastMap(user,'D',map, currentMapIndex);
+                        if (NextMap) {
+                            currentMapIndex++;
+//                            moveAnimation(node, x * 30, y * 30, x * 30, (y + 1) * 30);
+                            initialMap(currentMapIndex);//initial map[][] according separate .txt
+                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                            System.out.println("which map:" + currentMapIndex);
+                            page2_initial();
+                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                        }
+                        else if(LastMap) {
+                            currentMapIndex--;
+//                            moveAnimation(node, x * 30, y * 30, x * 30, (y + 1) * 30);
+                            initialMap(currentMapIndex);//initial map[][] according separate .txt
+                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                            System.out.println("which map:" + currentMapIndex);
+                            page2_initial();
+                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                        }
+                        else if (canMove) {
+                            moveAnimation(node, x * 30, y * 30, x * 30, (y + 1) * 30);
+                            user.setPosition(new int[]{x, y + 1});
+                        }
+                    }
+                    else if (canMove) {
+                        moveAnimation(node, x * 30, y * 30, x * 30, (y + 1) * 30);
+                        user.setPosition(new int[]{x, y + 1});
+                    }
                 }
             }
-            System.out.println(user);
-            if (mapclass.ifTerminal(user, map)) page4_initial();
-            if (mapclass.ifBattle(user, map)) page3_initial(3);
         });
     }
 
@@ -308,43 +456,52 @@ public class GUI extends Application {
     }
 
     public void moveAnimation(Node node, double now_x, double now_y, double next_x, double next_y) {
+        keyable=false;
         node.setEffect(borderGlow);
         int adjsut = 30;
         Path path = new Path();
         path.getElements().add(new MoveTo(now_x + 0.5 * adjsut, now_y + 0.5 * adjsut));
         path.getElements().add(new LineTo(next_x + 0.5 * adjsut, next_y + 0.5 * adjsut));
         PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.millis(1300));
+        pathTransition.setDuration(Duration.millis(300));
         pathTransition.setPath(path);
         pathTransition.setNode(node);
         pathTransition.setCycleCount(1);
         pathTransition.setAutoReverse(true);
-        //pathTransition.play();
-
-        FadeTransition ft2 = new FadeTransition(Duration.millis(70), node);
-        ft2.setFromValue(1);
-        ft2.setToValue(0);
-        ft2.setCycleCount(2);
-        ft2.setAutoReverse(true);
-        FadeTransition ft = new FadeTransition(Duration.millis(70), node);
-        ft.setFromValue(1);
-        ft.setToValue(0);
-        ft.setCycleCount(2);
-        ft.setAutoReverse(true);
-        //ft.play();
         //Playing Sequential Transition
-        SequentialTransition seqTransition = new SequentialTransition(ft2, pathTransition, ft);
+        Timeline check3or4=new Timeline(new KeyFrame(Duration.millis(1),ae->{
+            System.out.println(user.strPos());
+            if (mapclass.ifTerminal(user, showMap)) page4_initial();
+            if (mapclass.ifBattle(user, showMap)) page3_initial(3);
+            this.keyable=true;
+            System.out.println("keyture:"+keyable);
+            node.setEffect(null);
+        }));
+        SequentialTransition seqTransition = new SequentialTransition(pathTransition,new PauseTransition(Duration.millis(350)),check3or4);
         seqTransition.play();
     }
 
     // fx: add pieces to board (board只能显示map中的40*24个pieces)
     //-----------------暂时不需要（Note:不用更新地图, 目前只实现40*24）-------------------------
-    public void showPartOfMap(char[][] showmap) {
-        for (int i = 0; i < 40; i++) {
-            for (int j = 0; j < 24; j++) {
+    public void showMap(char[][] showmap) {
+        for (int i = 0; i < mapLength/2; i++) {
+            for (int j = 0; j < mapHeight/2; j++) {
                 Rectangle rect = new Rectangle(i * 30, j * 30, 30, 30);
                 if (showmap[i][j] != 'r') {
-                    rect.setFill(new ImagePattern(new Image("Pics/Maps/" + showmap[i][j] + ".png")));
+                    if(showmap[i][j]>060 && showmap[i][j] < 066) {
+                        int enemyID = showmap[i][j]-'0'+9;
+                        rect.setFill(new ImagePattern(new Image("Pics/Pokemon/pic"+enemyID+".png")));
+                    }
+                    else if(showmap[i][j] == 's') {
+                        int r = (int)Math.random()*2;
+                        rect.setFill(new ImagePattern(new Image("Pics/Maps/s" + r + ".png")));
+                    }
+                    else {
+                        rect.setFill(new ImagePattern(new Image("Pics/Maps/" + showmap[i][j] + ".png")));
+                    }
+                }
+                else {
+                    rect.setFill(Color.WHITE);
                 }
                 board.getChildren().add(rect);
             }
@@ -353,26 +510,35 @@ public class GUI extends Application {
     }
 
     // ----待设计
-    // map[][]里放每个图片名char型  s石头,g草,w水,h商店(暂不启用),r是可移动的路线,起点b,终点t
+    // map[][]对应元素char，说明见elementNote.txt
     // Kath
-    public void initialMap() {
-        //地图
-        String battleMap = "src/battleMap1.txt";
+    public void initialMap(int mapIndex) {
+        String battleMap = "src/battleMap.txt";
+        String partMap = "src/battleMap"+mapIndex+".txt";
         try {
-            BufferedReader bfr = new BufferedReader(new FileReader(battleMap));
-            String l;
-            int row = 0;
-            while ((l = bfr.readLine()) != null) {
-                for (int i = 0; i < l.length(); i++) {
-//                    System.out.println("row:" + row + ", col:"+i+", char:"+l.charAt(i));
-                    map[i][row] = l.charAt(i);
+            // initial whole map:
+            BufferedReader bfr1 = new BufferedReader(new FileReader(battleMap));
+            String l1;
+            int row1 = 0;
+            while ((l1 = bfr1.readLine()) != null) {
+                for (int i = 0; i < l1.length(); i++) {
+                    map[i][row1] = l1.charAt(i);
                 }
-                row++;
+                row1++;
+            }
+            // initial showMap:
+            BufferedReader bfr2 = new BufferedReader(new FileReader(partMap));
+            String l2;
+            int row2 = 0;
+            while ((l2 = bfr2.readLine()) != null) {
+                for (int i = 0; i < l2.length(); i++) {
+                    showMap[i][row2] = l2.charAt(i);
+                }
+                row2++;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public Pokemon pokemonLoadFromJson(int id) {
@@ -385,93 +551,312 @@ public class GUI extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        assert jsonReader != null;
         List<Pokemon> pl = gson.fromJson(jsonReader, CUS_LIST_TYPE);
         return pl.get(id);
     }
-
-
+    public void page3_to_page2(boolean win, Pokemon user){
+        if(win){
+            System.out.println("go to page2test");
+            this.user=user;
+            //System.out.println(user.strPos());
+            showMap[user.getPosition()[0]][user.getPosition()[1]]='r';
+            page2_initial();
+        }
+        else{
+            page4_initial();
+        }
+    }
     //-------------------------------------------------------------
 //                 Page3_initial (Battle)
 // ------------------------------------------------------------
     // Kevin
     public void page3_initial(int enemy_id) {
-        // this line use for test
-        this.user = pokemonLoadFromJson(0);
+        // For safety, remove all elements
+        board.getChildren().removeAll(board.getChildren());
+
+        // this line use for test ------------------------------------------------------ need remove in future
+        //this.user = pokemonLoadFromJson(0);
 
         System.out.println("Battle page");
-        // Background area
-        page3_setupBackground();
-        // buttons
-        page3_setupButton();
-        // enemy load
+
+        // enemy load, create enemy
         Enemy enemy = enemy_loading(enemy_id);
         // start Battle
         Battle battle = new Battle(this.user, enemy);
-
-
-//        while (!battle.gameover_test()) {
-//            if (battle.getTurn() % 2 == 0){
-//                // able control for buttons
-//            } else {
-//
-//            }
-//        }
+        // Background area
+        page3_setupBackground(enemy, battle);
+        // Information Box
+        textInfo = new SimpleStringProperty("Now is your turn... Choose one action.");
+        page3_setupStaticInfoBoxes(enemy);
+        page3_setupDynamicInfoBoxes(enemy);
+        // buttons
+        page3_setupButton(battle);
 
 
     }
 
-    public void page3_setupBackground() {
+    // information boxes with static structure -- finished (less changed)
+    public void page3_setupStaticInfoBoxes(Enemy enemy) {
+        // Text message info box
+        Label infoBox = new Label();
+        infoBox.setLayoutX(20);
+        infoBox.setLayoutY(610);
+        infoBox.setFont(Font.font("Arial", FontWeight.BOLD, 24));
+        infoBox.textProperty().bindBidirectional(textInfo);
+        board.getChildren().add(infoBox);
+
+        // Two Static boxes for user and enemy
+        // Double boxes to create border
+        Rectangle user_info_box = new Rectangle(700, 440, 300, 100);
+        box_format1(user_info_box);
+        Rectangle enemy_info_box = new Rectangle(120,40, 300, 100);
+        box_format1(enemy_info_box);
+        board.getChildren().add(user_info_box);
+        board.getChildren().add(enemy_info_box);
+
+        // User Information UI - Name part
+        Label user_info = new Label(this.user.getName());
+        user_info.setFont(Font.font("Arial", FontWeight.BLACK, 18));
+        user_info.setLayoutX(725);
+        user_info.setLayoutY(450);
+        board.getChildren().add(user_info);
+
+        // HP and MP bar
+        Rectangle user_hp_bg = new Rectangle(725, 480, 202, 12);
+        box_format2(user_hp_bg);
+        board.getChildren().add(user_hp_bg);
+        Rectangle user_mp_bg = new Rectangle(725, 500, 102, 12);
+        box_format2(user_mp_bg);
+        board.getChildren().add(user_mp_bg);
+
+        // enemy Information UI - Name part
+        Label enemy_info = new Label(enemy.getName());
+        enemy_info.setFont(Font.font("Arial", FontWeight.BLACK, 18));
+        enemy_info.setLayoutX(145);
+        enemy_info.setLayoutY(50);
+        board.getChildren().add(enemy_info);
+        // Black and White border
+        Rectangle enemy_hp_bg = new Rectangle(145, 80, 202, 12);
+        box_format2(enemy_hp_bg);
+        board.getChildren().add(enemy_hp_bg);
+        Rectangle enemy_mp_bg = new Rectangle(145, 100, 102, 12);
+        box_format2(enemy_mp_bg);
+        board.getChildren().add(enemy_mp_bg);
+
+    }
+
+    // helper function - format1
+    public void box_format1 (Rectangle rect) {
+        rect.setArcHeight(15);
+        rect.setArcWidth(15);
+        rect.setFill(Color.WHITE);
+        rect.setStroke(Color.BLACK);
+        rect.setStrokeWidth(2);
+    }
+
+    // helper function - format2
+    public void box_format2 (Rectangle rect) {
+        rect.setArcHeight(5);
+        rect.setArcWidth(5);
+        rect.setFill(Color.WHITE);
+        rect.setStroke(Color.BLACK);
+        rect.setStrokeWidth(1);
+    }
+
+    // highly related to Static position
+    // dynamic graphing HP bar and MP bar, so as the detail number -- finished (less changed)
+    public void page3_setupDynamicInfoBoxes(Enemy enemy){
+        // dynamic bar, user part
+        Rectangle user_hp_bar = new Rectangle(726,481,200,10);
+        user_HP_bar.setValue((user.getHP() * 1.0) / (user.getmaxHP() * 1.0) * 200);
+        user_hp_bar.widthProperty().bindBidirectional(user_HP_bar);
+        user_hp_bar.setFill(Color.RED);
+        user_hp_bar.setArcHeight(5);
+        user_hp_bar.setArcWidth(5);
+        board.getChildren().add(user_hp_bar);
+        Rectangle user_mp_bar = new Rectangle(726, 501, 100, 10);
+        user_MP_bar.setValue(user.getMP() * 1.0);
+        user_mp_bar.widthProperty().bindBidirectional(user_MP_bar);
+        user_mp_bar.setFill(Color.BLUE);
+        user_mp_bar.setArcHeight(5);
+        user_mp_bar.setArcWidth(5);
+        board.getChildren().add(user_mp_bar);
+        // enemy part
+        Rectangle enemy_hp_bar = new Rectangle(146,81,200,10);
+        enemy_HP_bar.setValue((user.getHP() * 1.0) / (enemy.getmaxHP() * 1.0) * 200);
+        enemy_hp_bar.widthProperty().bindBidirectional(enemy_HP_bar);
+        enemy_hp_bar.setFill(Color.RED);
+        enemy_hp_bar.setArcHeight(5);
+        enemy_hp_bar.setArcWidth(5);
+        board.getChildren().add(enemy_hp_bar);
+        Rectangle enemy_mp_bar = new Rectangle(146, 101, 100, 10);
+        enemy_MP_bar.setValue(user.getMP() * 1.0);
+        enemy_mp_bar.widthProperty().bindBidirectional(enemy_MP_bar);
+        enemy_mp_bar.setFill(Color.BLUE);
+        enemy_mp_bar.setArcHeight(5);
+        enemy_mp_bar.setArcWidth(5);
+        board.getChildren().add(enemy_mp_bar);
+
+        // Detailed Info Display - display format: HP / MaxHP ...
+        Label user_hp_info = new Label();
+        user_hp_info.setLayoutX(940);
+        user_hp_info.setLayoutY(479);
+        user_HP_info.setValue(user.getHP() + "/" + user.getmaxHP());
+        user_hp_info.textProperty().bindBidirectional(user_HP_info);
+        user_hp_info.setFont(Font.font("Arial", FontWeight.BLACK, 12));
+        board.getChildren().add(user_hp_info);
+        // User MP
+        Label user_mp_info = new Label();
+        user_mp_info.setLayoutX(840);
+        user_mp_info.setLayoutY(499);
+        user_MP_info.setValue(user.getMP() + "/100");
+        user_mp_info.textProperty().bindBidirectional(user_MP_info);
+        user_mp_info.setFont(Font.font("Arial", FontWeight.BLACK, 12));
+        // User att/def
+        Label user_ad_info = new Label();
+        user_ad_info.setLayoutX(726);
+        user_ad_info.setLayoutY(519);
+        user_AD_info.setValue(user.getAttack() + " - " + user.getDefence());
+        user_ad_info.textProperty().bindBidirectional(user_AD_info);
+        user_ad_info.setFont(Font.font("Arial", FontWeight.BLACK, 12));
+        board.getChildren().add(user_ad_info);
+        board.getChildren().add(user_mp_info);
+        // Enemy HP
+        Label enemy_hp_info = new Label();
+        enemy_hp_info.setLayoutX(360);
+        enemy_hp_info.setLayoutY(79);
+        enemy_HP_info.setValue(enemy.getHP() + "/" + enemy.getmaxHP());
+        enemy_hp_info.textProperty().bindBidirectional(enemy_HP_info);
+        enemy_hp_info.setFont(Font.font("Arial", FontWeight.BLACK, 12));
+        board.getChildren().add(enemy_hp_info);
+        // Enemy MP
+        Label enemy_mp_info = new Label();
+        enemy_mp_info.setLayoutX(260);
+        enemy_mp_info.setLayoutY(99);
+        enemy_MP_info.setValue(enemy.getMP() + "/100");
+        enemy_mp_info.textProperty().bindBidirectional(enemy_MP_info);
+        enemy_mp_info.setFont(Font.font("Arial", FontWeight.BLACK, 12));
+        board.getChildren().add(enemy_mp_info);
+        // Enemy att/def
+        Label enemy_ad_info = new Label();
+        enemy_ad_info.setLayoutX(146);
+        enemy_ad_info.setLayoutY(119);
+        enemy_AD_info.setValue(enemy.getAttack() + " - " + enemy.getDefence());
+        enemy_ad_info.textProperty().bindBidirectional(enemy_AD_info);
+        enemy_ad_info.setFont(Font.font("Arial", FontWeight.BLACK, 12));
+        board.getChildren().add(enemy_ad_info);
+    }
+
+    // Page3 basic background image and structure -- finished (less changed)
+    public void page3_setupBackground(Enemy enemy, Battle battle) {
+        // Background image part
         ImageView background = new ImageView();
         final String PAGE3_BACKGROUND_URI = getClass().getResource("Pics/page3_background.png").toString();
         background.setImage(new Image(PAGE3_BACKGROUND_URI));
-        background.setFitHeight(600);
+        background.setFitHeight(599);
         background.setPreserveRatio(true);
         board.getChildren().add(background);
-        // User area
-        Rectangle user_area = new Rectangle(150, 360, 240, 240);
-        user_area.setFill(new ImagePattern(new Image("Pics/Pokemon/pic0.jpg")));
+        // User image
+        Rectangle user_area = new Rectangle(150, 360, 220, 220);
+        user_area.setFill(new ImagePattern(new Image("Pics/Pokemon/pic"+user.getid()+".png")));
         board.getChildren().add(user_area);
-        // Enemy area
-        Rectangle enemy_area = new Rectangle(690, 0, 240, 240);
-        enemy_area.setFill(new ImagePattern(new Image("Pics/Pokemon/pic1.jpg")));
+        battle.setP_user(user_area);
+        // Enemy image
+        Rectangle enemy_area = new Rectangle(690, 20, 220, 220);
+        enemy_area.setFill(new ImagePattern(new Image("Pics/Pokemon/pic"+enemy.getId()+".png")));
         board.getChildren().add(enemy_area);
-
+        battle.setP_tar(enemy_area);
         // control area
         Rectangle control_area = new Rectangle(0, 600, 1080, 300);
-        control_area.setFill(new ImagePattern(new Image("Pics/page3_control_area.jpg")));
+        control_area.setFill(new ImagePattern(new Image("Pics/page3_control_area.png")));
         board.getChildren().add(control_area);
+
+        // Structure Line
+        Line line0 = new Line(0, 599, 1080, 599);
+        line0.setStrokeWidth(2);
+        board.getChildren().add(line0);
+        Line line1 = new Line(1080, 0, 1080, WINDOW_HEIGHT);
+        line1.setStrokeWidth(2);
+        board.getChildren().add(line1);
+        Line line2 = new Line(700, 599, 700, WINDOW_HEIGHT);
+        line2.setStrokeWidth(2);
+        board.getChildren().add(line2);
     }
 
-    public void page3_setupButton() {
+    // Page3 buttons and actions -- may add buttons in future
+    public void page3_setupButton(Battle battle) {
         Button btn1 = new Button("Attack");
-        btn1.setLayoutX(60);
-        btn1.setLayoutY(640);
-        btn1.setMinSize(130, 60);
+        btn1.setLayoutX(760);
+        btn1.setLayoutY(620);
+        btn1.setMinSize(100, 40);
         btn1.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
+        btn1.setOnAction(e -> {
+            if (battle.button_able) {
+                int result=battle.user_action(0, textInfo, user_HP_info, user_MP_info, enemy_HP_info, enemy_MP_info, user_HP_bar
+                        , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info, board);
+                System.out.println("result:"+result);
+                if(result!=0) page3_to_page2(true,battle.user);
+            }
+        });
         board.getChildren().add(btn1);
 
         Button btn2 = new Button("Spell1");
-        btn2.setLayoutX(310);
-        btn2.setLayoutY(640);
-        btn2.setMinSize(130, 60);
+        btn2.setLayoutX(920);
+        btn2.setLayoutY(620);
+        btn2.setMinSize(100, 40);
         btn2.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
+        btn2.setOnAction(e -> {
+            if (battle.button_able) {
+                if (this.user.getMP() >= 20) {
+                    int result=battle.user_action(1, textInfo, user_HP_info, user_MP_info, enemy_HP_info, enemy_MP_info, user_HP_bar
+                            , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info, board);
+                    if(result!=0) page3_to_page2(true,battle.user);
+                } else {
+                    textInfo.setValue("You need at least 20 magic power to use this spell.");
+                }
+            }
+        });
         board.getChildren().add(btn2);
 
         Button btn3 = new Button("Spell2");
-        btn3.setLayoutX(560);
-        btn3.setLayoutY(640);
-        btn3.setMinSize(130, 60);
+        btn3.setLayoutX(760);
+        btn3.setLayoutY(680);
+        btn3.setMinSize(100, 40);
         btn3.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
+        btn3.setOnAction(e -> {
+            if (battle.button_able) {
+                if (this.user.getMP() >= 20) {
+                    int result=battle.user_action(2, textInfo, user_HP_info, user_MP_info, enemy_HP_info, enemy_MP_info, user_HP_bar
+                            , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info, board);
+                    if(result!=0) page3_to_page2(true,battle.user);
+                } else {
+                    textInfo.setValue("You need at least 20 magic power to use this spell.");
+                }
+            }
+        });
         board.getChildren().add(btn3);
 
         Button btn4 = new Button("Spell3");
-        btn4.setLayoutX(810);
-        btn4.setLayoutY(640);
-        btn4.setMinSize(130, 60);
+        btn4.setLayoutX(920);
+        btn4.setLayoutY(680);
+        btn4.setMinSize(100, 40);
         btn4.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
+        btn4.setOnAction(e -> {
+            if (battle.button_able) {
+                if (this.user.getMP() >= 80) {
+                    int result=battle.user_action(3, textInfo, user_HP_info, user_MP_info, enemy_HP_info, enemy_MP_info, user_HP_bar
+                            , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info, board);
+                    if(result!=0) page3_to_page2(true,battle.user);
+                } else {
+                    textInfo.setValue("You need at least 80 magic power to use this spell.");
+                }
+            }
+        });
         board.getChildren().add(btn4);
     }
 
+    // loading enemy from Json file
     public Enemy enemy_loading(int enemy_id) {
         Gson gson = new Gson();
         JsonReader jsr = null;
