@@ -605,8 +605,6 @@ public class GUI extends Application {
 
         // enemy load, create enemy
         Enemy enemy = enemy_loading(enemy_id);
-        // update UI info
-        updateEnemy(enemy);
         // start Battle
         Battle battle = new Battle(this.user, enemy);
         // Background area
@@ -621,13 +619,6 @@ public class GUI extends Application {
 
     }
 
-    public void updateEnemy(Enemy enemy) {
-        enemy_HP_info.setValue(enemy.getHP() + "/" + enemy.getmaxHP());
-        enemy_MP_info.setValue("0/100");
-        enemy_AD_info.setValue(enemy.getAttack() + "-" + enemy.getDefence());
-        enemy_HP_bar.set(200);
-        enemy_MP_bar.set(0);
-    }
 
     // information boxes with static structure -- finished (less changed)
     public void page3_setupStaticInfoBoxes(Enemy enemy) {
@@ -724,7 +715,7 @@ public class GUI extends Application {
         enemy_hp_bar.setArcWidth(5);
         board.getChildren().add(enemy_hp_bar);
         Rectangle enemy_mp_bar = new Rectangle(146, 101, 100, 10);
-        enemy_MP_bar.setValue(user.getMP() * 1.0);
+        enemy_MP_bar.setValue(enemy.getMP() * 1.0);
         enemy_mp_bar.widthProperty().bindBidirectional(enemy_MP_bar);
         enemy_mp_bar.setFill(Color.BLUE);
         enemy_mp_bar.setArcHeight(5);
