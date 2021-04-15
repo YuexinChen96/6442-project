@@ -488,7 +488,7 @@ public class GUI extends Application {
             for (int j = 0; j < mapHeight/2; j++) {
                 Rectangle rect = new Rectangle(i * 30, j * 30, 30, 30);
                 if (showmap[i][j] != 'r') {
-                    if(showmap[i][j]>060 && showmap[i][j] < 066) {
+                    if(showmap[i][j]>47 && showmap[i][j] < 56) {
                         int enemyID = showmap[i][j]-'0'+9;
                         rect.setFill(new ImagePattern(new Image("Pics/Pokemon/pic"+enemyID+".png")));
                     }
