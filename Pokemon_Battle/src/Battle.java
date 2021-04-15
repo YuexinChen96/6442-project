@@ -209,15 +209,18 @@ public class Battle {
 
     public void levelUpCal(int from, int to){
         while (from != to) {
-            levelCal(user.getid(), (from / 10), from % 5 == 0 && from != 0);
+            levelCal(from / 10, from % 5 == 4);
             from++;
         }
         user.setHP(user.getmaxHP());
         user.setLevel(to);
         System.out.println(user.getHP());
+        if (user.getLevel() > 2) user.setGrassAble(true);
+        if (user.getLevel() > 15) user.setWaterAble(true);
+        if (user.getLevel() > 30) user.setStoneAble(true);
     }
 
-    public void levelCal(int id, int base, boolean lvl5){
+    public void levelCal(int base, boolean lvl5){
         user.setAttack((int) (user.getAttack() + Math.pow(2, base)));
         if (lvl5){
             switch(user.getid()) {
@@ -230,6 +233,7 @@ public class Battle {
 
 
     public int damageInRange(int HP, int dmg){
+        if (dmg <= 0) dmg = 1;
         if (HP <= dmg) return 0;
         else return HP - dmg;
     }
