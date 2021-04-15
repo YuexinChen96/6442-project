@@ -5,7 +5,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.*;
 import javafx.util.Duration;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class Battle {
@@ -46,10 +46,11 @@ public class Battle {
                              StringProperty user_AD_info,StringProperty enemy_AD_info, StringProperty user_LEVEL, Pane board, GUI gui){
 
         System.out.println("Execute action: " + action);
-
+        System.out.println("User HP" + user.getHP());
         Timeline t1 = null;
         Circle ball = new Circle();
         button_able = false;
+        AtomicBoolean terminal_occur = new AtomicBoolean(false);
         if (action == 0) {
             // animation may go here
             t1 = new Timeline(new KeyFrame(Duration.millis(1),ae->{
@@ -65,6 +66,7 @@ public class Battle {
             Spell my = new Spell();
             t1 = new Timeline(new KeyFrame(Duration.millis(1),ae->{
                 PathTransition pt1 = my.execute(0,user,tar,true,board, ball);
+                user.setMP(user.getMP() - 20);
                 pt1.play();
             }));
         }
@@ -77,38 +79,41 @@ public class Battle {
             int ret = end_check(textInfo);
             if (ret != 0) {
                 gui.page3_to_page2(ret == 1,this.user);
+                terminal_occur.set(true);
             }
         }));
 
+
         // enemy action
-        Timeline t3 = new Timeline(new KeyFrame(Duration.millis(1),ae->{
-            // Simple agent
-            if (tar.getId() < 4) {
-                PathTransition pt2 = action1_animation(board, false);
-                pt2.play();
-                int dmg = tar.getAttack() - user.getDefence();
-                user.setHP(damageInRange(user.getHP(), dmg));
+        Timeline t3 = new Timeline(new KeyFrame(Duration.millis(1), ae -> {
+            if (!terminal_occur.get()) {
+                // Simple agent
+                if (tar.getId() < 4) {
+                    PathTransition pt2 = action1_animation(board, false);
+                    pt2.play();
+                    int dmg = tar.getAttack() - user.getDefence();
+                    user.setHP(damageInRange(user.getHP(), dmg));
+                }
             }
             // advanced agent
         }));
 
-        Timeline t4 = new Timeline(new KeyFrame(Duration.millis(1500),ae->{
-            end_turn_cal();
-            UIupdate(user_HP_info,user_MP_info,enemy_HP_info,enemy_MP_info,user_HP_bar,user_MP_bar,enemy_HP_bar
-                    ,enemy_MP_bar,user_AD_info,enemy_AD_info, user_LEVEL);
-            textInfo.setValue("Now is your turn... Choose one action.");
-            //winorlose.set(end_check());
-            //System.out.println(winorlose.get());
-            button_able = true;
-            int ret = end_check(textInfo);
-            if (ret != 0) {
-                gui.page3_to_page2(ret == 1,this.user);
+        Timeline t4 = new Timeline(new KeyFrame(Duration.millis(1500), ae -> {
+            if (!terminal_occur.get()) {
+                end_turn_cal();
+                UIupdate(user_HP_info, user_MP_info, enemy_HP_info, enemy_MP_info, user_HP_bar, user_MP_bar, enemy_HP_bar
+                        , enemy_MP_bar, user_AD_info, enemy_AD_info, user_LEVEL);
+                textInfo.setValue("Now is your turn... Choose one action.");
+                //winorlose.set(end_check());
+                //System.out.println(winorlose.get());
+                button_able = true;
+                int ret = end_check(textInfo);
+                if (ret != 0) gui.page3_to_page2(ret == 1, this.user);
             }
         }));
 
         SequentialTransition seqT = new SequentialTransition(t1, t2, t3, t4);
         seqT.play();
-
 
         // return end_check();
     }
@@ -195,7 +200,7 @@ public class Battle {
         else if (user.getExp() <= 600) new_level = ((user.getExp() - 100) / 50) + 10;
         else if (user.getExp() <= 5600) new_level = ((user.getExp() - 600) / 500) + 20;
         else new_level = ((user.getExp() - 5600) / 2000) + 30;
-        if (new_level == user.getLevel()){
+        if (new_level != user.getLevel()){
             System.out.println("Level up !!!");
             levelUpCal(user.getLevel(), new_level);
         }
@@ -208,6 +213,8 @@ public class Battle {
             from++;
         }
         user.setHP(user.getmaxHP());
+        user.setLevel(to);
+        System.out.println(user.getHP());
     }
 
     public void levelCal(int id, int base, boolean lvl5){
@@ -215,8 +222,8 @@ public class Battle {
         if (lvl5){
             switch(user.getid()) {
                 case 0:
-                    user.setDefence(user.getDefence() + 3 * base);
-                    user.setmaxHP(user.getmaxHP() + 25 * base);
+                    user.setDefence((int) (user.getDefence() + 3 * Math.pow(2,base)));
+                    user.setmaxHP((int) (user.getmaxHP() + 25 * Math.pow(2, base)));
             }
         }
     }
