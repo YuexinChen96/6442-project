@@ -297,11 +297,11 @@ public class GUI extends Application {
             node.setEffect(null);
         });
         node.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
-            System.out.println(keyable);
             if(this.keyable) {
                 System.out.println("key able");
                 KeyCode keyCode = e.getCode();
                 boolean mapEnd = mapclass.ifMapEnd(user,whichMap(currentMapIndex));
+
                 if (keyCode.equals(KeyCode.RIGHT)) {
                     System.out.println("right");
                     boolean canMove = mapclass.checkMoveEnable(user, 'R', whichMap(currentMapIndex));
@@ -315,21 +315,14 @@ public class GUI extends Application {
                             user.setPosition(mapclass.startPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
-                            user.setPosition(mapclass.startPosition(currentMapIndex));
                         } else if (LastMap) {
                             currentMapIndex--;
-                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                            user.setPosition(mapclass.endPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
-                            user.setPosition(mapclass.startPosition(currentMapIndex));
-                        }
-                        else if (canMove) {
-                            moveAnimation(node, x * 30, y * 30, (x + 1) * 30, y * 30);
-                            user.setPosition(new int[]{x + 1, y});
-                            System.out.println(user.strPos());
                         }
                     }
-                    else if (canMove) {
+                    if (canMove) {
                         moveAnimation(node, x * 30, y * 30, (x + 1) * 30, y * 30);
                         user.setPosition(new int[]{x + 1, y});
                         System.out.println(user.strPos());
@@ -347,21 +340,15 @@ public class GUI extends Application {
                             user.setPosition(mapclass.startPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
-                            user.setPosition(mapclass.startPosition(currentMapIndex));
                         }
                         else if(LastMap) {
                             currentMapIndex--;
-                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                            user.setPosition(mapclass.endPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
-                            user.setPosition(mapclass.startPosition(currentMapIndex));
-                        }
-                        else if (canMove) {
-                            moveAnimation(node, x * 30, y * 30, (x - 1) * 30, y * 30);
-                            user.setPosition(new int[]{x - 1, y});
                         }
                     }
-                    else if (canMove) {
+                    if (canMove) {
                         moveAnimation(node, x * 30, y * 30, (x - 1) * 30, y * 30);
                         user.setPosition(new int[]{x - 1, y});
                     }
@@ -378,21 +365,15 @@ public class GUI extends Application {
                             user.setPosition(mapclass.startPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
-                            user.setPosition(mapclass.startPosition(currentMapIndex));
                         }
                         else if(LastMap) {
                             currentMapIndex--;
-                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                            user.setPosition(mapclass.endPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
-                            user.setPosition(mapclass.startPosition(currentMapIndex));
-                        }
-                        else if (canMove) {
-                            moveAnimation(node, x * 30, y * 30, x * 30, (y + 1) * 30);
-                            user.setPosition(new int[]{x, y + 1});
                         }
                     }
-                    else if (canMove) {
+                    if (canMove) {
                         moveAnimation(node, x * 30, y * 30, x * 30, (y - 1) * 30);
                         user.setPosition(new int[]{x, y - 1});
                     }
@@ -409,21 +390,15 @@ public class GUI extends Application {
                             user.setPosition(mapclass.startPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
-                            user.setPosition(mapclass.startPosition(currentMapIndex));
                         }
                         else if(LastMap) {
                             currentMapIndex--;
-                            user.setPosition(mapclass.startPosition(currentMapIndex));
+                            user.setPosition(mapclass.endPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
-                            user.setPosition(mapclass.startPosition(currentMapIndex));
-                        }
-                        else if (canMove) {
-                            moveAnimation(node, x * 30, y * 30, x * 30, (y + 1) * 30);
-                            user.setPosition(new int[]{x, y + 1});
                         }
                     }
-                    else if (canMove) {
+                    if (canMove) {
                         moveAnimation(node, x * 30, y * 30, x * 30, (y + 1) * 30);
                         user.setPosition(new int[]{x, y + 1});
                     }
@@ -461,7 +436,6 @@ public class GUI extends Application {
             if (mapclass.ifTerminal(user, whichMap(currentMapIndex))) page4_initial();
             if (mapclass.ifBattle(user, whichMap(currentMapIndex))) page3_initial((int)e - 48);
             this.keyable=true;
-            System.out.println("keyture:"+keyable);
             node.setEffect(null);
         }));
         SequentialTransition seqTransition = new SequentialTransition(pathTransition,new PauseTransition(Duration.millis(230)),check3or4);
