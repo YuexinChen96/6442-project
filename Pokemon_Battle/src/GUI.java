@@ -75,6 +75,9 @@ public class GUI extends Application {
     private DoubleProperty enemy_HP_bar = new SimpleDoubleProperty();
     private DoubleProperty enemy_MP_bar = new SimpleDoubleProperty();
 
+    private StringProperty number_HP_poison = new SimpleStringProperty("2");
+    private StringProperty number_MP_poison = new SimpleStringProperty("2");
+
 
     static {
         dropShadow = new DropShadow();
@@ -576,10 +579,75 @@ public class GUI extends Application {
         page3_setupDynamicInfoBoxes(enemy);
         // buttons
         page3_setupButton(battle);
-
-
+        // poison buttons
+        page3_setupPoison();
     }
 
+    public void page3_setupPoison() {
+        // two images
+        Rectangle HP_poison = new Rectangle(1100, 40, 30, 30);
+        HP_poison.setFill(new ImagePattern(new Image("Pics/Maps/h.png")));
+        board.getChildren().add(HP_poison);
+        Rectangle MP_poison = new Rectangle(1100, 110, 30, 30);
+        MP_poison.setFill(new ImagePattern(new Image("Pics/Maps/m.png")));
+        board.getChildren().add(MP_poison);
+        // two buttons
+        Button HP_btn = new Button();
+        HP_btn.setLayoutX(1130);
+        HP_btn.setLayoutY(40);
+        HP_btn.setMinSize(30, 30);
+        HP_btn.textProperty().bindBidirectional(number_HP_poison);
+        HP_btn.setOnAction(e -> {
+            int i = Integer.parseInt(number_HP_poison.get());
+            if (i != 0 && user.getHP() != user.getmaxHP()) {
+                i--;
+                poisonUsed(true);
+                number_HP_poison.set(i+"");
+            }
+        });
+        board.getChildren().add(HP_btn);
+
+        Button MP_btn = new Button();
+        MP_btn.setLayoutX(1130);
+        MP_btn.setLayoutY(110);
+        MP_btn.setMinSize(30, 30);
+        MP_btn.textProperty().bindBidirectional(number_MP_poison);
+        MP_btn.setOnAction(e -> {
+            int i = Integer.parseInt(number_MP_poison.get());
+            // full MP or no poison
+            if (i != 0 && user.getMP() == user.getMaxMP()) {
+                i--;
+                poisonUsed(false);
+                number_MP_poison.set(i+"");
+            }
+        });
+        board.getChildren().add(MP_btn);
+    }
+
+    // execute poison, HorM: true for HP, false for MP
+    public void poisonUsed(boolean HorM) {
+        if (HorM) {
+            if (user.getHP() >= 0.4 * user.getmaxHP()) {
+                user.setHP(user.getmaxHP());
+            } else {
+                user.setHP((int) (user.getHP() + user.getmaxHP() * 0.6));
+            }
+        } else {
+            if (user.getMP() >= 60) user.setMP(100);
+            else user.setMP(user.getMP() + 40);
+        }
+        updateUserUI();
+    }
+
+    // update UI for HP and MP
+    public void updateUserUI(){
+        user_HP_info.setValue(user.getHP() + "/" + user.getmaxHP());
+        user_MP_info.setValue(user.getMP() + "/100");
+        user_HP_bar.set((user.getHP() * 1.0) / (user.getmaxHP() * 1.0) * 200);
+        user_MP_bar.set(user.getMP() * 1.0);
+        //user_AD_info.setValue(user.getAttack() + "-" + user.getDefence());
+        //user_LEVEL.setValue("lvl " + user.getLevel());
+    }
 
     // information boxes with static structure -- finished (less changed)
     public void page3_setupStaticInfoBoxes(Enemy enemy) {
