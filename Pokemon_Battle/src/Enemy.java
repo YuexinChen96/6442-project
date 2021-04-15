@@ -9,6 +9,16 @@ public class Enemy implements Serializable {
     private int defence;
     private int HP;
     private int MP;
+
+    public int getEXP() {
+        return EXP;
+    }
+
+    public void setEXP(int EXP) {
+        this.EXP = EXP;
+    }
+
+    private int EXP;
     public int[] skill_list = new int[3];
 
     public String getImgUrl() {
