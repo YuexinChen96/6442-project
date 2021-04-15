@@ -1,42 +1,48 @@
 [{
+  "id": 0,
+  "name": "Enemy1",
+  "attack": 2,
+  "defence": 0,
+  "HP": 12,
+  "MP": 0,
+  "max_HP": 12,
+  "skill_list": [0,0,0]
+},{
   "id": 1,
-  "name": "guladuo",
-  "attack": 55,
-  "defence": 29,
-  "HP": 420,
-  "MP": 0
+  "name": "Enemy2",
+  "attack": 5,
+  "defence": 1,
+  "HP": 30,
+  "MP": 0,
+  "max_HP": 30,
+  "skill_list": [0,0,0]
 },{
   "id": 2,
-  "name": "haihuangya",
-  "attack": 55,
-  "defence":29,
-  "HP": 420,
-  "maxHP": 420,
-  "MP": 0
+  "name": "Enemy3",
+  "attack": 10,
+  "defence": 2,
+  "HP": 60,
+  "MP": 0,
+  "max_HP": 60,
+  "skill_list": [0,0,0]
 },{
   "id": 3,
-  "name": "tiankonglong",
-  "attack": 50,
-  "defence": 17,
-  "HP": 340,
-  "maxHP": 420,
-  "MP": 0
+  "name": "Enemy4",
+  "attack": 18,
+  "defence": 5,
+  "HP": 90,
+  "MP": 0,
+  "max_HP": 90,
+  "skill_list": [0,0,0]
 },{
   "id": 4,
-  "name": "luoqiya",
-  "attack": 59,
-  "defence":20,
-  "HP": 390,
-  "maxHP": 420,
-  "MP": 0
-},{
-  "id": 5,
-  "name": "leigong",
-  "attack": 55,
-  "defence":25,
-  "HP": 420,
-  "maxHP": 420,
-  "MP": 0
+  "name": "Enemy5",
+  "attack": 30,
+  "defence": 8,
+  "HP": 120,
+  "MP": 0,
+  "max_HP": 120,
+  "skill_list": [2,3,5]
 }
 
 

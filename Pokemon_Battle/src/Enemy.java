@@ -9,6 +9,7 @@ public class Enemy implements Serializable {
     private int defence;
     private int HP;
     private int MP;
+    public int[] skill_list = new int[3];
 
     public String getImgUrl() {
         return imgUrl;
