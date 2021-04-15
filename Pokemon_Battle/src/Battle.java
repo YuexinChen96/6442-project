@@ -190,7 +190,8 @@ public class Battle {
         // check level
         int new_level;
         // 1 - 10
-        if (user.getExp() <= 100) new_level = (user.getExp() / 10);
+        if (user.getLevel() == 40) new_level = 40;
+        else if (user.getExp() <= 100) new_level = (user.getExp() / 10);
         else if (user.getExp() <= 600) new_level = ((user.getExp() - 100) / 50) + 10;
         else if (user.getExp() <= 5600) new_level = ((user.getExp() - 600) / 500) + 20;
         else new_level = ((user.getExp() - 5600) / 2000) + 30;
@@ -203,14 +204,14 @@ public class Battle {
 
     public void levelUpCal(int from, int to){
         while (from != to) {
-            levelCal(user.getid(), (from / 10) + 1, from % 5 == 0 && from != 0);
+            levelCal(user.getid(), (from / 10), from % 5 == 0 && from != 0);
             from++;
         }
         user.setHP(user.getmaxHP());
     }
 
     public void levelCal(int id, int base, boolean lvl5){
-        user.setAttack(user.getAttack() + base);
+        user.setAttack((int) (user.getAttack() + Math.pow(2, base)));
         if (lvl5){
             switch(user.getid()) {
                 case 0:
