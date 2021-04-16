@@ -215,8 +215,8 @@ public class Battle {
         user.setHP(user.getmaxHP());
         user.setLevel(to);
         System.out.println(user.getHP());
-        if (user.getLevel() > 2) user.setGrassAble(true);
-        if (user.getLevel() > 15) user.setWaterAble(true);
+        if (user.getLevel() > 10) user.setGrassAble(true);
+        if (user.getLevel() > 20) user.setWaterAble(true);
         if (user.getLevel() > 30) user.setStoneAble(true);
     }
 
@@ -225,8 +225,8 @@ public class Battle {
         if (lvl5){
             switch(user.getid()) {
                 case 0:
-                    user.setDefence((int) (user.getDefence() + 3 * Math.pow(2,base)));
-                    user.setmaxHP((int) (user.getmaxHP() + 25 * Math.pow(2, base)));
+                    user.setDefence((int) (user.getDefence() + 1 * Math.pow(2,base)));
+                    user.setmaxHP((int) (user.getmaxHP() + 20 * Math.pow(2, base)));
             }
         }
     }
