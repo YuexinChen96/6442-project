@@ -74,8 +74,8 @@ public class GUI extends Application {
     private DoubleProperty enemy_HP_bar = new SimpleDoubleProperty();
     private DoubleProperty enemy_MP_bar = new SimpleDoubleProperty();
 
-    private StringProperty number_HP_poison = new SimpleStringProperty("0");//the number of red bottles you picked up
-    private StringProperty number_MP_poison = new SimpleStringProperty("0");//the number of blue bottles you picked up
+    private StringProperty number_HP_poison = new SimpleStringProperty("2");//the number of red bottles you picked up
+    private StringProperty number_MP_poison = new SimpleStringProperty("2");//the number of blue bottles you picked up
 
 
     static {
@@ -455,8 +455,8 @@ public class GUI extends Application {
             if (mapclass.ifTerminal(user, whichMap(currentMapIndex))) page4_initial();
             if (mapclass.ifBattle(user, whichMap(currentMapIndex))) page3_initial((int)e - 48);
             if (e=='h'||e=='m'||e=='a'){
-                if(e=='h') number_HP_poison.set(String.valueOf(Integer.valueOf(number_HP_poison.get())+1));
-                else if(e=='m') number_MP_poison.set(String.valueOf(Integer.valueOf(number_MP_poison.get())+1));
+                if(e=='h') number_HP_poison.set(String.valueOf(Integer.parseInt(number_HP_poison.get())+1));
+                else if(e=='m') number_MP_poison.set(String.valueOf(Integer.parseInt(number_MP_poison.get())+1));
                 //else if(e=='a') ;
                 whichMap(currentMapIndex)[user.getPosition()[0]][user.getPosition()[1]]='r';
                 page2_initial();
