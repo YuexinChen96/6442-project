@@ -7,7 +7,7 @@
   "MP": 0,
   "maxHP": 12,
   "EXP": 4,
-  "skill_list": [0,0,0]
+  "skill_list": [-1,-1,-1]
 },{
   "id": 1,
   "name": "Enemy2",
@@ -17,7 +17,7 @@
   "MP": 0,
   "maxHP": 30,
   "EXP": 8,
-  "skill_list": [0,0,0]
+  "skill_list": [-1,-1,-1]
 },{
   "id": 2,
   "name": "Enemy3",
@@ -27,7 +27,7 @@
   "MP": 0,
   "maxHP": 60,
   "EXP": 20,
-  "skill_list": [0,0,0]
+  "skill_list": [-1,-1,-1]
 },{
   "id": 3,
   "name": "Enemy4",
@@ -37,7 +37,7 @@
   "MP": 0,
   "maxHP": 90,
   "EXP": 50,
-  "skill_list": [0,0,0]
+  "skill_list": [-1,-1,-1]
 },{
   "id": 4,
   "name": "Enemy5",

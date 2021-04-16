@@ -50,6 +50,7 @@ public class Battle {
         Timeline t1 = null;
         Circle ball = new Circle();
         button_able = false;
+
         AtomicBoolean terminal_occur = new AtomicBoolean(false);
         if (action == 0) {
             // animation may go here
@@ -57,27 +58,31 @@ public class Battle {
                 PathTransition pt1 = action1_animation(board, true);
                 pt1.play();
             }));
-
             int dmg = user.getAttack() - tar.getDefence();
             System.out.println("The damage is: " + dmg);
             tar.setHP(damageInRange(tar.getHP(), dmg));
 
-        } else if (action == 1) {
+        } else if (action == 1 || action == 2 || action == 3) {
             Spell my = new Spell();
-            t1 = new Timeline(new KeyFrame(Duration.millis(1),ae->{
-                PathTransition pt1 = my.execute(0,user,tar,true,board, ball);
-                user.setMP(user.getMP() - 20);
+            t1 = new Timeline(new KeyFrame(Duration.millis(1), ae -> {
+                PathTransition pt1 = my.execute(user.getSkillList()[action - 1], user, tar, true, board, ball);
+                if (action == 3) user.setMP(user.getMP() - 80);
+                else user.setMP(user.getMP() - 20);
                 pt1.play();
             }));
         }
 
         Timeline t2 = new Timeline(new KeyFrame(Duration.millis(1500),ae->{
+            // user mana recover
+            if (action == 0) user.setMP(mana_gain(user.getMP(), 8));
+
             UIupdate(user_HP_info,user_MP_info,enemy_HP_info,enemy_MP_info,user_HP_bar,user_MP_bar,enemy_HP_bar
                     ,enemy_MP_bar,user_AD_info,enemy_AD_info, user_LEVEL);
             textInfo.setValue("Waiting for enemy's response...");
             board.getChildren().remove(ball);
-            int ret = end_check(textInfo);
+            int ret = end_check();
             if (ret != 0) {
+                textInfo.setValue("Enemy loses all HP. You win !!!");
                 gui.page3_to_page2(ret == 1,this.user);
                 terminal_occur.set(true);
             }
@@ -100,14 +105,16 @@ public class Battle {
 
         Timeline t4 = new Timeline(new KeyFrame(Duration.millis(1500), ae -> {
             if (!terminal_occur.get()) {
-                end_turn_cal();
+                // get mana for enmey
+                if (tar.getId() > 3) tar.setMP(mana_gain(tar.getMP(), 8));
+
                 UIupdate(user_HP_info, user_MP_info, enemy_HP_info, enemy_MP_info, user_HP_bar, user_MP_bar, enemy_HP_bar
                         , enemy_MP_bar, user_AD_info, enemy_AD_info, user_LEVEL);
                 textInfo.setValue("Now is your turn... Choose one action.");
                 //winorlose.set(end_check());
                 //System.out.println(winorlose.get());
                 button_able = true;
-                int ret = end_check(textInfo);
+                int ret = end_check();
                 if (ret != 0) gui.page3_to_page2(ret == 1, this.user);
             }
         }));
@@ -116,11 +123,6 @@ public class Battle {
         seqT.play();
 
         // return end_check();
-    }
-
-    public void end_turn_cal(){
-        user.setMP(mana_gain(user.getMP(), 10));
-        if (tar.getId() > 3) tar.setMP(mana_gain(tar.getMP(), 10));
     }
 
     public int mana_gain(int curr, int gain){
@@ -174,22 +176,20 @@ public class Battle {
     }
 
     // end check works -- need API from Natalie
-    public int end_check(StringProperty textInfo){
+    public int end_check(){
         if (gameover_test()){
             System.out.println("Game Over.");
             return -1;
         } else if (win_test()){
             System.out.println("You have win this game.");
-            winCal(textInfo);
+            winCal();
             return 1;
         }
         return 0;
     }
 
     // gain EXP basic on enemy level
-    public void winCal(StringProperty textInfo){
-        System.out.println("Check here.");
-        Timeline t1 = new Timeline(new KeyFrame(Duration.millis(1),ae-> textInfo.setValue("Enemy loses all HP. You win !!!")));
+    public void winCal(){
         // exp gain
         user.setExp(user.getExp() + tar.getEXP());
         // check level
