@@ -23,9 +23,10 @@ public class Spell {
                 return animation_ball(board, flag, 0, ball);
             case 1:
                 if (flag) {
-                    enemy.setDefence((enemy.getDefence() <= 3) ? 0 : enemy.getDefence() - 3);
+                    int fact = (user.getLevel() < 10) ? 1 : (int) (2 * Math.pow(2, user.getLevel() / 10));
+                    enemy.setDefence((enemy.getDefence() <= fact) ? 0 : (enemy.getDefence() - fact));
                 } else {
-                    user.setDefence((user.getDefence() <= 3) ? 0 : user.getDefence() - 3);
+                    user.setDefence((user.getDefence() <= 5) ? 0 : user.getDefence() - 5);
                 }
                 return animation_DefenceDown(board, flag, 1, ball);
             case 2:

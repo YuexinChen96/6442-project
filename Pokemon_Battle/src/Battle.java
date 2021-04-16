@@ -209,7 +209,7 @@ public class Battle {
 
     public void levelUpCal(int from, int to){
         while (from != to) {
-            levelCal(from / 10, from % 5 == 4);
+            levelCal(from / 10, from % 5 == 4, from);
             from++;
         }
         user.setHP(user.getmaxHP());
@@ -220,13 +220,16 @@ public class Battle {
         if (user.getLevel() > 30) user.setStoneAble(true);
     }
 
-    public void levelCal(int base, boolean lvl5){
+    public void levelCal(int base, boolean lvl5, int from){
         user.setAttack((int) (user.getAttack() + Math.pow(2, base)));
+        if (from < 5) user.setmaxHP(user.getmaxHP() + 5);
+        else {
+            user.setmaxHP((int) (user.getmaxHP() + Math.pow(2,((from - 5) / 10) + 3)));
+        }
         if (lvl5){
             switch(user.getid()) {
                 case 0:
                     user.setDefence((int) (user.getDefence() + 1 * Math.pow(2,base)));
-                    user.setmaxHP((int) (user.getmaxHP() + 20 * Math.pow(2, base)));
             }
         }
     }
