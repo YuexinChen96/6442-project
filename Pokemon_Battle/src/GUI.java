@@ -284,7 +284,7 @@ public class GUI extends Application {
                     ", MP:" + user.getMP()+"/"+user.getMaxMP()
                     + ", Defense:" + user.getDefence() + ", Attack:" + user.getAttack()+", Experience:"+user.getExp();
             String able="grass_able:"+user.getGrassAble()+", water_able:"+user.getWaterAble()+ ", stone_able:" + user.getStoneAble();
-            String pack="My backpack: "+"RedBottle("+number_HP_poison.get()+")"+", BlueBottle("+number_MP_poison.get()+")";//+", Sword("+countSword+")";
+            String pack="My backpack: "+"HP poison("+number_HP_poison.get()+")"+", MP poison("+number_MP_poison.get()+")";//+", Sword("+countSword+")";
             attrinfo.setText(name+"\n\n"+attr+"\n\n"+able+"\n\n"+pack);
             board.getChildren().addAll(rec_attr,attrinfo);
         });
@@ -459,7 +459,17 @@ public class GUI extends Application {
                 else if(e=='m') number_MP_poison.set(String.valueOf(Integer.parseInt(number_MP_poison.get())+1));
                 //else if(e=='a') ;
                 whichMap(currentMapIndex)[user.getPosition()[0]][user.getPosition()[1]]='r';
-                page2_initial();
+                //remove this rect on map
+                Node result=null;
+                for (Node r: board.getChildren()) {
+                    if(r.getClass()==new Rectangle().getClass() &&
+                            r.localToScene(r.getBoundsInLocal()).getCenterX()-15==user.getPosition()[0]*30 &&
+                            r.localToScene(r.getBoundsInLocal()).getCenterY()-15==user.getPosition()[1]*30 ) {
+                        result = r;
+                        break;
+                    }
+                }
+                board.getChildren().remove(result);
             }
 
             this.keyable=true;
