@@ -187,6 +187,7 @@ public class GUI extends Application {
         Rectangle rect = new Rectangle(300, 300, 200, 200);
         rect.setFill(new ImagePattern(img));
         Path path = new Path();
+        path.setStroke(Color.WHITE);
         path.getElements().add(new MoveTo(300, 300));
         path.getElements().add(new LineTo(700, 300));
         path.getElements().add(new LineTo(700, 700));
@@ -200,18 +201,61 @@ public class GUI extends Application {
         pt.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         pt.setAutoReverse(true);
 
+        Image img2 = new Image("Pics/Pokemon/pic1.png");
+        Rectangle rect2 = new Rectangle(300, 300, 200, 200);
+        rect2.setFill(new ImagePattern(img2));
+        Path path2 = new Path();
+        path2.setStroke(Color.WHITE);
+        path2.getElements().add(new MoveTo(300, 300));
+        path2.getElements().add(new LineTo(700, 300));
+        path2.getElements().add(new LineTo(700, 700));
+        path2.getElements().add(new LineTo(300, 700));
+        path2.getElements().add(new LineTo(300, 300));
+
+        PathTransition pt2 = new PathTransition();
+        pt2.setDuration(Duration.millis(5000));
+        pt2.setNode(rect2);
+        pt2.setPath(path2);
+        pt2.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+        pt2.setAutoReverse(true);
+
+        Image img3 = new Image("Pics/Pokemon/pic2.png");
+        Rectangle rect3 = new Rectangle(300, 300, 200, 200);
+        rect3.setFill(new ImagePattern(img3));
+        Path path3 = new Path();
+        path3.setStroke(Color.WHITE);
+        path3.getElements().add(new MoveTo(300, 300));
+        path3.getElements().add(new LineTo(700, 300));
+        path3.getElements().add(new LineTo(700, 700));
+        path3.getElements().add(new LineTo(300, 700));
+        path3.getElements().add(new LineTo(300, 300));
+
+        PathTransition pt3 = new PathTransition();
+        pt3.setDuration(Duration.millis(5000));
+        pt3.setNode(rect3);
+        pt3.setPath(path3);
+        pt3.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+        pt3.setAutoReverse(true);
+
         Button play = new Button("Play");
-        play.setLayoutX(200);
-        play.setLayoutY(200);
+        play.setLayoutX(150);
+        play.setLayoutY(150);
         play.setOnAction(e -> pt.play());
+        play.setOnAction(e -> pt2.play());
+        play.setOnAction(e -> pt3.play());
 
         board.getChildren().add(i);
         board.getChildren().add(rect);
         board.getChildren().add(path);
+        board.getChildren().add(rect2);
+        board.getChildren().add(path2);
+        board.getChildren().add(rect3);
+        board.getChildren().add(path3);
         board.getChildren().add(play);
 
         // ------待完善-----
-        int id = 0;  // 改成：int id=选择的角色（page1）
+        // 改成：int id = 选择的角色（page1）
+        int id = 0;
         user = new Pokemon(id);
         user = pokemonLoadFromJson(user.getid());
         user.setPosition(new int[]{1, 0});
@@ -220,7 +264,7 @@ public class GUI extends Application {
 
 
         Button btn1 = new Button("Start");
-        btn1.setLayoutX(600);
+        btn1.setLayoutX(800);
         btn1.setLayoutY(400);
         btn1.setOnAction(e -> {
             board.getChildren().removeAll(board.getChildren());
@@ -228,10 +272,10 @@ public class GUI extends Application {
         });
         board.getChildren().add(btn1);
 
-        Button btn2 = new Button("Choose a role");
-        btn1.setLayoutX(1000);
-        btn1.setLayoutY(200);
-        btn1.setOnAction(e -> {
+        Button btn2 = new Button("Choose");
+        btn2.setLayoutX(150);
+        btn2.setLayoutY(400);
+        btn2.setOnAction(e -> {
             board.getChildren().removeAll(board.getChildren());
             // map index: 0,1,2,3
             page2_initial();
