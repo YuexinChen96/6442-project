@@ -76,6 +76,8 @@ public class GUI extends Application {
 
     private StringProperty number_HP_poison = new SimpleStringProperty("2");//the number of red bottles you picked up
     private StringProperty number_MP_poison = new SimpleStringProperty("2");//the number of blue bottles you picked up
+    // 攻击/防御/ability初始都去pokemon里取。比如：user.attack
+
 
 
     static {
@@ -454,7 +456,7 @@ public class GUI extends Application {
             System.out.println(user.strPos());
             if (mapclass.ifTerminal(user, whichMap(currentMapIndex))) page4_initial();
             if (mapclass.ifBattle(user, whichMap(currentMapIndex))) page3_initial((int)e - 48);
-            if (e=='h'||e=='m'||e=='a'){
+            if (e=='h'||e=='m'||e=='a'||e=='f'||e=='x'||e=='y'||e=='z'){
                 if(e=='h') number_HP_poison.set(String.valueOf(Integer.parseInt(number_HP_poison.get())+1));
                 else if(e=='m') number_MP_poison.set(String.valueOf(Integer.parseInt(number_MP_poison.get())+1));
                 //else if(e=='a') ;
