@@ -77,7 +77,6 @@ public class GUI extends Application {
     private StringProperty number_HP_poison = new SimpleStringProperty("2");//the number of red bottles you picked up
     private StringProperty number_MP_poison = new SimpleStringProperty("2");//the number of blue bottles you picked up
 
-
     static {
         dropShadow = new DropShadow();
         dropShadow.setOffsetX(2.0);
@@ -505,10 +504,14 @@ public class GUI extends Application {
             System.out.println(user.strPos());
             if (mapclass.ifTerminal(user, whichMap(currentMapIndex))) page4_initial();
             if (mapclass.ifBattle(user, whichMap(currentMapIndex))) page3_initial((int) e - 48);
-            if (e == 'h' || e == 'm' || e == 'a') {
+            if (e == 'h' || e == 'm' || e == 'a' || e == 'f' || e == 'x' || e == 'y' || e == 'z') {
                 if (e == 'h') number_HP_poison.set(String.valueOf(Integer.parseInt(number_HP_poison.get()) + 1));
                 else if (e == 'm') number_MP_poison.set(String.valueOf(Integer.parseInt(number_MP_poison.get()) + 1));
-                //else if(e=='a') ;
+                else if(e=='a') user.setAttack(user.getAttack()+1);
+                else if(e=='f') user.setDefence(user.getDefence()+1);
+                else if(e=='x') user.setGrassAble(true);
+                else if(e=='y') user.setWaterAble(true);
+                else if(e=='z') user.setStoneAble(true);
                 whichMap(currentMapIndex)[user.getPosition()[0]][user.getPosition()[1]] = 'r';
                 //remove this rect on map
                 Node result = null;
