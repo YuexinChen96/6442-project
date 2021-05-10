@@ -39,13 +39,13 @@ public class GUI extends Application {
     // Dimensions of the display window
     private static final int WINDOW_WIDTH = 1200;
     private static final int WINDOW_HEIGHT = 740;
-    private static final int mapLength =80;
-    private static final int mapHeight =48;
+    private static final int mapLength = 80;
+    private static final int mapHeight = 48;
     char[][] map = new char[mapLength][mapHeight];
-    char[][] showMap0 = new char[mapLength/2][mapHeight/2];
-    char[][] showMap1 = new char[mapLength/2][mapHeight/2];
-    char[][] showMap2 = new char[mapLength/2][mapHeight/2];
-    char[][] showMap3 = new char[mapLength/2][mapHeight/2];
+    char[][] showMap0 = new char[mapLength / 2][mapHeight / 2];
+    char[][] showMap1 = new char[mapLength / 2][mapHeight / 2];
+    char[][] showMap2 = new char[mapLength / 2][mapHeight / 2];
+    char[][] showMap3 = new char[mapLength / 2][mapHeight / 2];
     int currentMapIndex = -1;
 
     // Page indicator
@@ -76,7 +76,6 @@ public class GUI extends Application {
 
     private StringProperty number_HP_poison = new SimpleStringProperty("2");//the number of red bottles you picked up
     private StringProperty number_MP_poison = new SimpleStringProperty("2");//the number of blue bottles you picked up
-
 
     static {
         dropShadow = new DropShadow();
@@ -122,35 +121,34 @@ public class GUI extends Application {
     // Chloe
     public void page0_initial() {
         ImageView background = new ImageView();
-        final String PAGE0_BACKGROUND_URI = getClass().getResource("Pics/page1_bg_pikachu.jpg").toString();
+        final String PAGE0_BACKGROUND_URI = getClass().getResource("Pics/bg-unsplash.jpg").toString();
         background.setImage(new Image(PAGE0_BACKGROUND_URI));
-        background.setFitHeight(600);
+        background.setFitHeight(780);
         background.setPreserveRatio(true);
         board.getChildren().add(background);
         board.setLayoutX(0);
         board.setLayoutY(0);
         board.toBack();
 
-        Text introduction = new Text("Brief introduction");
-        introduction.setFill(Color.BLACK);
-        introduction.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-        introduction.setLayoutY(30 + 50);
-        introduction.setLayoutY(30 + 30);
+        Text introduction = new Text("BRIEF INTRODUCTION");
+        introduction.setFill(Color.rgb(9, 97, 228));
+        introduction.setFont(Font.font("Avenir Next", FontWeight.BOLD, 24));
+        introduction.setLayoutX(80);
+        introduction.setLayoutY(100);
         board.getChildren().add(introduction);
 
-        Text instructionsText = new Text("balabalabalabalabalabalabalabalabalabalabalabalabalabalabalabalabalabalabalabalabalabalabalabalabala" +
-                "balabalabalabalabalabalabalabalabalabalabala");
-        instructionsText.setFill(Color.BLACK);
-        instructionsText.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
-        instructionsText.setLayoutY(180 + 50);
-        instructionsText.setLayoutY(180 + 180 + 55);
-        instructionsText.setWrappingWidth(600);
+        Text instructionsText = new Text("Once upon a time, on a small island of Far East, lives a tribe of elves. " +
+                "The lived happily together. However, one day the evil elves of another tribe want to occupy this quiet and peaceful island, thus the war begins...");
+        instructionsText.setFill(Color.WHITE);
+        instructionsText.setFont(Font.font("Avenir Next", FontWeight.LIGHT, 18));
+        instructionsText.setLayoutX(80);
+        instructionsText.setLayoutY(450);
+        instructionsText.setWrappingWidth(500);
         board.getChildren().add(instructionsText);
 
         Button btn1 = new Button("Start");
         btn1.setLayoutX(200);
-        btn1.setLayoutY(200);
-        //btn1.setMinSize(10, 10);
+        btn1.setLayoutY(250);
         btn1.setOnAction(e -> {
             board.getChildren().removeAll(board.getChildren());
             page1_initial();
@@ -166,9 +164,9 @@ public class GUI extends Application {
     public void page1_initial() {
         System.out.println("Pokemon.Pokemon Select");
         ImageView background = new ImageView();
-        final String PAGE0_BACKGROUND_URI = getClass().getResource("Pics/page1_bg_pikachu.jpg").toString();
+        final String PAGE0_BACKGROUND_URI = getClass().getResource("Pics/bg-unsplash.jpg").toString();
         background.setImage(new Image(PAGE0_BACKGROUND_URI));
-        background.setFitHeight(700);
+        background.setFitHeight(780);
         background.setPreserveRatio(true);
         board.getChildren().add(background);
         board.setLayoutX(0);
@@ -188,6 +186,7 @@ public class GUI extends Application {
         Rectangle rect = new Rectangle(300, 300, 200, 200);
         rect.setFill(new ImagePattern(img));
         Path path = new Path();
+        path.setStroke(Color.WHITE);
         path.getElements().add(new MoveTo(300, 300));
         path.getElements().add(new LineTo(700, 300));
         path.getElements().add(new LineTo(700, 700));
@@ -201,39 +200,81 @@ public class GUI extends Application {
         pt.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         pt.setAutoReverse(true);
 
+        Image img2 = new Image("Pics/Pokemon/pic1.png");
+        Rectangle rect2 = new Rectangle(300, 300, 200, 200);
+        rect2.setFill(new ImagePattern(img2));
+        Path path2 = new Path();
+        path2.setStroke(Color.WHITE);
+        path2.getElements().add(new MoveTo(300, 300));
+        path2.getElements().add(new LineTo(700, 300));
+        path2.getElements().add(new LineTo(700, 700));
+        path2.getElements().add(new LineTo(300, 700));
+        path2.getElements().add(new LineTo(300, 300));
+
+        PathTransition pt2 = new PathTransition();
+        pt2.setDuration(Duration.millis(5000));
+        pt2.setNode(rect2);
+        pt2.setPath(path2);
+        pt2.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+        pt2.setAutoReverse(true);
+
+        Image img3 = new Image("Pics/Pokemon/pic2.png");
+        Rectangle rect3 = new Rectangle(300, 300, 200, 200);
+        rect3.setFill(new ImagePattern(img3));
+        Path path3 = new Path();
+        path3.setStroke(Color.WHITE);
+        path3.getElements().add(new MoveTo(300, 300));
+        path3.getElements().add(new LineTo(700, 300));
+        path3.getElements().add(new LineTo(700, 700));
+        path3.getElements().add(new LineTo(300, 700));
+        path3.getElements().add(new LineTo(300, 300));
+
+        PathTransition pt3 = new PathTransition();
+        pt3.setDuration(Duration.millis(5000));
+        pt3.setNode(rect3);
+        pt3.setPath(path3);
+        pt3.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+        pt3.setAutoReverse(true);
+
         Button play = new Button("Play");
-        play.setLayoutX(200);
-        play.setLayoutY(200);
+        play.setLayoutX(150);
+        play.setLayoutY(150);
         play.setOnAction(e -> pt.play());
+        play.setOnAction(e -> pt2.play());
+        play.setOnAction(e -> pt3.play());
 
         board.getChildren().add(i);
         board.getChildren().add(rect);
         board.getChildren().add(path);
+        board.getChildren().add(rect2);
+        board.getChildren().add(path2);
+        board.getChildren().add(rect3);
+        board.getChildren().add(path3);
         board.getChildren().add(play);
 
         // ------待完善-----
-        int id = 0;  // 改成：int id=选择的角色（page1）
-        user=new Pokemon(id);
+        // 改成：int id = 选择的角色（page1）
+        int id = 0;
+        user = new Pokemon(id);
         user = pokemonLoadFromJson(user.getid());
-        user.setPosition(new int[]{1,0});
-        currentMapIndex=0;
+        user.setPosition(new int[]{1, 0});
+        currentMapIndex = 0;
         //-------------------
 
 
-
         Button btn1 = new Button("Start");
-        btn1.setLayoutX(1000);
-        btn1.setLayoutY(500);
+        btn1.setLayoutX(800);
+        btn1.setLayoutY(400);
         btn1.setOnAction(e -> {
             board.getChildren().removeAll(board.getChildren());
             page2_initial();
         });
         board.getChildren().add(btn1);
 
-        Button btn2 = new Button("Choose a role");
-        btn1.setLayoutX(1000);
-        btn1.setLayoutY(200);
-        btn1.setOnAction(e -> {
+        Button btn2 = new Button("Choose");
+        btn2.setLayoutX(150);
+        btn2.setLayoutY(400);
+        btn2.setOnAction(e -> {
             board.getChildren().removeAll(board.getChildren());
             // map index: 0,1,2,3
             page2_initial();
@@ -249,6 +290,7 @@ public class GUI extends Application {
     Map mapclass;
     //have four maps
     boolean keyable;
+
     public void page2_initial() {
         board.getChildren().removeAll(board.getChildren());
         System.out.println("Map");
@@ -261,53 +303,64 @@ public class GUI extends Application {
         //showPokemon
         int[] role_pos = user.getPosition();
         Rectangle rect = new Rectangle(role_pos[0] * 30, role_pos[1] * 30, 30, 30);
-        rect.setFill(new ImagePattern(new Image("Pics/Pokemon/pic"+user.getid()+".png")));
+        rect.setFill(new ImagePattern(new Image("Pics/Pokemon/pic" + user.getid() + ".png")));
         board.getChildren().add(rect);
         rect.toFront();
         //some functions of Pokemon
         startShowAnimation(rect);
-        keyable=true;
+        keyable = true;
         addKeyPressed(rect, board);
 
         //show attributes of pokemon
-        Button attributes=new Button("My attributes");
-        attributes.setLayoutX(5);attributes.setLayoutY(720);
-        attributes.setMaxSize(100,20);attributes.setMinSize(100,20);
+        Button attributes = new Button("My attributes");
+        attributes.setLayoutX(5);
+        attributes.setLayoutY(720);
+        attributes.setMaxSize(100, 20);
+        attributes.setMinSize(100, 20);
         attributes.setFont(Font.font("Arial", FontWeight.BOLD, 11));
         attributes.setFocusTraversable(false);
         board.getChildren().add(attributes);
-        Rectangle rec_attr=new Rectangle(5,580,500,140); rec_attr.setFill(Color.WHITE);rec_attr.setOpacity(0.9);
-        Label attrinfo=new Label(); attrinfo.setLayoutX(10);attrinfo.setLayoutY(590); attrinfo.setStyle("-fx-font-color:black");
-        attributes.setOnMousePressed(e->{
-            String name="Name:"+user.getName();
-            String attr="Level:"+user.getLevel()+", HP:"+ user.getHP() +"/"+user.getmaxHP()+
-                    ", MP:" + user.getMP()+"/"+user.getMaxMP()
-                    + ", Defense:" + user.getDefence() + ", Attack:" + user.getAttack()+", Experience:"+user.getExp();
-            String able="grass_able:"+user.getGrassAble()+", water_able:"+user.getWaterAble()+ ", stone_able:" + user.getStoneAble();
-            String pack="My backpack: "+"HP poison("+number_HP_poison.get()+")"+", MP poison("+number_MP_poison.get()+")";//+", Sword("+countSword+")";
-            attrinfo.setText(name+"\n\n"+attr+"\n\n"+able+"\n\n"+pack);
-            board.getChildren().addAll(rec_attr,attrinfo);
+        Rectangle rec_attr = new Rectangle(5, 580, 500, 140);
+        rec_attr.setFill(Color.WHITE);
+        rec_attr.setOpacity(0.9);
+        Label attrinfo = new Label();
+        attrinfo.setLayoutX(10);
+        attrinfo.setLayoutY(590);
+        attrinfo.setStyle("-fx-font-color:black");
+        attributes.setOnMousePressed(e -> {
+            String name = "Name:" + user.getName();
+            String attr = "Level:" + user.getLevel() + ", HP:" + user.getHP() + "/" + user.getmaxHP() +
+                    ", MP:" + user.getMP() + "/" + user.getMaxMP()
+                    + ", Defense:" + user.getDefence() + ", Attack:" + user.getAttack() + ", Experience:" + user.getExp();
+            String able = "grass_able:" + user.getGrassAble() + ", water_able:" + user.getWaterAble() + ", stone_able:" + user.getStoneAble();
+            String pack = "My backpack: " + "HP poison(" + number_HP_poison.get() + ")" + ", MP poison(" + number_MP_poison.get() + ")";//+", Sword("+countSword+")";
+            attrinfo.setText(name + "\n\n" + attr + "\n\n" + able + "\n\n" + pack);
+            board.getChildren().addAll(rec_attr, attrinfo);
         });
-        attributes.setOnMouseReleased(e-> board.getChildren().removeAll(rec_attr,attrinfo));
+        attributes.setOnMouseReleased(e -> board.getChildren().removeAll(rec_attr, attrinfo));
         //show enemy info
-        Button enemyinfo=new Button("Enemy info");
-        enemyinfo.setLayoutX(1000);enemyinfo.setLayoutY(720);
-        enemyinfo.setMaxSize(100,20);enemyinfo.setMinSize(100,20);
+        Button enemyinfo = new Button("Enemy info");
+        enemyinfo.setLayoutX(1000);
+        enemyinfo.setLayoutY(720);
+        enemyinfo.setMaxSize(100, 20);
+        enemyinfo.setMinSize(100, 20);
         enemyinfo.setFont(Font.font("Arial", FontWeight.BOLD, 11));
         enemyinfo.setFocusTraversable(false);
         board.getChildren().add(enemyinfo);
-        Label label_einfo=new Label();
-        label_einfo.setLayoutX(150);label_einfo.setLayoutY(722);
-        enemyinfo.setOnMousePressed(e->{
-            Rectangle rec_einfo=new Rectangle(1000,620,100,100);
-            rec_einfo.setFill(Color.BLUE); rec_einfo.setOpacity(0.7);
-            String einfo="";//To be completed
+        Label label_einfo = new Label();
+        label_einfo.setLayoutX(150);
+        label_einfo.setLayoutY(722);
+        enemyinfo.setOnMousePressed(e -> {
+            Rectangle rec_einfo = new Rectangle(1000, 620, 100, 100);
+            rec_einfo.setFill(Color.BLUE);
+            rec_einfo.setOpacity(0.7);
+            String einfo = "";//To be completed
         });
     }
 
     public void addKeyPressed(Node node, Node board) {
         mapclass = new Map();
-        board.addEventHandler(EventType.ROOT,e-> {
+        board.addEventHandler(EventType.ROOT, e -> {
             node.requestFocus();
             node.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
             });
@@ -317,17 +370,17 @@ public class GUI extends Application {
             node.setEffect(null);
         });
         node.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
-            if(this.keyable) {
+            if (this.keyable) {
                 System.out.println("key able");
                 KeyCode keyCode = e.getCode();
-                boolean mapEnd = mapclass.ifMapEnd(user,whichMap(currentMapIndex));
+                boolean mapEnd = mapclass.ifMapEnd(user, whichMap(currentMapIndex));
 
                 if (keyCode.equals(KeyCode.RIGHT)) {
                     System.out.println("right");
                     boolean canMove = mapclass.checkMoveEnable(user, 'R', whichMap(currentMapIndex));
                     int x = user.getPosition()[0];
                     int y = user.getPosition()[1];
-                    if(mapEnd) {
+                    if (mapEnd) {
                         boolean NextMap = mapclass.nextMap(user, 'R', map, currentMapIndex);
                         boolean LastMap = mapclass.lastMap(user, 'R', map, currentMapIndex);
                         if (NextMap) {
@@ -351,16 +404,15 @@ public class GUI extends Application {
                     boolean canMove = mapclass.checkMoveEnable(user, 'L', whichMap(currentMapIndex));
                     int x = user.getPosition()[0];
                     int y = user.getPosition()[1];
-                    if(mapEnd) {
+                    if (mapEnd) {
                         boolean NextMap = mapclass.nextMap(user, 'L', map, currentMapIndex);
-                        boolean LastMap = mapclass.lastMap(user,'L',map, currentMapIndex);
+                        boolean LastMap = mapclass.lastMap(user, 'L', map, currentMapIndex);
                         if (NextMap) {
                             currentMapIndex++;
                             user.setPosition(mapclass.startPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
-                        }
-                        else if(LastMap) {
+                        } else if (LastMap) {
                             currentMapIndex--;
                             user.setPosition(mapclass.endPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
@@ -376,16 +428,15 @@ public class GUI extends Application {
                     boolean canMove = mapclass.checkMoveEnable(user, 'U', whichMap(currentMapIndex));
                     int x = user.getPosition()[0];
                     int y = user.getPosition()[1];
-                    if(mapEnd) {
+                    if (mapEnd) {
                         boolean NextMap = mapclass.nextMap(user, 'U', map, currentMapIndex);
-                        boolean LastMap = mapclass.lastMap(user,'U',map, currentMapIndex);
+                        boolean LastMap = mapclass.lastMap(user, 'U', map, currentMapIndex);
                         if (NextMap) {
                             currentMapIndex++;
                             user.setPosition(mapclass.startPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
-                        }
-                        else if(LastMap) {
+                        } else if (LastMap) {
                             currentMapIndex--;
                             user.setPosition(mapclass.endPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
@@ -401,16 +452,15 @@ public class GUI extends Application {
                     boolean canMove = mapclass.checkMoveEnable(user, 'D', whichMap(currentMapIndex));
                     int x = user.getPosition()[0];
                     int y = user.getPosition()[1];
-                    if(mapEnd) {
+                    if (mapEnd) {
                         boolean NextMap = mapclass.nextMap(user, 'D', map, currentMapIndex);
-                        boolean LastMap = mapclass.lastMap(user,'D',map, currentMapIndex);
+                        boolean LastMap = mapclass.lastMap(user, 'D', map, currentMapIndex);
                         if (NextMap) {
                             currentMapIndex++;
                             user.setPosition(mapclass.startPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
                             page2_initial();
-                        }
-                        else if(LastMap) {
+                        } else if (LastMap) {
                             currentMapIndex--;
                             user.setPosition(mapclass.endPosition(currentMapIndex));
                             System.out.println("which map:" + currentMapIndex);
@@ -436,7 +486,7 @@ public class GUI extends Application {
     }
 
     public void moveAnimation(Node node, double now_x, double now_y, double next_x, double next_y) {
-        keyable=false;
+        keyable = false;
         node.setEffect(borderGlow);
         int adjsut = 30;
         Path path = new Path();
@@ -449,22 +499,26 @@ public class GUI extends Application {
         pathTransition.setCycleCount(1);
         pathTransition.setAutoReverse(true);
         //Playing Sequential Transition
-        Timeline check3or4=new Timeline(new KeyFrame(Duration.millis(1),ae->{
+        Timeline check3or4 = new Timeline(new KeyFrame(Duration.millis(1), ae -> {
             char e = whichMap(currentMapIndex)[user.getPosition()[0]][user.getPosition()[1]];
             System.out.println(user.strPos());
             if (mapclass.ifTerminal(user, whichMap(currentMapIndex))) page4_initial();
-            if (mapclass.ifBattle(user, whichMap(currentMapIndex))) page3_initial((int)e - 48);
-            if (e=='h'||e=='m'||e=='a'){
-                if(e=='h') number_HP_poison.set(String.valueOf(Integer.parseInt(number_HP_poison.get())+1));
-                else if(e=='m') number_MP_poison.set(String.valueOf(Integer.parseInt(number_MP_poison.get())+1));
-                //else if(e=='a') ;
-                whichMap(currentMapIndex)[user.getPosition()[0]][user.getPosition()[1]]='r';
+            if (mapclass.ifBattle(user, whichMap(currentMapIndex))) page3_initial((int) e - 48);
+            if (e == 'h' || e == 'm' || e == 'a' || e == 'f' || e == 'x' || e == 'y' || e == 'z') {
+                if (e == 'h') number_HP_poison.set(String.valueOf(Integer.parseInt(number_HP_poison.get()) + 1));
+                else if (e == 'm') number_MP_poison.set(String.valueOf(Integer.parseInt(number_MP_poison.get()) + 1));
+                else if(e=='a') user.setAttack(user.getAttack()+1);
+                else if(e=='f') user.setDefence(user.getDefence()+1);
+                else if(e=='x') user.setGrassAble(true);
+                else if(e=='y') user.setWaterAble(true);
+                else if(e=='z') user.setStoneAble(true);
+                whichMap(currentMapIndex)[user.getPosition()[0]][user.getPosition()[1]] = 'r';
                 //remove this rect on map
-                Node result=null;
-                for (Node r: board.getChildren()) {
-                    if(r.getClass()==new Rectangle().getClass() &&
-                            r.localToScene(r.getBoundsInLocal()).getCenterX()-15==user.getPosition()[0]*30 &&
-                            r.localToScene(r.getBoundsInLocal()).getCenterY()-15==user.getPosition()[1]*30 ) {
+                Node result = null;
+                for (Node r : board.getChildren()) {
+                    if (r.getClass() == new Rectangle().getClass() &&
+                            r.localToScene(r.getBoundsInLocal()).getCenterX() - 15 == user.getPosition()[0] * 30 &&
+                            r.localToScene(r.getBoundsInLocal()).getCenterY() - 15 == user.getPosition()[1] * 30) {
                         result = r;
                         break;
                     }
@@ -472,28 +526,26 @@ public class GUI extends Application {
                 board.getChildren().remove(result);
             }
 
-            this.keyable=true;
+            this.keyable = true;
             node.setEffect(null);
         }));
-        SequentialTransition seqTransition = new SequentialTransition(pathTransition,new PauseTransition(Duration.millis(230)),check3or4);
+        SequentialTransition seqTransition = new SequentialTransition(pathTransition, new PauseTransition(Duration.millis(230)), check3or4);
         seqTransition.play();
     }
 
     // fx: add pieces to board (board只能显示map中的40*24个pieces)
     public void showMap(char[][] showmap) {
-        for (int i = 0; i < mapLength/2; i++) {
-            for (int j = 0; j < mapHeight/2; j++) {
+        for (int i = 0; i < mapLength / 2; i++) {
+            for (int j = 0; j < mapHeight / 2; j++) {
                 Rectangle rect = new Rectangle(i * 30, j * 30, 30, 30);
                 if (showmap[i][j] != 'r') {
-                    if(showmap[i][j]>47 && showmap[i][j] < 56) {
-                        int enemyID = showmap[i][j]-'0';
-                        rect.setFill(new ImagePattern(new Image("Pics/Pokemon/enemy"+enemyID+".png")));
-                    }
-                    else {
+                    if (showmap[i][j] > 47 && showmap[i][j] < 56) {
+                        int enemyID = showmap[i][j] - '0';
+                        rect.setFill(new ImagePattern(new Image("Pics/Pokemon/enemy" + enemyID + ".png")));
+                    } else {
                         rect.setFill(new ImagePattern(new Image("Pics/Maps/" + showmap[i][j] + ".png")));
                     }
-                }
-                else {
+                } else {
                     rect.setFill(Color.WHITE);
                 }
                 board.getChildren().add(rect);
@@ -523,9 +575,10 @@ public class GUI extends Application {
             e.printStackTrace();
         }
     }
+
     //只用于initialShowMap
-    public void initialMap(int mapIndex,char[][] showmap) {
-        String partMap = "src/battleMap"+mapIndex+".txt";
+    public void initialMap(int mapIndex, char[][] showmap) {
+        String partMap = "src/battleMap" + mapIndex + ".txt";
         try {
             // initial showMap:
             BufferedReader bfr = new BufferedReader(new FileReader(partMap));
@@ -541,21 +594,27 @@ public class GUI extends Application {
             e.printStackTrace();
         }
     }
+
     //只用一次
     public void initialShowMap() {
-        initialMap(0,showMap0);
-        initialMap(1,showMap1);
-        initialMap(2,showMap2);
-        initialMap(3,showMap3);
+        initialMap(0, showMap0);
+        initialMap(1, showMap1);
+        initialMap(2, showMap2);
+        initialMap(3, showMap3);
     }
-//-------------------------------------------------------
+
+    //-------------------------------------------------------
     // find current map
     public char[][] whichMap(int mapIndex) {
-        switch(mapIndex) {
-            case 0: return showMap0;
-            case 1: return showMap1;
-            case 2: return showMap2;
-            default: return showMap3;
+        switch (mapIndex) {
+            case 0:
+                return showMap0;
+            case 1:
+                return showMap1;
+            case 2:
+                return showMap2;
+            default:
+                return showMap3;
         }
     }
 
@@ -574,18 +633,19 @@ public class GUI extends Application {
         List<Pokemon> pl = gson.fromJson(jsonReader, CUS_LIST_TYPE);
         return pl.get(id);
     }
-    public void page3_to_page2(boolean win, Pokemon user){
-        if(win){
+
+    public void page3_to_page2(boolean win, Pokemon user) {
+        if (win) {
             System.out.println("go to page2test");
-            this.user=user;
+            this.user = user;
             //System.out.println(user.strPos());
-            whichMap(currentMapIndex)[user.getPosition()[0]][user.getPosition()[1]]='r';
+            whichMap(currentMapIndex)[user.getPosition()[0]][user.getPosition()[1]] = 'r';
             page2_initial();
-        }
-        else{
+        } else {
             page4_initial();
         }
     }
+
     //-------------------------------------------------------------
 //                 Page3_initial (Battle)
 // ------------------------------------------------------------
@@ -634,7 +694,7 @@ public class GUI extends Application {
             if (i != 0 && user.getHP() != user.getmaxHP()) {
                 i--;
                 poisonUsed(true);
-                number_HP_poison.set(i+"");
+                number_HP_poison.set(i + "");
             }
         });
         board.getChildren().add(HP_btn);
@@ -650,7 +710,7 @@ public class GUI extends Application {
             if (i != 0 && user.getMP() != 100) {
                 i--;
                 poisonUsed(false);
-                number_MP_poison.set(i+"");
+                number_MP_poison.set(i + "");
             }
         });
         board.getChildren().add(MP_btn);
@@ -672,7 +732,7 @@ public class GUI extends Application {
     }
 
     // update UI for HP and MP
-    public void updateUserUI(){
+    public void updateUserUI() {
         user_HP_info.setValue(user.getHP() + "/" + user.getmaxHP());
         user_MP_info.setValue(user.getMP() + "/100");
         user_HP_bar.set((user.getHP() * 1.0) / (user.getmaxHP() * 1.0) * 200);
@@ -695,7 +755,7 @@ public class GUI extends Application {
         // Double boxes to create border
         Rectangle user_info_box = new Rectangle(700, 440, 300, 100);
         box_format1(user_info_box);
-        Rectangle enemy_info_box = new Rectangle(120,40, 300, 100);
+        Rectangle enemy_info_box = new Rectangle(120, 40, 300, 100);
         box_format1(enemy_info_box);
         board.getChildren().add(user_info_box);
         board.getChildren().add(enemy_info_box);
@@ -740,7 +800,7 @@ public class GUI extends Application {
     }
 
     // helper function - format1
-    public void box_format1 (Rectangle rect) {
+    public void box_format1(Rectangle rect) {
         rect.setArcHeight(15);
         rect.setArcWidth(15);
         rect.setFill(Color.WHITE);
@@ -749,7 +809,7 @@ public class GUI extends Application {
     }
 
     // helper function - format2
-    public void box_format2 (Rectangle rect) {
+    public void box_format2(Rectangle rect) {
         rect.setArcHeight(5);
         rect.setArcWidth(5);
         rect.setFill(Color.WHITE);
@@ -759,9 +819,9 @@ public class GUI extends Application {
 
     // highly related to Static position
     // dynamic graphing HP bar and MP bar, so as the detail number -- finished (less changed)
-    public void page3_setupDynamicInfoBoxes(Enemy enemy){
+    public void page3_setupDynamicInfoBoxes(Enemy enemy) {
         // dynamic bar, user part
-        Rectangle user_hp_bar = new Rectangle(726,481,200,10);
+        Rectangle user_hp_bar = new Rectangle(726, 481, 200, 10);
         user_HP_bar.setValue((user.getHP() * 1.0) / (user.getmaxHP() * 1.0) * 200);
         user_hp_bar.widthProperty().bindBidirectional(user_HP_bar);
         user_hp_bar.setFill(Color.RED);
@@ -776,7 +836,7 @@ public class GUI extends Application {
         user_mp_bar.setArcWidth(5);
         board.getChildren().add(user_mp_bar);
         // enemy part
-        Rectangle enemy_hp_bar = new Rectangle(146,81,200,10);
+        Rectangle enemy_hp_bar = new Rectangle(146, 81, 200, 10);
         enemy_HP_bar.setValue((enemy.getHP() * 1.0) / (enemy.getmaxHP() * 1.0) * 200);
         enemy_hp_bar.widthProperty().bindBidirectional(enemy_HP_bar);
         enemy_hp_bar.setFill(Color.RED);
@@ -852,12 +912,12 @@ public class GUI extends Application {
         board.getChildren().add(background);
         // User image
         Rectangle user_area = new Rectangle(150, 360, 220, 220);
-        user_area.setFill(new ImagePattern(new Image("Pics/Pokemon/user"+user.getid()+".png")));
+        user_area.setFill(new ImagePattern(new Image("Pics/Pokemon/user" + user.getid() + ".png")));
         board.getChildren().add(user_area);
         battle.setP_user(user_area);
         // Enemy image
         Rectangle enemy_area = new Rectangle(690, 20, 220, 220);
-        enemy_area.setFill(new ImagePattern(new Image("Pics/Pokemon/enemy"+enemy.getId()+".png")));
+        enemy_area.setFill(new ImagePattern(new Image("Pics/Pokemon/enemy" + enemy.getId() + ".png")));
         board.getChildren().add(enemy_area);
         battle.setP_tar(enemy_area);
         // control area
@@ -901,7 +961,7 @@ public class GUI extends Application {
             if (battle.button_able) {
                 if (this.user.getMP() >= 20) {
                     battle.user_action(1, textInfo, user_HP_info, user_MP_info, enemy_HP_info, enemy_MP_info, user_HP_bar
-                            , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info,user_LEVEL, board, this);
+                            , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info, user_LEVEL, board, this);
                 } else {
                     textInfo.setValue("You need at least 20 magic power to use this spell.");
                 }
@@ -918,7 +978,7 @@ public class GUI extends Application {
             if (battle.button_able) {
                 if (this.user.getMP() >= 20) {
                     battle.user_action(2, textInfo, user_HP_info, user_MP_info, enemy_HP_info, enemy_MP_info, user_HP_bar
-                            , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info,user_LEVEL, board,this);
+                            , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info, user_LEVEL, board, this);
                 } else {
                     textInfo.setValue("You need at least 20 magic power to use this spell.");
                 }
@@ -935,7 +995,7 @@ public class GUI extends Application {
             if (battle.button_able) {
                 if (this.user.getMP() >= 80) {
                     battle.user_action(3, textInfo, user_HP_info, user_MP_info, enemy_HP_info, enemy_MP_info, user_HP_bar
-                            , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info,user_LEVEL, board,this);
+                            , user_MP_bar, enemy_HP_bar, enemy_MP_bar, user_AD_info, enemy_AD_info, user_LEVEL, board, this);
                 } else {
                     textInfo.setValue("You need at least 80 magic power to use this spell.");
                 }

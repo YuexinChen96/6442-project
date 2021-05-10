@@ -43,7 +43,8 @@ public class Map {
         char type=map[next_posx][next_posy];
         if((type > 47 && type < 56) ||
                 type=='r'|| type=='h'||
-                type=='t'|| type=='a'|| type=='i' || type=='o' || type=='d' || type=='m' ||
+                type=='t'|| type=='a'||type=='f'|| type=='i' || type=='o' || type=='d' || type=='m' ||
+                type=='x'|| type=='y'|| type=='z'||
                 (type=='g'&&user.getGrassAble())||
                 (type=='b'&& user.getStoneAble()) ||
                 (type=='w'&& user.getWaterAble())){
