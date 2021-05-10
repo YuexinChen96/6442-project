@@ -12,6 +12,7 @@ public class Battle {
 
     private Enemy tar;
     Pokemon user;
+    private boolean levelup;
 
     private Rectangle p_user;
     private Rectangle p_tar;
@@ -83,7 +84,7 @@ public class Battle {
             int ret = end_check();
             if (ret != 0) {
                 textInfo.setValue("Enemy loses all HP. You win !!!");
-                gui.page3_to_page2(ret == 1,this.user);
+                gui.page3_to_page2(ret == 1,this.user,levelup);
                 terminal_occur.set(true);
             }
         }));
@@ -115,7 +116,7 @@ public class Battle {
                 //System.out.println(winorlose.get());
                 button_able = true;
                 int ret = end_check();
-                if (ret != 0) gui.page3_to_page2(ret == 1, this.user);
+                if (ret != 0) gui.page3_to_page2(ret == 1, this.user,levelup);
             }
         }));
 
@@ -202,6 +203,7 @@ public class Battle {
         else new_level = ((user.getExp() - 5600) / 2000) + 30;
         if (new_level != user.getLevel()){
             System.out.println("Level up !!!");
+            this.levelup=true;
             levelUpCal(user.getLevel(), new_level);
         }
 

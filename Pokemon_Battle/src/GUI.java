@@ -3,6 +3,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import javafx.animation.*;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.application.Preloader;
 import javafx.beans.property.*;
 import javafx.event.EventType;
@@ -634,17 +635,53 @@ public class GUI extends Application {
         return pl.get(id);
     }
 
-    public void page3_to_page2(boolean win, Pokemon user) {
-        if (win) {
-            System.out.println("go to page2test");
-            this.user = user;
-            //System.out.println(user.strPos());
-            whichMap(currentMapIndex)[user.getPosition()[0]][user.getPosition()[1]] = 'r';
-            page2_initial();
-        } else {
-            page4_initial();
+    public void page3_to_page2(boolean win, Pokemon changeduser,boolean levelup) {
+        if(levelup){
+            Rectangle rec = new Rectangle(0,0,1200,740);
+            rec.setFill(Color.WHITE);
+            rec.setOpacity(0.95);
+            Rectangle levelupimg = new Rectangle(150,200,300,230);
+            levelupimg.setFill(new ImagePattern(new Image("Pics/Spell/levelup.jpg")));
+            board.getChildren().addAll(rec,levelupimg);
+            Label message = new Label();
+            message.setLayoutX(450);
+            message.setLayoutY(200);
+            message.setStyle("-fx-font-color:Black; -fx-font-size:40");
+            message.setText("UPGRADE!!\n\nyour level is "+changeduser.getLevel());
+            Button exit = new Button("exit");
+            exit.setLayoutX(950);
+            exit.setLayoutY(680);
+            exit.setMaxSize(100, 40);
+            exit.setMinSize(100, 40);
+            exit.setFont(Font.font("Arial", FontWeight.BOLD,20));
+            exit.setFocusTraversable(false);
+            board.getChildren().addAll(exit,message);
+            exit.setOnMouseClicked(e->{
+                if (win) {
+                    System.out.println("go to page2test");
+                    this.user = changeduser;
+                    //System.out.println(user.strPos());
+                    whichMap(currentMapIndex)[user.getPosition()[0]][user.getPosition()[1]] = 'r';
+                    page2_initial();
+                } else {
+                    page4_initial();
+                }
+            });
+        }
+        else {
+            System.out.println("---yiyang ");
+            if (win) {
+                System.out.println("go to page2test");
+                this.user = changeduser;
+                //System.out.println(user.strPos());
+                whichMap(currentMapIndex)[user.getPosition()[0]][user.getPosition()[1]] = 'r';
+                page2_initial();
+            } else {
+                page4_initial();
+            }
         }
     }
+
 
     //-------------------------------------------------------------
 //                 Page3_initial (Battle)
