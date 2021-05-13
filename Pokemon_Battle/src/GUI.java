@@ -148,8 +148,11 @@ public class GUI extends Application {
         board.getChildren().add(instructionsText);
 
         Button btn1 = new Button("Start");
-        btn1.setLayoutX(200);
-        btn1.setLayoutY(250);
+        btn1.setMaxSize(100, 40);
+        btn1.setMinSize(100, 40);
+        btn1.setLayoutX(1000);
+        btn1.setFont(Font.font("Arial", FontWeight.BOLD,20));
+        btn1.setLayoutY(400);
         btn1.setOnAction(e -> {
             board.getChildren().removeAll(board.getChildren());
             page1_initial();
@@ -161,7 +164,7 @@ public class GUI extends Application {
     //-------------------------------------------------------------
 //                 Page1_initial (Role selection)
 // ------------------------------------------------------------
-    // Chloe
+    // Chloe & Natalie
     public void page1_initial() {
         System.out.println("Pokemon.Pokemon Select");
         ImageView background = new ImageView();
@@ -174,115 +177,133 @@ public class GUI extends Application {
         board.setLayoutY(0);
         board.toBack();
 
-        int n = 3;
-        int l = 4;
-        int r = 5;
+        Rectangle rect = new Rectangle(10, 300, 150, 150);
+        rect.setFill(new ImagePattern(new Image("Pics/Pokemon/user0.png")));
+        Rectangle rect2 = new Rectangle(170, 300, 150, 150);
+        rect2.setFill(new ImagePattern(new Image("Pics/Pokemon/user1.png")));
+        Rectangle rect3 = new Rectangle(330, 300, 150, 150);
+        rect3.setFill(new ImagePattern(new Image("Pics/Pokemon/user2.png")));
+        Rectangle rect4 = new Rectangle(10, 500, 150, 150);
+        rect4.setFill(new ImagePattern(new Image("Pics/Pokemon/user3.png")));
+        Rectangle rect5 = new Rectangle(200, 500, 150, 150);
+        rect5.setFill(new ImagePattern(new Image("Pics/Pokemon/user4.png")));
+        rect.setOpacity(0.9);
+        rect2.setOpacity(0.9);
+        rect3.setOpacity(0.9);
+        rect4.setOpacity(0.9);
+        rect5.setOpacity(0.9);
+        board.getChildren().addAll(rect, rect2, rect3, rect4, rect5);
 
-        Rectangle i = new Rectangle(600, 600);
-        i.setFill(Color.TRANSPARENT);
-        i.setLayoutX(-100);
-        i.setLayoutY(-100);
-
-        Image img = new Image("Pics/Pokemon/pic0.png");
-        Rectangle rect = new Rectangle(300, 300, 200, 200);
-        rect.setFill(new ImagePattern(img));
-        Path path = new Path();
-        path.setStroke(Color.WHITE);
-        path.getElements().add(new MoveTo(300, 300));
-        path.getElements().add(new LineTo(700, 300));
-        path.getElements().add(new LineTo(700, 700));
-        path.getElements().add(new LineTo(300, 700));
-        path.getElements().add(new LineTo(300, 300));
-
-        PathTransition pt = new PathTransition();
-        pt.setDuration(Duration.millis(5000));
-        pt.setNode(rect);
-        pt.setPath(path);
-        pt.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
-        pt.setAutoReverse(true);
-
-        Image img2 = new Image("Pics/Pokemon/pic1.png");
-        Rectangle rect2 = new Rectangle(300, 300, 200, 200);
-        rect2.setFill(new ImagePattern(img2));
-        Path path2 = new Path();
-        path2.setStroke(Color.WHITE);
-        path2.getElements().add(new MoveTo(300, 300));
-        path2.getElements().add(new LineTo(700, 300));
-        path2.getElements().add(new LineTo(700, 700));
-        path2.getElements().add(new LineTo(300, 700));
-        path2.getElements().add(new LineTo(300, 300));
-
-        PathTransition pt2 = new PathTransition();
-        pt2.setDuration(Duration.millis(5000));
-        pt2.setNode(rect2);
-        pt2.setPath(path2);
-        pt2.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
-        pt2.setAutoReverse(true);
-
-        Image img3 = new Image("Pics/Pokemon/pic2.png");
-        Rectangle rect3 = new Rectangle(300, 300, 200, 200);
-        rect3.setFill(new ImagePattern(img3));
-        Path path3 = new Path();
-        path3.setStroke(Color.WHITE);
-        path3.getElements().add(new MoveTo(300, 300));
-        path3.getElements().add(new LineTo(700, 300));
-        path3.getElements().add(new LineTo(700, 700));
-        path3.getElements().add(new LineTo(300, 700));
-        path3.getElements().add(new LineTo(300, 300));
-
-        PathTransition pt3 = new PathTransition();
-        pt3.setDuration(Duration.millis(5000));
-        pt3.setNode(rect3);
-        pt3.setPath(path3);
-        pt3.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
-        pt3.setAutoReverse(true);
-
-        Button play = new Button("Play");
-        play.setLayoutX(150);
-        play.setLayoutY(150);
-        play.setOnAction(e -> pt.play());
-        play.setOnAction(e -> pt2.play());
-        play.setOnAction(e -> pt3.play());
-
-        board.getChildren().add(i);
-        board.getChildren().add(rect);
-        board.getChildren().add(path);
-        board.getChildren().add(rect2);
-        board.getChildren().add(path2);
-        board.getChildren().add(rect3);
-        board.getChildren().add(path3);
-        board.getChildren().add(play);
-
-        // ------待完善-----
-        // 改成：int id = 选择的角色（page1）
-        int id = 0;
-        user = new Pokemon(id);
-        user = pokemonLoadFromJson(user.getid());
-        user.setPosition(new int[]{1, 0});
-        currentMapIndex = 0;
-        //-------------------
-
+        Text text = new Text("you haven't selected role,\nso cannot start!");
+        text.setFill(Color.WHITE);
+        text.setFont(Font.font("Avenir Next", FontWeight.LIGHT, 18));
+        text.setLayoutX(950);
+        text.setLayoutY(350);
+        text.setWrappingWidth(500);
+        board.getChildren().add(text);
 
         Button btn1 = new Button("Start");
-        btn1.setLayoutX(800);
+        btn1.setMaxSize(100, 40);
+        btn1.setMinSize(100, 40);
+        btn1.setLayoutX(1000);
         btn1.setLayoutY(400);
+        btn1.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         btn1.setOnAction(e -> {
             board.getChildren().removeAll(board.getChildren());
             page2_initial();
         });
         board.getChildren().add(btn1);
+        btn1.setDisable(true);
 
-        Button btn2 = new Button("Choose");
-        btn2.setLayoutX(150);
-        btn2.setLayoutY(400);
-        btn2.setOnAction(e -> {
-            board.getChildren().removeAll(board.getChildren());
-            // map index: 0,1,2,3
-            page2_initial();
-        });
-        board.getChildren().add(btn2);
+        Text chosenrole = new Text("select a Pokemon from \nthe following roles");
+        chosenrole.setFill(Color.WHITE);
+        chosenrole.setFont(Font.font("Avenir Next", FontWeight.LIGHT, 40));
+        chosenrole.setLayoutX(40);
+        chosenrole.setLayoutY(100);
+        chosenrole.setWrappingWidth(500);
+        board.getChildren().add(chosenrole);
+
+
+        Text youchose = new Text("you choose:\n\n\n\n\n\n\n\nits attributes: ");
+        youchose.setFill(Color.WHITE);
+        youchose.setFont(Font.font("Avenir Next", FontWeight.LIGHT, 30));
+        youchose.setLayoutX(600);
+        youchose.setLayoutY(150);
+        youchose.setWrappingWidth(550);
+        board.getChildren().add(youchose);
+
+        Label attrinfo = new Label();
+        attrinfo.setLayoutX(600);
+        attrinfo.setLayoutY(500);
+        attrinfo.setStyle("-fx-font-color:black ;-fx-fond-size:40");
+        board.getChildren().add(attrinfo);
+
+        ImageView roleImg = new ImageView();
+        roleImg.setFitWidth(200);
+        roleImg.setFitHeight(200);
+        roleImg.setLayoutX(700);
+        roleImg.setLayoutY(200);
+        board.getChildren().add(roleImg);
+        addClickRoles(rect, btn1, text, roleImg,attrinfo);
+        addClickRoles(rect2, btn1, text, roleImg,attrinfo);
+        addClickRoles(rect3, btn1, text, roleImg,attrinfo);
+        addClickRoles(rect4, btn1, text, roleImg,attrinfo);
+        addClickRoles(rect5, btn1, text, roleImg,attrinfo);
+
     }
+    Node selectedrole;
+    public int getIdFromSelectedRole(){
+        if(selectedrole==null) {
+            System.out.println('n');return 0;}
+        int x=(int)selectedrole.localToScene(selectedrole.getBoundsInLocal()).getCenterX() - 75;
+        int y=(int)selectedrole.localToScene(selectedrole.getBoundsInLocal()).getCenterY() - 75;
+        System.out.println(x+","+y);
+        if(x==170&&y==300) return 1;
+        else if(x==330&&y==300) return 2;
+        else if(x==10&&y==500)return 3;
+        else if(x==200&&y==500) return 4;
+        else return 0; //default
+    }
+    public void addClickRoles(Node node, Button btn,Text text,ImageView roleImg,Label attrinfo) {
+        board.addEventHandler(EventType.ROOT, e -> {
+            node.requestFocus();
+            node.addEventHandler(MouseEvent.MOUSE_CLICKED, keyEvent -> {
+            });
+        });
+        node.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+            System.out.println("clicked");
+            node.setEffect(borderGlow);
+            node.setOpacity(1);
+            for (Node r: this.board.getChildren()){
+                if(r!=node&&r.getClass()==new Rectangle().getClass()){
+                   r.setEffect(null);
+                   r.setOpacity(0.9);
+               }
+            }
+            selectedrole=node;
+            System.out.println(selectedrole.localToScene(selectedrole.getBoundsInLocal()).getCenterX() - 75 );
+            System.out.println(selectedrole.localToScene(selectedrole.getBoundsInLocal()).getCenterY() - 75 );
+            int id = getIdFromSelectedRole();
+            System.out.println(id);
+            user = new Pokemon(id);
+            user = pokemonLoadFromJson(user.getid());
+            user.setPosition(new int[]{1, 0});
+            currentMapIndex = 0;
+            this.board.getChildren().remove(text);
+            roleImg.setImage(new Image("Pics/Pokemon/user" + user.getid() + ".png"));
+            String name = "Name:" + user.getName();
+            String attr = "Level:" + user.getLevel() + ", HP:" + user.getHP() + "/" + user.getmaxHP() +
+                    ", MP:" + user.getMP() + "/" + user.getMaxMP()
+                    + ", Defense:" + user.getDefence() + ", Attack:" + user.getAttack() + ", Experience:" + user.getExp();
+            String able = "grass_able:" + user.getGrassAble() + ", water_able:" + user.getWaterAble() + ", stone_able:" + user.getStoneAble();
+            String pack = "My backpack: " + "HP poison(" + number_HP_poison.get() + ")" + ", MP poison(" + number_MP_poison.get() + ")";//+", Sword("+countSword+")";
+            attrinfo.setText(name + "\n\n" + attr + "\n\n" + able + "\n\n" + pack);
+            btn.toFront();
+            btn.setDisable(false);
 
+        });
+
+    }
 
     //-------------------------------------------------------------
 //                 Page2_initial (Game Map)
@@ -304,7 +325,7 @@ public class GUI extends Application {
         //showPokemon
         int[] role_pos = user.getPosition();
         Rectangle rect = new Rectangle(role_pos[0] * 30, role_pos[1] * 30, 30, 30);
-        rect.setFill(new ImagePattern(new Image("Pics/Pokemon/pic" + user.getid() + ".png")));
+        rect.setFill(new ImagePattern(new Image("Pics/Pokemon/user" + user.getid() + ".png")));
         board.getChildren().add(rect);
         rect.toFront();
         //some functions of Pokemon
