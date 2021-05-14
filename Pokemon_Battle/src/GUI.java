@@ -723,6 +723,12 @@ public class GUI extends Application {
         }
     }
 
+    //giveup battle and go to page2, the enemy is still in its original location, but user's attrs maybe change.
+    public void page3_to_page2_giveup(Pokemon changeduser){
+        this.user = changeduser;
+        page2_initial();
+    }
+
 
 //-------------------------------------------------------------
 //                 Page3_initial (Battle)
@@ -1080,6 +1086,18 @@ public class GUI extends Application {
             }
         });
         board.getChildren().add(btn4);
+
+        //give up battle button
+        Button btn5 = new Button("give up");
+        btn5.setLayoutX(1100);
+        btn5.setLayoutY(680);
+        btn5.setMinSize(90, 40);
+        btn5.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
+        btn5.setOnAction(e -> {
+            page3_to_page2_giveup(battle.giveupBattle());
+        });
+        board.getChildren().add(btn5);
+
     }
 
     // loading enemy from Json file
@@ -1105,11 +1123,25 @@ public class GUI extends Application {
     public void page4_initial() {
         board.getChildren().removeAll(board.getChildren());
 
-        Text endingText = new Text("Game over");
+        Text endingText = new Text("Game over! You lost!");
         endingText.setFill(Color.BLACK);
         endingText.setFont(Font.font("Arial", FontWeight.NORMAL, 40));
-        endingText.setLayoutX(500);
+        endingText.setLayoutX(430);
         endingText.setLayoutY(300);
         board.getChildren().add(endingText);
     }
+
+//-------------------------------------------------------------
+//                 Page5_initial (Win game)
+// ------------------------------------------------------------
+public void page5_initial() {
+    board.getChildren().removeAll(board.getChildren());
+
+    Text endingText = new Text("Congratulations!! You win!");
+    endingText.setFill(Color.BLACK);
+    endingText.setFont(Font.font("Arial", FontWeight.BLACK, 50));
+    endingText.setLayoutX(300);
+    endingText.setLayoutY(300);
+    board.getChildren().add(endingText);
+}
 }

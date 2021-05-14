@@ -10,7 +10,7 @@ public class Map {
         return false;
     }
 
-    //terminal
+    //terminal gameover
     public boolean ifTerminal(Pokemon user,char[][] map){
         int posx=user.getPosition()[0];
         int posy=user.getPosition()[1];
@@ -44,7 +44,7 @@ public class Map {
         if((type > 47 && type < 56) ||
                 type=='r'|| type=='h'||
                 type=='t'|| type=='a'||type=='f'|| type=='i' || type=='o' || type=='d' || type=='m' ||
-                type=='x'|| type=='y'|| type=='z'||
+                type=='x'|| type=='y'|| type=='z'||type=='t'||
                 (type=='g'&&user.getGrassAble())||
                 (type=='b'&& user.getStoneAble()) ||
                 (type=='w'&& user.getWaterAble())){

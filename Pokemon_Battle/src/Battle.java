@@ -242,6 +242,9 @@ public class Battle {
         if (HP <= dmg) return 0;
         else return HP - dmg;
     }
+    public Pokemon giveupBattle(){
+        return this.user;
+    }
 
 }
 
