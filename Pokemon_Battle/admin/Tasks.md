@@ -38,6 +38,17 @@ hit: Algorithm?
 
 ## Week 9
 Xi Chen: page 0, page 1
+
 ## Week 10
 
+Qixuan Ren: page1 select role
+
+Yuexin Chen: design spells of roles
+
+Xi Chen: design story of the game
+
+Yifei: design junit testers
+
 ## Week 11
+
+Yuexin Chen: design Ai about enemys
