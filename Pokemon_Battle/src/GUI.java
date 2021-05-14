@@ -29,6 +29,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Random;
 
 
 //Set up basic GUI
@@ -745,6 +746,19 @@ public class GUI extends Application {
 
         // enemy load, create enemy
         Enemy enemy = enemy_loading(enemy_id);
+        if (enemy_id == 4 || enemy_id == 5) {
+            int[] spell_l = new int[]{0, 1, 2, 3, 4, 7};
+            Random random = new Random();
+            int index1 = random.nextInt(7);
+            int index2 = random.nextInt(7);
+            while (index2 == index1) {
+                index2 = random.nextInt(7);
+            }
+            System.out.println("Spell attach: " + index1 + " ----------------- " + index2);
+            System.out.println(spell_l[index1]);
+            enemy.skill_list[0] = spell_l[index1];
+            enemy.skill_list[1] = spell_l[index2];
+        }
         // start Battle
         Battle battle = new Battle(this.user, enemy);
         // Background area

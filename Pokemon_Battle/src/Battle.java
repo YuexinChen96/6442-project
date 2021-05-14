@@ -5,6 +5,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.*;
 import javafx.util.Duration;
 
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
@@ -99,6 +100,38 @@ public class Battle {
                     pt2.play();
                     int dmg = tar.getAttack() - user.getDefence();
                     user.setHP(damageInRange(user.getHP(), dmg));
+                } else {
+                    if (tar.getMP() < 30) {
+                        PathTransition pt2 = action1_animation(board, false);
+                        pt2.play();
+                        int dmg = tar.getAttack() - user.getDefence();
+                        user.setHP(damageInRange(user.getHP(), dmg));
+                    } else {
+                        // spell
+                        Spell enemy_spell = new Spell();
+                        if (tar.getId() < 6) {
+                            Random r = new Random();
+                            int spell = r.nextInt(2);
+                            System.out.println("Enemy use action: " + spell + " Spell number:" + tar.skill_list[spell]);
+                            PathTransition pt2 = enemy_spell.execute(tar.skill_list[spell], user, tar, false, board, ball);
+                            tar.setMP(tar.getMP() - 30);
+                            pt2.play();
+                        } else {
+                            // action selector for enemy 7 and enemy 8
+                            PathTransition pt2;
+                            int enemy_action = ai();
+                            System.out.println("Enemy use action: " + enemy_action);
+                            if (enemy_action == -1) {
+                                pt2 = action1_animation(board, false);
+                                int dmg = tar.getAttack() - user.getDefence();
+                                user.setHP(damageInRange(user.getHP(), dmg));
+                            } else {
+                                pt2 = enemy_spell.execute(tar.skill_list[enemy_action], user, tar, false, board, ball);
+                                tar.setMP((enemy_action == 2) ? tar.getMP() - 50 : tar.getMP() - 30);
+                            }
+                            pt2.play();
+                        }
+                    }
                 }
             }
             // advanced agent
@@ -107,7 +140,7 @@ public class Battle {
         Timeline t4 = new Timeline(new KeyFrame(Duration.millis(1500), ae -> {
             if (!terminal_occur.get()) {
                 // get mana for enmey
-                if (tar.getId() > 3) tar.setMP(mana_gain(tar.getMP(), 8));
+                if (tar.getId() > 3) tar.setMP(mana_gain(tar.getMP(), 10));
 
                 UIupdate(user_HP_info, user_MP_info, enemy_HP_info, enemy_MP_info, user_HP_bar, user_MP_bar, enemy_HP_bar
                         , enemy_MP_bar, user_AD_info, enemy_AD_info, user_LEVEL);
@@ -124,6 +157,45 @@ public class Battle {
         seqT.play();
 
         // return end_check();
+    }
+
+    public int ai(){
+        if (tar.getId() == 6) {
+            // use spell 3
+            if (tar.getMP() >= 50 && tar.getHP() > tar.getmaxHP() * 0.3) {
+                return 2;
+            }
+            // check wait for spell 3
+            else if (tar.getMP() == 40 && tar.getHP() > tar.getmaxHP() * 0.3 + (user.getAttack() - tar.getDefence())) {
+                return -1;
+            }
+            // check wait for spell 3
+            else if (tar.getMP() == 30 && tar.getHP() > tar.getmaxHP() * 0.3 + (user.getAttack() - tar.getDefence()) * 2) {
+                return -1;
+            }
+            // better use spell 2 for increase damage for spell 1
+            else if (tar.getAttack() < user.getAttack() && tar.getHP() > (user.getAttack() - tar.getDefence())) {
+                return 1;
+            } else return 0;
+        } else {
+            // use Spell 3
+            if (tar.getHP() < tar.getmaxHP() * 0.3) return 0;
+            else if (enemy8checkSpell3(0) && tar.getMP() > 50) return 2;
+            else if (enemy8checkSpell3(1) && tar.getMP() == 40) return -1;
+            else if (enemy8checkSpell3(2) && tar.getMP() == 30) return -1;
+            else if (tar.getHP() > tar.getmaxHP() * 0.5) return 1;
+            else return 0;
+        }
+    }
+
+    // i stand for turn mana gain
+    public boolean enemy8checkSpell3(int i) {
+        // health needed
+        double health = tar.getmaxHP() * 0.4;
+        // turn remained
+        int turn = (tar.getHP() / (user.getAttack() - tar.getDefence())) + 1;
+        double damageGain = turn * tar.getAttack() * 0.5;
+        return damageGain > health + i * (user.getAttack() - tar.getDefence());
     }
 
     public int mana_gain(int curr, int gain){
