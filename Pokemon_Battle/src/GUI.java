@@ -3,8 +3,6 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import javafx.animation.*;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.application.Preloader;
 import javafx.beans.property.*;
 import javafx.event.EventType;
 import javafx.scene.Group;
@@ -18,7 +16,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
@@ -28,7 +25,6 @@ import javafx.scene.text.*;
 import javafx.util.Duration;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -49,14 +45,13 @@ public class GUI extends Application {
     char[][] showMap3 = new char[mapLength / 2][mapHeight / 2];
     int currentMapIndex = -1;
 
-    // Page indicator
-    //private int page_number = 0; // change for page testing
-
     private final Group root = new Group();
     private final Pane board = new Pane();
     private final Group controls = new Group();
 
     Pokemon user;
+
+    // this can be used to seteffect of nodes
     private static final DropShadow dropShadow;
     private static final DropShadow borderGlow;
 
@@ -116,11 +111,12 @@ public class GUI extends Application {
 
     }
 
-    //-------------------------------------------------------------
+//-------------------------------------------------------------
 //                 Page0_initial (Game Home)
 // ------------------------------------------------------------
-    // Chloe
+    //Author: Chloe
     public void page0_initial() {
+        // set up back-ground of page0
         ImageView background = new ImageView();
         final String PAGE0_BACKGROUND_URI = getClass().getResource("Pics/bg-unsplash.jpg").toString();
         background.setImage(new Image(PAGE0_BACKGROUND_URI));
@@ -131,11 +127,12 @@ public class GUI extends Application {
         board.setLayoutY(0);
         board.toBack();
 
+        // introduction text
         Text introduction = new Text("BRIEF INTRODUCTION");
         introduction.setFill(Color.rgb(9, 97, 228));
         introduction.setFont(Font.font("Avenir Next", FontWeight.BOLD, 24));
         introduction.setLayoutX(80);
-        introduction.setLayoutY(100);
+        introduction.setLayoutY(300);
         board.getChildren().add(introduction);
 
         Text instructionsText = new Text("Once upon a time, on a small island of Far East, lives a tribe of elves. " +
@@ -147,10 +144,19 @@ public class GUI extends Application {
         instructionsText.setWrappingWidth(500);
         board.getChildren().add(instructionsText);
 
-        Button btn1 = new Button("Start");
-        btn1.setMaxSize(100, 40);
-        btn1.setMinSize(100, 40);
-        btn1.setLayoutX(1000);
+        //Game title
+        Text gamename = new Text("Pokemon Battle");
+        gamename.setFill(Color.WHITE);
+        gamename.setFont(Font.font("Avenir Next", FontWeight.BOLD, 60));
+        gamename.setLayoutX(380);
+        gamename.setLayoutY(120);
+        board.getChildren().add(gamename);
+
+        //'game start' button
+        Button btn1 = new Button("Game Start");
+        btn1.setMaxSize(200, 40);
+        btn1.setMinSize(200, 40);
+        btn1.setLayoutX(900);
         btn1.setFont(Font.font("Arial", FontWeight.BOLD,20));
         btn1.setLayoutY(400);
         btn1.setOnAction(e -> {
@@ -161,14 +167,15 @@ public class GUI extends Application {
 
     }
 
-    //-------------------------------------------------------------
+//-------------------------------------------------------------
 //                 Page1_initial (Role selection)
 // ------------------------------------------------------------
-    // Chloe & Natalie
+    //Author: Chloe & Natalie
     public void page1_initial() {
         System.out.println("Pokemon.Pokemon Select");
+        //back-ground of page1
         ImageView background = new ImageView();
-        final String PAGE0_BACKGROUND_URI = getClass().getResource("Pics/bg-unsplash.jpg").toString();
+        final String PAGE0_BACKGROUND_URI = getClass().getResource("Pics/page1-bg-blue.jpg").toString();
         background.setImage(new Image(PAGE0_BACKGROUND_URI));
         background.setFitHeight(780);
         background.setPreserveRatio(true);
@@ -177,6 +184,7 @@ public class GUI extends Application {
         board.setLayoutY(0);
         board.toBack();
 
+        //5 pokemons
         Rectangle rect = new Rectangle(10, 300, 150, 150);
         rect.setFill(new ImagePattern(new Image("Pics/Pokemon/user0.png")));
         Rectangle rect2 = new Rectangle(170, 300, 150, 150);
@@ -194,6 +202,7 @@ public class GUI extends Application {
         rect5.setOpacity(0.9);
         board.getChildren().addAll(rect, rect2, rect3, rect4, rect5);
 
+        // if you haven't selected role, you cannot start
         Text text = new Text("you haven't selected role,\nso cannot start!");
         text.setFill(Color.WHITE);
         text.setFont(Font.font("Avenir Next", FontWeight.LIGHT, 18));
@@ -202,6 +211,7 @@ public class GUI extends Application {
         text.setWrappingWidth(500);
         board.getChildren().add(text);
 
+        //start button
         Button btn1 = new Button("Start");
         btn1.setMaxSize(100, 40);
         btn1.setMinSize(100, 40);
@@ -215,6 +225,7 @@ public class GUI extends Application {
         board.getChildren().add(btn1);
         btn1.setDisable(true);
 
+        //explanation of page1
         Text chosenrole = new Text("select a Pokemon from \nthe following roles");
         chosenrole.setFill(Color.WHITE);
         chosenrole.setFont(Font.font("Avenir Next", FontWeight.LIGHT, 40));
@@ -223,7 +234,7 @@ public class GUI extends Application {
         chosenrole.setWrappingWidth(500);
         board.getChildren().add(chosenrole);
 
-
+        //information of selected pokemon
         Text youchose = new Text("you choose:\n\n\n\n\n\n\n\nits attributes: ");
         youchose.setFill(Color.WHITE);
         youchose.setFont(Font.font("Avenir Next", FontWeight.LIGHT, 30));
@@ -232,18 +243,23 @@ public class GUI extends Application {
         youchose.setWrappingWidth(550);
         board.getChildren().add(youchose);
 
+        //attributes of selected pokemon
         Label attrinfo = new Label();
         attrinfo.setLayoutX(600);
         attrinfo.setLayoutY(500);
-        attrinfo.setStyle("-fx-font-color:black ;-fx-fond-size:40");
+        attrinfo.setTextFill(Color.WHITE);
+        attrinfo.setFont(Font.font("Avenir Next", FontWeight.LIGHT, 15));
         board.getChildren().add(attrinfo);
 
+        //show selected pokemon again
         ImageView roleImg = new ImageView();
         roleImg.setFitWidth(200);
         roleImg.setFitHeight(200);
         roleImg.setLayoutX(700);
         roleImg.setLayoutY(200);
         board.getChildren().add(roleImg);
+
+        //clicked event handler (about 5 pokemon)
         addClickRoles(rect, btn1, text, roleImg,attrinfo);
         addClickRoles(rect2, btn1, text, roleImg,attrinfo);
         addClickRoles(rect3, btn1, text, roleImg,attrinfo);
@@ -252,6 +268,7 @@ public class GUI extends Application {
 
     }
     Node selectedrole;
+    //get pokemon id from the node of selected pokemon
     public int getIdFromSelectedRole(){
         if(selectedrole==null) {
             System.out.println('n');return 0;}
@@ -264,6 +281,8 @@ public class GUI extends Application {
         else if(x==200&&y==500) return 4;
         else return 0; //default
     }
+    //event handler
+    //if you haven't select role, the start button is able to click and the attibutes of this role will show.
     public void addClickRoles(Node node, Button btn,Text text,ImageView roleImg,Label attrinfo) {
         board.addEventHandler(EventType.ROOT, e -> {
             node.requestFocus();
@@ -305,12 +324,11 @@ public class GUI extends Application {
 
     }
 
-    //-------------------------------------------------------------
+//-------------------------------------------------------------
 //                 Page2_initial (Game Map)
 // ------------------------------------------------------------
-// Kath & Natalie
+// Author: Kath & Natalie
     Map mapclass;
-    //have four maps
     boolean keyable;
 
     public void page2_initial() {
@@ -380,6 +398,8 @@ public class GUI extends Application {
         });
     }
 
+    //key pressed event handler.
+    //press "up down left right" keys could move the pokemon in map.
     public void addKeyPressed(Node node, Node board) {
         mapclass = new Map();
         board.addEventHandler(EventType.ROOT, e -> {
@@ -498,6 +518,7 @@ public class GUI extends Application {
         });
     }
 
+    //the animation of the pokemon at start
     public void startShowAnimation(Node node) {
         FadeTransition ft = new FadeTransition(Duration.millis(200), node);
         ft.setFromValue(0);
@@ -507,6 +528,7 @@ public class GUI extends Application {
         ft.play();
     }
 
+    //move animation of pokemon
     public void moveAnimation(Node node, double now_x, double now_y, double next_x, double next_y) {
         keyable = false;
         node.setEffect(borderGlow);
@@ -555,7 +577,7 @@ public class GUI extends Application {
         seqTransition.play();
     }
 
-    // fx: add pieces to board (board只能显示map中的40*24个pieces)
+    // fx: add pieces to board (40*24 pieces)
     public void showMap(char[][] showmap) {
         for (int i = 0; i < mapLength / 2; i++) {
             for (int j = 0; j < mapHeight / 2; j++) {
@@ -573,13 +595,9 @@ public class GUI extends Application {
                 board.getChildren().add(rect);
             }
         }
-        //记录当前的board中所有piece的type和position
     }
 
-
-    // Kath
-    //-------------------------------------------------
-    // 调一次
+    //initial all map
     public void initialAllMap() {
         String battleMap = "src/battleMap.txt";
         try {
@@ -598,7 +616,7 @@ public class GUI extends Application {
         }
     }
 
-    //只用于initialShowMap
+    // call by initialShowMap
     public void initialMap(int mapIndex, char[][] showmap) {
         String partMap = "src/battleMap" + mapIndex + ".txt";
         try {
@@ -617,7 +635,7 @@ public class GUI extends Application {
         }
     }
 
-    //只用一次
+    //this method just can be called once in main method
     public void initialShowMap() {
         initialMap(0, showMap0);
         initialMap(1, showMap1);
@@ -625,7 +643,6 @@ public class GUI extends Application {
         initialMap(3, showMap3);
     }
 
-    //-------------------------------------------------------
     // find current map
     public char[][] whichMap(int mapIndex) {
         switch (mapIndex) {
@@ -641,6 +658,7 @@ public class GUI extends Application {
     }
 
 
+    //load pokemon.json according id
     public Pokemon pokemonLoadFromJson(int id) {
         Gson gson = new Gson();
         JsonReader jsonReader = null;
@@ -656,6 +674,7 @@ public class GUI extends Application {
         return pl.get(id);
     }
 
+    //from page3 to page2
     public void page3_to_page2(boolean win, Pokemon changeduser,boolean levelup) {
         if(levelup){
             Rectangle rec = new Rectangle(0,0,1200,740);
@@ -679,7 +698,7 @@ public class GUI extends Application {
             board.getChildren().addAll(exit,message);
             exit.setOnMouseClicked(e->{
                 if (win) {
-                    System.out.println("go to page2test");
+                    System.out.println("go to page2");
                     this.user = changeduser;
                     //System.out.println(user.strPos());
                     whichMap(currentMapIndex)[user.getPosition()[0]][user.getPosition()[1]] = 'r';
@@ -690,9 +709,8 @@ public class GUI extends Application {
             });
         }
         else {
-            System.out.println("---yiyang ");
             if (win) {
-                System.out.println("go to page2test");
+                System.out.println("go to page2");
                 this.user = changeduser;
                 //System.out.println(user.strPos());
                 whichMap(currentMapIndex)[user.getPosition()[0]][user.getPosition()[1]] = 'r';
@@ -704,7 +722,7 @@ public class GUI extends Application {
     }
 
 
-    //-------------------------------------------------------------
+//-------------------------------------------------------------
 //                 Page3_initial (Battle)
 // ------------------------------------------------------------
     // Kevin
@@ -1079,7 +1097,7 @@ public class GUI extends Application {
     }
 
 
-    //-------------------------------------------------------------
+//-------------------------------------------------------------
 //                 Page4_initial (Game end page)
 // ------------------------------------------------------------
     public void page4_initial() {
