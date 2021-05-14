@@ -235,9 +235,9 @@ public class GUI extends Application {
         board.getChildren().add(chosenrole);
 
         //information of selected pokemon
-        Text youchose = new Text("You choose:\n\n\n\n\n\n\n\nattributes: ");
+        Text youchose = new Text("You choose:\n\n\n\n\n\n\n\nAttributes: ");
         youchose.setFill(Color.WHITE);
-        youchose.setFont(Font.font("Avenir Next", FontWeight.BLACK, 30));
+        youchose.setFont(Font.font("Avenir Next", FontWeight.BLACK, 35));
         youchose.setLayoutX(600);
         youchose.setLayoutY(150);
         youchose.setWrappingWidth(550);
@@ -316,7 +316,7 @@ public class GUI extends Application {
                     + ", Defense:" + user.getDefence() + ", Attack:" + user.getAttack() + ", Experience:" + user.getExp();
             String able = "grass_able:" + user.getGrassAble() + ", water_able:" + user.getWaterAble() + ", stone_able:" + user.getStoneAble();
             String pack = "My backpack: " + "HP poison(" + number_HP_poison.get() + ")" + ", MP poison(" + number_MP_poison.get() + ")";//+", Sword("+countSword+")";
-            attrinfo.setText(name + "\n\n" + attr + "\n\n" + able + "\n\n" + pack);
+            attrinfo.setText('\n'+name + "\n\n" + attr + "\n\n" + able + "\n\n" + pack);
             btn.toFront();
             btn.setDisable(false);
 
@@ -379,6 +379,7 @@ public class GUI extends Application {
         });
         attributes.setOnMouseReleased(e -> board.getChildren().removeAll(rec_attr, attrinfo));
         //show enemy info
+        /*
         Button enemyinfo = new Button("Enemy info");
         enemyinfo.setLayoutX(1000);
         enemyinfo.setLayoutY(720);
@@ -396,6 +397,7 @@ public class GUI extends Application {
             rec_einfo.setOpacity(0.7);
             String einfo = "";//To be completed
         });
+        */
     }
 
     //key pressed event handler.
