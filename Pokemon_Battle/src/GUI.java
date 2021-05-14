@@ -203,7 +203,7 @@ public class GUI extends Application {
         board.getChildren().addAll(rect, rect2, rect3, rect4, rect5);
 
         // if you haven't selected role, you cannot start
-        Text text = new Text("you haven't selected role,\nso cannot start!");
+        Text text = new Text("You haven't selected role,\nso cannot start!");
         text.setFill(Color.WHITE);
         text.setFont(Font.font("Avenir Next", FontWeight.LIGHT, 18));
         text.setLayoutX(950);
@@ -226,18 +226,18 @@ public class GUI extends Application {
         btn1.setDisable(true);
 
         //explanation of page1
-        Text chosenrole = new Text("select a Pokemon from \nthe following roles");
+        Text chosenrole = new Text("Select a Pokemon from \nthe following roles");
         chosenrole.setFill(Color.WHITE);
-        chosenrole.setFont(Font.font("Avenir Next", FontWeight.LIGHT, 40));
+        chosenrole.setFont(Font.font("Avenir Next", FontWeight.BLACK, 40));
         chosenrole.setLayoutX(40);
         chosenrole.setLayoutY(100);
         chosenrole.setWrappingWidth(500);
         board.getChildren().add(chosenrole);
 
         //information of selected pokemon
-        Text youchose = new Text("you choose:\n\n\n\n\n\n\n\nits attributes: ");
+        Text youchose = new Text("You choose:\n\n\n\n\n\n\n\nattributes: ");
         youchose.setFill(Color.WHITE);
-        youchose.setFont(Font.font("Avenir Next", FontWeight.LIGHT, 30));
+        youchose.setFont(Font.font("Avenir Next", FontWeight.BLACK, 30));
         youchose.setLayoutX(600);
         youchose.setLayoutY(150);
         youchose.setWrappingWidth(550);
@@ -248,7 +248,7 @@ public class GUI extends Application {
         attrinfo.setLayoutX(600);
         attrinfo.setLayoutY(500);
         attrinfo.setTextFill(Color.WHITE);
-        attrinfo.setFont(Font.font("Avenir Next", FontWeight.LIGHT, 15));
+        attrinfo.setFont(Font.font("Avenir Next", FontWeight.BLACK, 18));
         board.getChildren().add(attrinfo);
 
         //show selected pokemon again
