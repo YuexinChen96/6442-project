@@ -36,16 +36,71 @@ public class Spell {
                     user.setHP(damageInRange(user.getHP(), enemy.getAttack() * 2));
                 }
                 return animation_ball(board, flag, 2, ball);
-
+            case 3:
+                if (flag) {
+                    user.setmaxHP(user.getmaxHP() - 8);
+                    if (user.getHP() > user.getmaxHP()) user.setHP(user.getmaxHP());
+                    user.setAttack(user.getAttack() + 1);
+                } else {
+                    enemy.setHP(enemy.getHP() - 20);
+                    enemy.setAttack(enemy.getAttack() + 4);
+                }
+                return animation_DefenceDown(board, !flag, 3, ball, true);
             case 4:
                 if (flag) {
-                    enemy.setHP(damageInRange(enemy.getHP(), user.getLevel() * 10));
+                    int add = (int) (user.getAttack() * 1.5);
+                    user.setHP(health_gain(user, add));
+                    enemy.setHP(damageInRange(enemy.getHP(), add));
+                } else {
+                    int add = (int) (enemy.getAttack() * 1.5);
+                    enemy.setHP((enemy.getHP() + add > enemy.getmaxHP()) ? enemy.getmaxHP() : enemy.getHP() + add);
+                    user.setHP(damageInRange(user.getHP(), add));
+                }
+                return animation_ball(board, !flag, 4, ball);
+            case 5:
+                if (flag) {
+                    int add = (int) (user.getmaxHP() * 0.4);
+                    user.setHP((add + user.getHP() > user.getmaxHP()) ? user.getmaxHP() : add + user.getHP());
+                } else {
+                    int add = (int) (enemy.getmaxHP() * 0.3);
+                    enemy.setHP((add + enemy.getHP() > enemy.getmaxHP()) ? enemy.getmaxHP() : add + enemy.getHP());
+                }
+                return animation_recover(board, flag, 5, ball);
+
+            case 6:
+                if (flag) {
+                    enemy.setHP(damageInRange(enemy.getHP(), user.getLevel() * 4));
                 } else {
                     user.setHP(damageInRange(user.getHP(), enemy.getHP() * 4 / 10));
                 }
-                return animation_ball(board, flag, 4, ball);
+                return animation_ball(board, flag, 6, ball);
 
+            case 7:
+                if (flag) {
+                    enemy.setHP(damageInRange(enemy.getHP(), enemy.getAttack() * 2));
+                } else {
+                    user.setHP(damageInRange(user.getHP(), user.getAttack() * 2));
+                }
+                return animation_DefenceDown(board, flag, 7, ball, false);
 
+            case 8:
+                if (flag) {
+                    if (user.getAttack() < enemy.getAttack()) enemy.setHP(damageInRange(enemy.getHP(), user.getAttack() * 3));
+                    else enemy.setHP(damageInRange(enemy.getHP(), (int)(user.getAttack() * 1.6)));
+                } else {
+                    if (user.getAttack() < enemy.getAttack()) user.setHP(damageInRange(user.getHP(), enemy.getAttack() * 3));
+                    else user.setHP(damageInRange(user.getHP(), (int)(enemy.getAttack() * 1.6)));
+                }
+                return animation_ball(board, flag, 8, ball);
+            case 9:
+                if (flag) {
+                    user.setHP(damageInRange(user.getHP(), (int)(user.getmaxHP() * 0.1)));
+                    enemy.setAttack((enemy.getAttack() < 5) ? 0 : enemy.getAttack() - 5);
+                } else {
+                    enemy.setHP(damageInRange(enemy.getHP(), (int)(enemy.getmaxHP() * 0.2)));
+                    user.setAttack(user.getAttack() - 5);
+                }
+                return animation_DefenceDown(board, flag, 1, ball, false);
             case 10:
                 if (flag) {
                     if (enemy.getDefence() == 0) enemy.setHP(0);
@@ -63,15 +118,69 @@ public class Spell {
                 return animation_ball(board, flag, 11, ball);
             case 12:
                 if (flag) {
-                    user.setHP(damageInRange(user.getHP(),50));
-                    enemy.setHP(damageInRange(enemy.getHP(), 300));
+                    user.setHP(damageInRange(user.getHP(),100));
+                    enemy.setHP(damageInRange(enemy.getHP(), 400));
                 } else {
-                    user.setHP(damageInRange(user.getHP(), 160));
+                    user.setHP(damageInRange(user.getHP(), 260));
                 }
                 return animation_ball(board, flag, 12, ball);
+            case 13:
+                if (flag) {
+                    user.setHP(damageInRange(user.getHP(), (int)(user.getmaxHP() * 0.2)));
+                    enemy.setHP(damageInRange(enemy.getHP(), (int)(enemy.getmaxHP() * 0.5)));
+                } else {
+                    user.setHP(damageInRange(user.getHP(), (int)(user.getmaxHP() * 0.5)));
+                    enemy.setHP(damageInRange(enemy.getHP(), (int)(enemy.getmaxHP() * 0.3 )));
+                }
+                return animation_ball(board, flag, 13, ball);
+            case 14:
+                if (flag) {
+                    user.setHP(damageInRange(user.getHP(), (int)(user.getmaxHP() * 0.85)));
+                    user.setAttack(user.getAttack() * 2);
+                    user.setDefence((int)(user.getDefence() * 1.5));
+                } else {
+                    enemy.setHP(damageInRange(enemy.getHP(), (int)(enemy.getmaxHP() * 0.8)));
+                    enemy.setAttack((int)(enemy.getAttack() * 1.5));
+                    enemy.setDefence((int)(enemy.getDefence() * 1.2));
+                }
+                return animation_DefenceDown(board, !flag, 3, ball, true);
             default:
                 return null;
         }
+    }
+
+    public PathTransition animation_recover(Pane board, boolean user, int type, Circle ball) {
+        Path path = new Path();
+        PathTransition pt = new PathTransition();
+        ball.setRadius(50);
+        ball.toFront();
+        if (user) {
+            ball.setCenterX(260);
+            ball.setCenterY(470);
+            path.getElements().add(new MoveTo(260, 470));
+            path.getElements().add(new LineTo(160, 470));
+            path.getElements().add(new LineTo(360, 470));
+            path.getElements().add(new LineTo(260, 470));
+
+        } else {
+            ball.setCenterX(800);
+            ball.setCenterY(130);
+            path.getElements().add(new MoveTo(800, 130));
+            path.getElements().add(new LineTo(700, 130));
+            path.getElements().add(new LineTo(900, 130));
+            path.getElements().add(new LineTo(700, 130));
+
+        }
+
+        if (type == 5) ball.setFill(new ImagePattern(new Image("Pics/Spell/redball.png")));
+
+        board.getChildren().add(ball);
+        pt.setNode(ball);
+        pt.setDuration(Duration.millis(1500));
+        pt.setPath(path);
+        pt.setAutoReverse(true);
+        pt.setCycleCount(1);
+        return pt;
     }
 
     public PathTransition animation_DefenceDown(Pane board, boolean user, int type, Circle ball, boolean uord) {
@@ -102,6 +211,8 @@ public class Spell {
         }
 
         if (type == 1) ball.setFill(new ImagePattern(new Image("Pics/Spell/down.png")));
+        else if (type == 3) ball.setFill(new ImagePattern(new Image("Pics/Spell/up.png")));
+        else if (type == 7) ball.setFill(new ImagePattern(new Image("Pics/Spell/scard.png")));
 
         board.getChildren().add(ball);
         pt.setNode(ball);
@@ -139,10 +250,30 @@ public class Spell {
             ball.setFill(new ImagePattern(new Image("Pics/Spell/water_ball.png")));
             ball.setRadius(60);
         }
+        else if (type == 4) {
+            ball.setFill(new ImagePattern(new Image("Pics/Spell/redball.png")));
+            ball.setRadius(60);
+        }
+        else if (type == 6) {
+            ball.setFill(new ImagePattern(new Image("Pics/Spell/fireball.png")));
+            ball.setRadius(60);
+        }
+        else if (type == 8) {
+            ball.setFill(new ImagePattern(new Image("Pics/Spell/tornado.png")));
+            ball.setRadius(60);
+        }
         else if (type == 10) ball.setFill(new ImagePattern(new Image("Pics/Spell/thunderBall.png")));
         else if (type == 11) {
             ball.setFill(new ImagePattern(new Image("Pics/Spell/crystalball.jpg")));
             ball.setRadius(100);
+        }
+        else if (type == 12) {
+            ball.setFill(new ImagePattern(new Image("Pics/Spell/colorball.jpg")));
+            ball.setRadius(100);
+        }
+        else if (type == 13) {
+            ball.setFill(new ImagePattern(new Image("Pics/Spell/blackball.jpg")));
+            ball.setRadius(60);
         }
         board.getChildren().add(ball);
         pt.setNode(ball);
@@ -154,7 +285,9 @@ public class Spell {
         pt.setCycleCount(1);
         return pt;
     }
-
+    public int health_gain(Pokemon tar, int gain) {
+        return (tar.getHP() + gain > tar.getmaxHP()) ? tar.getmaxHP() : tar.getHP() + gain;
+    }
     public int mana_gain(int curr, int gain){
         return Math.min(curr + gain, 100);
     }

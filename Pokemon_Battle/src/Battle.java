@@ -217,9 +217,9 @@ public class Battle {
         user.setHP(user.getmaxHP());
         user.setLevel(to);
         System.out.println(user.getHP());
-        if (user.getLevel() > 10) user.setGrassAble(true);
-        if (user.getLevel() > 20) user.setWaterAble(true);
-        if (user.getLevel() > 30) user.setStoneAble(true);
+        if (user.getLevel() > 9) user.setGrassAble(true);
+        if (user.getLevel() > 19) user.setWaterAble(true);
+        if (user.getLevel() > 29) user.setStoneAble(true);
     }
 
     public void levelCal(int base, boolean lvl5, int from){
