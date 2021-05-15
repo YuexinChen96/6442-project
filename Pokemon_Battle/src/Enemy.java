@@ -92,18 +92,14 @@ public class Enemy implements Serializable {
         this.id = id;
     }
 
-    public int[] getSkillList(){return skill_list;}
-
-    public void setSkillList(int[] skill_list){this.skill_list=skill_list;}
-
-    public Enemy(int id, String name, int attack, int defence, int HP, int MP,int[]skill_list){
+    public Enemy(int id, String name, int attack, int defence, int HP, int MP, int[]skill_list){
         this.id = id;
         this.name = name;
         this.attack = attack;
         this.defence = defence;
         this.HP = HP;
         this.MP = MP;
-        this.skill_list=skill_list;
+        this.skill_list = skill_list;
     }
 
 }
