@@ -51,6 +51,7 @@ public class Battle {
         System.out.println("User HP" + user.getHP());
         Timeline t1 = null;
         Circle ball = new Circle();
+        Circle ball2 = new Circle();
         button_able = false;
 
         AtomicBoolean terminal_occur = new AtomicBoolean(false);
@@ -90,7 +91,7 @@ public class Battle {
             }
         }));
 
-
+        AtomicBoolean use_spell = new AtomicBoolean(false);
         // enemy action
         Timeline t3 = new Timeline(new KeyFrame(Duration.millis(1), ae -> {
             if (!terminal_occur.get()) {
@@ -113,7 +114,8 @@ public class Battle {
                             Random r = new Random();
                             int spell = r.nextInt(2);
                             System.out.println("Enemy use action: " + spell + " Spell number:" + tar.skill_list[spell]);
-                            PathTransition pt2 = enemy_spell.execute(tar.skill_list[spell], user, tar, false, board, ball);
+                            PathTransition pt2 = enemy_spell.execute(tar.skill_list[spell], user, tar, false, board, ball2);
+                            use_spell.set(true);
                             tar.setMP(tar.getMP() - 30);
                             pt2.play();
                         } else {
@@ -126,7 +128,8 @@ public class Battle {
                                 int dmg = tar.getAttack() - user.getDefence();
                                 user.setHP(damageInRange(user.getHP(), dmg));
                             } else {
-                                pt2 = enemy_spell.execute(tar.skill_list[enemy_action], user, tar, false, board, ball);
+                                use_spell.set(true);
+                                pt2 = enemy_spell.execute(tar.skill_list[enemy_action], user, tar, false, board, ball2);
                                 tar.setMP((enemy_action == 2) ? tar.getMP() - 50 : tar.getMP() - 30);
                             }
                             pt2.play();
@@ -140,11 +143,12 @@ public class Battle {
         Timeline t4 = new Timeline(new KeyFrame(Duration.millis(1500), ae -> {
             if (!terminal_occur.get()) {
                 // get mana for enmey
-                if (tar.getId() > 3) tar.setMP(mana_gain(tar.getMP(), 10));
+                if (tar.getId() > 3 && !use_spell.get()) tar.setMP(mana_gain(tar.getMP(), 10));
 
                 UIupdate(user_HP_info, user_MP_info, enemy_HP_info, enemy_MP_info, user_HP_bar, user_MP_bar, enemy_HP_bar
                         , enemy_MP_bar, user_AD_info, enemy_AD_info, user_LEVEL);
                 textInfo.setValue("Now is your turn... Choose one action.");
+                board.getChildren().remove(ball2);
                 //winorlose.set(end_check());
                 //System.out.println(winorlose.get());
                 button_able = true;
@@ -180,7 +184,7 @@ public class Battle {
         } else {
             // use Spell 3
             if (tar.getHP() < tar.getmaxHP() * 0.3) return 0;
-            else if (enemy8checkSpell3(0) && tar.getMP() > 50) return 2;
+            else if (enemy8checkSpell3(0) && tar.getMP() == 50) return 2;
             else if (enemy8checkSpell3(1) && tar.getMP() == 40) return -1;
             else if (enemy8checkSpell3(2) && tar.getMP() == 30) return -1;
             else if (tar.getHP() > tar.getmaxHP() * 0.5) return 1;
@@ -195,6 +199,8 @@ public class Battle {
         // turn remained
         int turn = (tar.getHP() / (user.getAttack() - tar.getDefence())) + 1;
         double damageGain = turn * tar.getAttack() * 0.5;
+        System.out.println(health);
+        System.out.println(damageGain);
         return damageGain > health + i * (user.getAttack() - tar.getDefence());
     }
 

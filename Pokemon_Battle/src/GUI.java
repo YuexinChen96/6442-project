@@ -749,10 +749,10 @@ public class GUI extends Application {
         if (enemy_id == 4 || enemy_id == 5) {
             int[] spell_l = new int[]{0, 1, 2, 3, 4, 7};
             Random random = new Random();
-            int index1 = random.nextInt(7);
-            int index2 = random.nextInt(7);
+            int index1 = random.nextInt(6);
+            int index2 = random.nextInt(6);
             while (index2 == index1) {
-                index2 = random.nextInt(7);
+                index2 = random.nextInt(6);
             }
             System.out.println("Spell attach: " + index1 + " ----------------- " + index2);
             System.out.println(spell_l[index1]);

@@ -135,13 +135,13 @@ public class Spell {
                 return animation_ball(board, flag, 13, ball);
             case 14:
                 if (flag) {
-                    user.setHP(damageInRange(user.getHP(), (int)(user.getmaxHP() * 0.85)));
+                    user.setHP(damageInRange(user.getHP(), (int)(user.getmaxHP() * 0.75)));
                     user.setAttack(user.getAttack() * 2);
                     user.setDefence((int)(user.getDefence() * 1.5));
                 } else {
-                    enemy.setHP(damageInRange(enemy.getHP(), (int)(enemy.getmaxHP() * 0.8)));
-                    enemy.setAttack((int)(enemy.getAttack() * 1.5));
-                    enemy.setDefence((int)(enemy.getDefence() * 1.2));
+                    enemy.setHP(damageInRange(enemy.getHP(), (int)(enemy.getmaxHP() * 0.2)));
+                    enemy.setAttack((int)(enemy.getAttack() * 2));
+                    enemy.setDefence((int)(enemy.getDefence() * 1.5));
                 }
                 return animation_DefenceDown(board, !flag, 3, ball, true);
             default:
@@ -268,11 +268,11 @@ public class Spell {
             ball.setRadius(100);
         }
         else if (type == 12) {
-            ball.setFill(new ImagePattern(new Image("Pics/Spell/colorball.jpg")));
+            ball.setFill(new ImagePattern(new Image("Pics/Spell/colorball.png")));
             ball.setRadius(100);
         }
         else if (type == 13) {
-            ball.setFill(new ImagePattern(new Image("Pics/Spell/blackball.jpg")));
+            ball.setFill(new ImagePattern(new Image("Pics/Spell/blackball.png")));
             ball.setRadius(60);
         }
         board.getChildren().add(ball);
