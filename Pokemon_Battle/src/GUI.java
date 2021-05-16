@@ -123,6 +123,7 @@ public class GUI extends Application {
         background.setImage(new Image(PAGE0_BACKGROUND_URI));
         background.setFitHeight(780);
         background.setPreserveRatio(true);
+        background.setOpacity(0.85);
         board.getChildren().add(background);
         board.setLayoutX(0);
         board.setLayoutY(0);
@@ -132,24 +133,25 @@ public class GUI extends Application {
         Text introduction = new Text("BRIEF INTRODUCTION");
         introduction.setFill(Color.rgb(9, 97, 228));
         introduction.setFont(Font.font("Avenir Next", FontWeight.BOLD, 24));
-        introduction.setLayoutX(80);
-        introduction.setLayoutY(300);
+        introduction.setLayoutX(100);
+        introduction.setLayoutY(360);
         board.getChildren().add(introduction);
 
-        Text instructionsText = new Text("Once upon a time, on a small island of Far East, lives a tribe of elves. " +
-                "The lived happily together. However, one day the evil elves of another tribe want to occupy this quiet and peaceful island, thus the war begins...");
+        Text instructionsText = new Text("In the 21st century, there is a small island located in the Far East, with a tribe of Pokemon living there happily. " +
+                "Suddenly one day, a group of war-loving Pocket Monsters alliance landed on this peaceful island. They wanted to occupy the island and drive away all the aborigines. " +
+                "Therefore, in order to protect their beloved homeland, pokemon decided to use their own power to fight against foreign invaders...");
         instructionsText.setFill(Color.WHITE);
-        instructionsText.setFont(Font.font("Avenir Next", FontWeight.LIGHT, 18));
-        instructionsText.setLayoutX(80);
-        instructionsText.setLayoutY(450);
+        instructionsText.setFont(Font.font("Myriad Pro", FontWeight.BOLD, 18));
+        instructionsText.setLayoutX(100);
+        instructionsText.setLayoutY(400);
         instructionsText.setWrappingWidth(500);
         board.getChildren().add(instructionsText);
 
         //Game title
-        Text gamename = new Text("Pokemon Battle");
+        Text gamename = new Text("POKEMON BATTLE");
         gamename.setFill(Color.WHITE);
         gamename.setFont(Font.font("Avenir Next", FontWeight.BOLD, 60));
-        gamename.setLayoutX(380);
+        gamename.setLayoutX(300);
         gamename.setLayoutY(120);
         board.getChildren().add(gamename);
 
@@ -157,9 +159,9 @@ public class GUI extends Application {
         Button btn1 = new Button("Game Start");
         btn1.setMaxSize(200, 40);
         btn1.setMinSize(200, 40);
-        btn1.setLayoutX(900);
+        btn1.setLayoutX(800);
         btn1.setFont(Font.font("Arial", FontWeight.BOLD,20));
-        btn1.setLayoutY(400);
+        btn1.setLayoutY(340);
         btn1.setOnAction(e -> {
             board.getChildren().removeAll(board.getChildren());
             page1_initial();
