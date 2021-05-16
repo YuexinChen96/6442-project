@@ -40,7 +40,7 @@ Spell, battle(Yuexin Chen).
 - Tasks(due by next meeting): optimize page 0, page 1(Xi Chen)
 
 ## Week 10
-- Meeting 14:00 14 Apr: allocate tasks
+- Meeting 14:00 14 May: allocate tasks
 - Tasks(due by next meeting): 
 page1 select role GUI(Qixuan Ren), 
 design spells of roles(YueXin Chen), 
@@ -48,6 +48,6 @@ design story of the game(Xi Chen)
 design junit testers(Yifei Tao).
 
 ## Week 11
-- Meeting 14:00 21 Apr: allocate tasks
+- Meeting 14:00 21 May: allocate tasks
 - Tasks(due by next meeyting): design Ai about enemys(Yuexin Chen), 
 markdown document(Yifei Tao).
