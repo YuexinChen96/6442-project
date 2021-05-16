@@ -1140,7 +1140,7 @@ public class GUI extends Application {
         Text endingText = new Text("Game over! You lost!");
         endingText.setFill(Color.BLACK);
         endingText.setFont(Font.font("Arial", FontWeight.NORMAL, 40));
-        endingText.setLayoutX(430);
+        endingText.setLayoutX(425);
         endingText.setLayoutY(300);
         board.getChildren().add(endingText);
     }
