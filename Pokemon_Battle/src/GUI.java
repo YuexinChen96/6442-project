@@ -29,6 +29,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Random;
 
 
 //Set up basic GUI
@@ -122,6 +123,7 @@ public class GUI extends Application {
         background.setImage(new Image(PAGE0_BACKGROUND_URI));
         background.setFitHeight(780);
         background.setPreserveRatio(true);
+        background.setOpacity(0.85);
         board.getChildren().add(background);
         board.setLayoutX(0);
         board.setLayoutY(0);
@@ -131,34 +133,35 @@ public class GUI extends Application {
         Text introduction = new Text("BRIEF INTRODUCTION");
         introduction.setFill(Color.rgb(9, 97, 228));
         introduction.setFont(Font.font("Avenir Next", FontWeight.BOLD, 24));
-        introduction.setLayoutX(80);
-        introduction.setLayoutY(300);
+        introduction.setLayoutX(100);
+        introduction.setLayoutY(360);
         board.getChildren().add(introduction);
 
-        Text instructionsText = new Text("Once upon a time, on a small island of Far East, lives a tribe of elves. " +
-                "The lived happily together. However, one day the evil elves of another tribe want to occupy this quiet and peaceful island, thus the war begins...");
+        Text instructionsText = new Text("In the 21st century, there is a small island located in the Far East, with a tribe of Pokemon living there happily. " +
+                "Suddenly one day, a group of war-loving Pocket Monsters alliance landed on this peaceful island. They wanted to occupy the island and drive away all the aborigines. " +
+                "Therefore, in order to protect their beloved homeland, pokemon decided to use their own power to fight against foreign invaders...");
         instructionsText.setFill(Color.WHITE);
-        instructionsText.setFont(Font.font("Avenir Next", FontWeight.LIGHT, 18));
-        instructionsText.setLayoutX(80);
-        instructionsText.setLayoutY(450);
+        instructionsText.setFont(Font.font("Myriad Pro", FontWeight.BOLD, 18));
+        instructionsText.setLayoutX(100);
+        instructionsText.setLayoutY(400);
         instructionsText.setWrappingWidth(500);
         board.getChildren().add(instructionsText);
 
         //Game title
-        Text gamename = new Text("Pokemon Battle");
-        gamename.setFill(Color.WHITE);
-        gamename.setFont(Font.font("Avenir Next", FontWeight.BOLD, 60));
-        gamename.setLayoutX(380);
-        gamename.setLayoutY(120);
-        board.getChildren().add(gamename);
+        Text gameName = new Text("POKEMON BATTLE");
+        gameName.setFill(Color.WHITE);
+        gameName.setFont(Font.font("Avenir Next", FontWeight.BOLD, 60));
+        gameName.setLayoutX(300);
+        gameName.setLayoutY(120);
+        board.getChildren().add(gameName);
 
         //'game start' button
         Button btn1 = new Button("Game Start");
         btn1.setMaxSize(200, 40);
         btn1.setMinSize(200, 40);
-        btn1.setLayoutX(900);
+        btn1.setLayoutX(800);
         btn1.setFont(Font.font("Arial", FontWeight.BOLD,20));
-        btn1.setLayoutY(400);
+        btn1.setLayoutY(340);
         btn1.setOnAction(e -> {
             board.getChildren().removeAll(board.getChildren());
             page1_initial();
@@ -217,7 +220,7 @@ public class GUI extends Application {
         btn1.setMinSize(100, 40);
         btn1.setLayoutX(1000);
         btn1.setLayoutY(400);
-        btn1.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        btn1.setFont(Font.font("Avenir Next", FontWeight.BOLD, 20));
         btn1.setOnAction(e -> {
             board.getChildren().removeAll(board.getChildren());
             page2_initial();
@@ -235,21 +238,21 @@ public class GUI extends Application {
         board.getChildren().add(chosenrole);
 
         //information of selected pokemon
-        Text youchose = new Text("You choose:\n\n\n\n\n\n\n\nAttributes: ");
-        youchose.setFill(Color.WHITE);
-        youchose.setFont(Font.font("Avenir Next", FontWeight.BLACK, 35));
-        youchose.setLayoutX(600);
-        youchose.setLayoutY(150);
-        youchose.setWrappingWidth(550);
-        board.getChildren().add(youchose);
+        Text youChoose = new Text("You choose:\n\n\n\n\n\n\nAttributes: ");
+        youChoose.setFill(Color.WHITE);
+        youChoose.setFont(Font.font("Avenir Next", FontWeight.BLACK, 35));
+        youChoose.setLayoutX(600);
+        youChoose.setLayoutY(150);
+        youChoose.setWrappingWidth(550);
+        board.getChildren().add(youChoose);
 
         //attributes of selected pokemon
-        Label attrinfo = new Label();
-        attrinfo.setLayoutX(600);
-        attrinfo.setLayoutY(500);
-        attrinfo.setTextFill(Color.WHITE);
-        attrinfo.setFont(Font.font("Avenir Next", FontWeight.BLACK, 18));
-        board.getChildren().add(attrinfo);
+        Label attrInfo = new Label();
+        attrInfo.setLayoutX(600);
+        attrInfo.setLayoutY(500);
+        attrInfo.setTextFill(Color.WHITE);
+        attrInfo.setFont(Font.font("Avenir Next", FontWeight.BLACK, 18));
+        board.getChildren().add(attrInfo);
 
         //show selected pokemon again
         ImageView roleImg = new ImageView();
@@ -260,20 +263,20 @@ public class GUI extends Application {
         board.getChildren().add(roleImg);
 
         //clicked event handler (about 5 pokemon)
-        addClickRoles(rect, btn1, text, roleImg,attrinfo);
-        addClickRoles(rect2, btn1, text, roleImg,attrinfo);
-        addClickRoles(rect3, btn1, text, roleImg,attrinfo);
-        addClickRoles(rect4, btn1, text, roleImg,attrinfo);
-        addClickRoles(rect5, btn1, text, roleImg,attrinfo);
+        addClickRoles(rect, btn1, text, roleImg,attrInfo);
+        addClickRoles(rect2, btn1, text, roleImg,attrInfo);
+        addClickRoles(rect3, btn1, text, roleImg,attrInfo);
+        addClickRoles(rect4, btn1, text, roleImg,attrInfo);
+        addClickRoles(rect5, btn1, text, roleImg,attrInfo);
 
     }
-    Node selectedrole;
+    Node selectedRole;
     //get pokemon id from the node of selected pokemon
     public int getIdFromSelectedRole(){
-        if(selectedrole==null) {
+        if(selectedRole ==null) {
             System.out.println('n');return 0;}
-        int x=(int)selectedrole.localToScene(selectedrole.getBoundsInLocal()).getCenterX() - 75;
-        int y=(int)selectedrole.localToScene(selectedrole.getBoundsInLocal()).getCenterY() - 75;
+        int x=(int) selectedRole.localToScene(selectedRole.getBoundsInLocal()).getCenterX() - 75;
+        int y=(int) selectedRole.localToScene(selectedRole.getBoundsInLocal()).getCenterY() - 75;
         System.out.println(x+","+y);
         if(x==170&&y==300) return 1;
         else if(x==330&&y==300) return 2;
@@ -294,14 +297,14 @@ public class GUI extends Application {
             node.setEffect(borderGlow);
             node.setOpacity(1);
             for (Node r: this.board.getChildren()){
-                if(r!=node&&r.getClass()==new Rectangle().getClass()){
+                if(r!=node&&r.getClass()== Rectangle.class){
                    r.setEffect(null);
                    r.setOpacity(0.9);
                }
             }
-            selectedrole=node;
-            System.out.println(selectedrole.localToScene(selectedrole.getBoundsInLocal()).getCenterX() - 75 );
-            System.out.println(selectedrole.localToScene(selectedrole.getBoundsInLocal()).getCenterY() - 75 );
+            selectedRole =node;
+            System.out.println(selectedRole.localToScene(selectedRole.getBoundsInLocal()).getCenterX() - 75 );
+            System.out.println(selectedRole.localToScene(selectedRole.getBoundsInLocal()).getCenterY() - 75 );
             int id = getIdFromSelectedRole();
             System.out.println(id);
             user = new Pokemon(id);
@@ -723,6 +726,12 @@ public class GUI extends Application {
         }
     }
 
+    //giveup battle and go to page2, the enemy is still in its original location, but user's attrs maybe change.
+    public void page3_to_page2_giveup(Pokemon changeduser){
+        this.user = changeduser;
+        page2_initial();
+    }
+
 
 //-------------------------------------------------------------
 //                 Page3_initial (Battle)
@@ -739,6 +748,19 @@ public class GUI extends Application {
 
         // enemy load, create enemy
         Enemy enemy = enemy_loading(enemy_id);
+        if (enemy_id == 4 || enemy_id == 5) {
+            int[] spell_l = new int[]{0, 1, 2, 3, 4, 7};
+            Random random = new Random();
+            int index1 = random.nextInt(6);
+            int index2 = random.nextInt(6);
+            while (index2 == index1) {
+                index2 = random.nextInt(6);
+            }
+            System.out.println("Spell attach: " + index1 + " ----------------- " + index2);
+            System.out.println(spell_l[index1]);
+            enemy.skill_list[0] = spell_l[index1];
+            enemy.skill_list[1] = spell_l[index2];
+        }
         // start Battle
         Battle battle = new Battle(this.user, enemy);
         // Background area
@@ -1080,6 +1102,18 @@ public class GUI extends Application {
             }
         });
         board.getChildren().add(btn4);
+
+        //give up battle button
+        Button btn5 = new Button("give up");
+        btn5.setLayoutX(1100);
+        btn5.setLayoutY(680);
+        btn5.setMinSize(90, 40);
+        btn5.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
+        btn5.setOnAction(e -> {
+            page3_to_page2_giveup(battle.giveupBattle());
+        });
+        board.getChildren().add(btn5);
+
     }
 
     // loading enemy from Json file
@@ -1105,11 +1139,25 @@ public class GUI extends Application {
     public void page4_initial() {
         board.getChildren().removeAll(board.getChildren());
 
-        Text endingText = new Text("Game over");
+        Text endingText = new Text("Game over! You lost!");
         endingText.setFill(Color.BLACK);
         endingText.setFont(Font.font("Arial", FontWeight.NORMAL, 40));
-        endingText.setLayoutX(500);
+        endingText.setLayoutX(425);
         endingText.setLayoutY(300);
         board.getChildren().add(endingText);
     }
+
+//-------------------------------------------------------------
+//                 Page5_initial (Win game)
+// ------------------------------------------------------------
+public void page5_initial() {
+    board.getChildren().removeAll(board.getChildren());
+
+    Text endingText = new Text("Congratulations!! You win!");
+    endingText.setFill(Color.BLACK);
+    endingText.setFont(Font.font("Arial", FontWeight.BLACK, 50));
+    endingText.setLayoutX(300);
+    endingText.setLayoutY(300);
+    board.getChildren().add(endingText);
+}
 }

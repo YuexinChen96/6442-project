@@ -47,7 +47,7 @@
   "MP": 0,
   "maxHP": 250,
   "EXP": 200,
-  "skill_list": [2,3,5]
+  "skill_list": [-1, -1, -1]
 },{
   "id": 5,
   "name": "Enemy6",
@@ -57,28 +57,26 @@
   "MP": 0,
   "maxHP": 318,
   "EXP": 400,
-  "skill_list": [2,3,5]
+  "skill_list": [-1, -1, -1]
 },{
   "id": 6,
   "name": "Enemy7",
   "attack": 110,
   "defence": 25,
-  "HP": 520,
+  "HP": 620,
   "MP": 0,
-  "maxHP": 520,
+  "maxHP": 620,
   "EXP": 800,
-  "skill_list": [2,3,5]
+  "skill_list": [3,8,13]
 },{
   "id": 7,
   "name": "Enemy8",
   "attack": 138,
   "defence": 33,
-  "HP": 888,
+  "HP": 928,
   "MP": 0,
-  "maxHP": 888,
+  "maxHP": 928,
   "EXP": 1600,
-  "skill_list": [2,3,5]
+  "skill_list": [5,9,14]
 }
-
-
 ]
