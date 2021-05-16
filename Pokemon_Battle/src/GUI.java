@@ -148,12 +148,12 @@ public class GUI extends Application {
         board.getChildren().add(instructionsText);
 
         //Game title
-        Text gamename = new Text("POKEMON BATTLE");
-        gamename.setFill(Color.WHITE);
-        gamename.setFont(Font.font("Avenir Next", FontWeight.BOLD, 60));
-        gamename.setLayoutX(300);
-        gamename.setLayoutY(120);
-        board.getChildren().add(gamename);
+        Text gameName = new Text("POKEMON BATTLE");
+        gameName.setFill(Color.WHITE);
+        gameName.setFont(Font.font("Avenir Next", FontWeight.BOLD, 60));
+        gameName.setLayoutX(300);
+        gameName.setLayoutY(120);
+        board.getChildren().add(gameName);
 
         //'game start' button
         Button btn1 = new Button("Game Start");
@@ -220,7 +220,7 @@ public class GUI extends Application {
         btn1.setMinSize(100, 40);
         btn1.setLayoutX(1000);
         btn1.setLayoutY(400);
-        btn1.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        btn1.setFont(Font.font("Avenir Next", FontWeight.BOLD, 20));
         btn1.setOnAction(e -> {
             board.getChildren().removeAll(board.getChildren());
             page2_initial();
@@ -238,21 +238,21 @@ public class GUI extends Application {
         board.getChildren().add(chosenrole);
 
         //information of selected pokemon
-        Text youchose = new Text("You choose:\n\n\n\n\n\n\n\nAttributes: ");
-        youchose.setFill(Color.WHITE);
-        youchose.setFont(Font.font("Avenir Next", FontWeight.BLACK, 35));
-        youchose.setLayoutX(600);
-        youchose.setLayoutY(150);
-        youchose.setWrappingWidth(550);
-        board.getChildren().add(youchose);
+        Text youChoose = new Text("You choose:\n\n\n\n\n\n\nAttributes: ");
+        youChoose.setFill(Color.WHITE);
+        youChoose.setFont(Font.font("Avenir Next", FontWeight.BLACK, 35));
+        youChoose.setLayoutX(600);
+        youChoose.setLayoutY(150);
+        youChoose.setWrappingWidth(550);
+        board.getChildren().add(youChoose);
 
         //attributes of selected pokemon
-        Label attrinfo = new Label();
-        attrinfo.setLayoutX(600);
-        attrinfo.setLayoutY(500);
-        attrinfo.setTextFill(Color.WHITE);
-        attrinfo.setFont(Font.font("Avenir Next", FontWeight.BLACK, 18));
-        board.getChildren().add(attrinfo);
+        Label attrInfo = new Label();
+        attrInfo.setLayoutX(600);
+        attrInfo.setLayoutY(500);
+        attrInfo.setTextFill(Color.WHITE);
+        attrInfo.setFont(Font.font("Avenir Next", FontWeight.BLACK, 18));
+        board.getChildren().add(attrInfo);
 
         //show selected pokemon again
         ImageView roleImg = new ImageView();
@@ -263,20 +263,20 @@ public class GUI extends Application {
         board.getChildren().add(roleImg);
 
         //clicked event handler (about 5 pokemon)
-        addClickRoles(rect, btn1, text, roleImg,attrinfo);
-        addClickRoles(rect2, btn1, text, roleImg,attrinfo);
-        addClickRoles(rect3, btn1, text, roleImg,attrinfo);
-        addClickRoles(rect4, btn1, text, roleImg,attrinfo);
-        addClickRoles(rect5, btn1, text, roleImg,attrinfo);
+        addClickRoles(rect, btn1, text, roleImg,attrInfo);
+        addClickRoles(rect2, btn1, text, roleImg,attrInfo);
+        addClickRoles(rect3, btn1, text, roleImg,attrInfo);
+        addClickRoles(rect4, btn1, text, roleImg,attrInfo);
+        addClickRoles(rect5, btn1, text, roleImg,attrInfo);
 
     }
-    Node selectedrole;
+    Node selectedRole;
     //get pokemon id from the node of selected pokemon
     public int getIdFromSelectedRole(){
-        if(selectedrole==null) {
+        if(selectedRole ==null) {
             System.out.println('n');return 0;}
-        int x=(int)selectedrole.localToScene(selectedrole.getBoundsInLocal()).getCenterX() - 75;
-        int y=(int)selectedrole.localToScene(selectedrole.getBoundsInLocal()).getCenterY() - 75;
+        int x=(int) selectedRole.localToScene(selectedRole.getBoundsInLocal()).getCenterX() - 75;
+        int y=(int) selectedRole.localToScene(selectedRole.getBoundsInLocal()).getCenterY() - 75;
         System.out.println(x+","+y);
         if(x==170&&y==300) return 1;
         else if(x==330&&y==300) return 2;
@@ -297,14 +297,14 @@ public class GUI extends Application {
             node.setEffect(borderGlow);
             node.setOpacity(1);
             for (Node r: this.board.getChildren()){
-                if(r!=node&&r.getClass()==new Rectangle().getClass()){
+                if(r!=node&&r.getClass()== Rectangle.class){
                    r.setEffect(null);
                    r.setOpacity(0.9);
                }
             }
-            selectedrole=node;
-            System.out.println(selectedrole.localToScene(selectedrole.getBoundsInLocal()).getCenterX() - 75 );
-            System.out.println(selectedrole.localToScene(selectedrole.getBoundsInLocal()).getCenterY() - 75 );
+            selectedRole =node;
+            System.out.println(selectedRole.localToScene(selectedRole.getBoundsInLocal()).getCenterX() - 75 );
+            System.out.println(selectedRole.localToScene(selectedRole.getBoundsInLocal()).getCenterY() - 75 );
             int id = getIdFromSelectedRole();
             System.out.println(id);
             user = new Pokemon(id);
