@@ -6,15 +6,21 @@ This is the development document for the Pokemon Battle game. It is intended to 
 
 
 
-## 2 Game Dverview
+## 2 Game Overview
 
 ### Project Background
 
-This project is to design an RPG game in Java.
+This project is to design an RPG(Role-playing game) by using Java and Javafx as main developing languages. The name of game is **Pokemon Battle**.
+
+As with traditional RPGs, players will play as different pokemon characters with unused skills and explore, battle and upgrade in the game map.
 
 ### Story
 
+
+
 ### Character Design
+
+
 
 ### Event Flow
 
@@ -33,6 +39,10 @@ The GUI skeleton of the game is as follow:
 ### Introduction to Functions and Menus
 
 ### Basic Operations
+
+#### Movement
+
+
 
 ### Map System
 
@@ -101,7 +111,7 @@ The skills for 8 enemies:
 
 #### 4.1 Programming language
 
-This project use Java as the main back-end programming language, and Javafx as the main front-end programming language.
+This project uses Java as the main back-end programming language, and Javafx as the main front-end programming language.
 
 #### 4.2 Tools
 
