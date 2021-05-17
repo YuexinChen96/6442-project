@@ -11,19 +11,22 @@ import java.util.concurrent.atomic.AtomicBoolean;
 //Author: Yuexin Chen
 public class Battle {
 
+    // Two players
     private Enemy tar;
     Pokemon user;
+    // Check for level up
     private boolean levelup;
 
+    // Two pointers point to the images from GUI
     private Rectangle p_user;
     private Rectangle p_tar;
 
+    // Block duplicate click on buttons
     public boolean button_able = true;
 
     public void setP_user(Rectangle p_user) {
         this.p_user = p_user;
     }
-
     public void setP_tar(Rectangle p_tar) {
         this.p_tar = p_tar;
     }
@@ -36,8 +39,9 @@ public class Battle {
         this.user = user;
     }
 
+    // check whether game over: user HP is 0
     public boolean gameover_test (){return this.user.getHP() == 0;}
-
+    // check user win the game: enemy HP is 0
     public boolean win_test () { return this.tar.getHP() == 0;}
 
 
@@ -55,18 +59,21 @@ public class Battle {
         button_able = false;
 
         AtomicBoolean terminal_occur = new AtomicBoolean(false);
+        // user's turn
         if (action == 0) {
             // animation may go here
             t1 = new Timeline(new KeyFrame(Duration.millis(1),ae->{
                 PathTransition pt1 = action1_animation(board, true);
                 pt1.play();
             }));
+            // action settlement
             int dmg = user.getAttack() - tar.getDefence();
             System.out.println("The damage is: " + dmg);
             tar.setHP(damageInRange(tar.getHP(), dmg));
-
+        // using Spell by Spell Class
         } else if (action == 1 || action == 2 || action == 3) {
             Spell my = new Spell();
+            // Spell class return an animation with settlement
             t1 = new Timeline(new KeyFrame(Duration.millis(1), ae -> {
                 PathTransition pt1 = my.execute(user.getSkillList()[action - 1], user, tar, true, board, ball);
                 if (action == 3) user.setMP(user.getMP() - 80);
@@ -74,7 +81,7 @@ public class Battle {
                 pt1.play();
             }));
         }
-
+        // user's animation and GUI update
         Timeline t2 = new Timeline(new KeyFrame(Duration.millis(1500),ae->{
             // user mana recover
             if (action == 0) user.setMP(mana_gain(user.getMP(), 8));
@@ -90,25 +97,27 @@ public class Battle {
                 terminal_occur.set(true);
             }
         }));
-
+        // enemy's turn
         AtomicBoolean use_spell = new AtomicBoolean(false);
         // enemy action
         Timeline t3 = new Timeline(new KeyFrame(Duration.millis(1), ae -> {
             if (!terminal_occur.get()) {
                 // Simple agent
                 if (tar.getId() < 4) {
+                    // attack
                     PathTransition pt2 = action1_animation(board, false);
                     pt2.play();
                     int dmg = tar.getAttack() - user.getDefence();
                     user.setHP(damageInRange(user.getHP(), dmg));
                 } else {
                     if (tar.getMP() < 30) {
+                        // attack
                         PathTransition pt2 = action1_animation(board, false);
                         pt2.play();
                         int dmg = tar.getAttack() - user.getDefence();
                         user.setHP(damageInRange(user.getHP(), dmg));
                     } else {
-                        // spell
+                        // enemy with spell
                         Spell enemy_spell = new Spell();
                         if (tar.getId() < 6) {
                             Random r = new Random();
@@ -121,13 +130,16 @@ public class Battle {
                         } else {
                             // action selector for enemy 7 and enemy 8
                             PathTransition pt2;
+                            // get action from advanced agent
                             int enemy_action = ai();
                             System.out.println("Enemy use action: " + enemy_action);
                             if (enemy_action == -1) {
+                                // attack to collect mana
                                 pt2 = action1_animation(board, false);
                                 int dmg = tar.getAttack() - user.getDefence();
                                 user.setHP(damageInRange(user.getHP(), dmg));
                             } else {
+                                // use spell
                                 use_spell.set(true);
                                 pt2 = enemy_spell.execute(tar.skill_list[enemy_action], user, tar, false, board, ball2);
                                 tar.setMP((enemy_action == 2) ? tar.getMP() - 50 : tar.getMP() - 30);
@@ -137,9 +149,8 @@ public class Battle {
                     }
                 }
             }
-            // advanced agent
         }));
-
+        // enemy animation
         Timeline t4 = new Timeline(new KeyFrame(Duration.millis(1500), ae -> {
             if (!terminal_occur.get()) {
                 // get mana for enmey
@@ -149,20 +160,19 @@ public class Battle {
                         , enemy_MP_bar, user_AD_info, enemy_AD_info, user_LEVEL);
                 textInfo.setValue("Now is your turn... Choose one action.");
                 board.getChildren().remove(ball2);
-                //winorlose.set(end_check());
-                //System.out.println(winorlose.get());
+                // end turn check
                 button_able = true;
                 int ret = end_check();
                 if (ret != 0) gui.page3_to_page2(ret == 1, this.user,levelup);
             }
         }));
-
+        // play animation
         SequentialTransition seqT = new SequentialTransition(t1, t2, t3, t4);
         seqT.play();
 
-        // return end_check();
     }
 
+    // AI agent return with action (attack: -1, Spell1: 0, Spell2: 1, Spell3: 2)
     public int ai(){
         if (tar.getId() == 6) {
             // use spell 3
@@ -192,7 +202,7 @@ public class Battle {
         }
     }
 
-    // i stand for turn mana gain
+    // i stand for turns of mana gain, return whether optimal to use spell T or F.
     public boolean enemy8checkSpell3(int i) {
         // health needed
         double health = tar.getmaxHP() * 0.4;
@@ -208,7 +218,7 @@ public class Battle {
         return Math.min(curr + gain, 100);
     }
 
-
+    // attack animation, user: T for user's turn, F for enemy's turn
     public PathTransition action1_animation(Pane board, boolean user) {
         p_user.toFront();
         Path path = new Path();
@@ -237,6 +247,7 @@ public class Battle {
         return pt;
     }
 
+    // Update all UI infor: HP bar, MP bar, attack - defence, information box...
     public void UIupdate(StringProperty user_HP_info,StringProperty user_MP_info,
                          StringProperty enemy_HP_info, StringProperty enemy_MP_info,DoubleProperty user_HP_bar,
                          DoubleProperty user_MP_bar,DoubleProperty enemy_HP_bar,DoubleProperty enemy_MP_bar,
@@ -254,7 +265,7 @@ public class Battle {
         user_LEVEL.setValue("lvl " + user.getLevel());
     }
 
-    // end check works -- need API from Natalie
+    // end check works: -1 for game over, 0 for not win, 1 for user win
     public int end_check(){
         if (gameover_test()){
             System.out.println("Game Over.");
@@ -267,7 +278,7 @@ public class Battle {
         return 0;
     }
 
-    // gain EXP basic on enemy level
+    // gain EXP basic on enemy level, need to check level up.
     public void winCal(){
         // exp gain
         user.setExp(user.getExp() + tar.getEXP());
@@ -287,6 +298,7 @@ public class Battle {
 
     }
 
+    // level up calculation, turn on ability based on level
     public void levelUpCal(int from, int to){
         while (from != to) {
             levelCal(from / 10, from % 5 == 4, from);
@@ -300,8 +312,11 @@ public class Battle {
         if (user.getLevel() > 29) user.setStoneAble(true);
     }
 
+    // at level 5 special gain for different pokemon.
     public void levelCal(int base, boolean lvl5, int from){
+        // attack gain
         user.setAttack((int) (user.getAttack() + Math.pow(2, base)));
+        // max HP gain
         if (from < 5) user.setmaxHP(user.getmaxHP() + 5);
         else {
             user.setmaxHP((int) (user.getmaxHP() + Math.pow(2,((from - 5) / 10) + 3)));
@@ -310,11 +325,28 @@ public class Battle {
             switch(user.getid()) {
                 case 0:
                     user.setDefence((int) (user.getDefence() + 1 * Math.pow(2,base)));
+                    break;
+                case 1:
+                    user.setAttack((int) (user.getAttack() + 1 * Math.pow(2,base)));
+                    user.setDefence((int) (user.getDefence() + 1 * Math.pow(2,base)));
+                    break;
+                case 2:
+                    user.setDefence((int) (user.getDefence() + 2 * Math.pow(2,base)));
+                    break;
+                case 3:
+                    user.setAttack((int) (user.getDefence() + 2 * Math.pow(2,base)));
+                    user.setDefence((int) (user.getDefence() + 2 * Math.pow(2,base)));
+                    break;
+                case 4:
+                    user.setDefence((int) (user.getDefence() + 1 * Math.pow(2,base)));
+                    break;
+                default:
+                    break;
             }
         }
     }
 
-
+    // block negative HP appear
     public int damageInRange(int HP, int dmg){
         if (dmg <= 0) dmg = 1;
         if (HP <= dmg) return 0;
