@@ -24,8 +24,37 @@ public class testBattle {
     }
 
     @Test
-    public void testBAI() {
+    public void testAI() {
+        p0.setAttack(150);
+        e6.setMP(80);
+        e6.setHP(500);
+        assertEquals(b1.ai(),2);
+        e6.setMP(40);
+        assertEquals(b1.ai(),-1);
+        e6.setMP(30);
+        assertEquals(b1.ai(),-1);
+        e6.setMP(10);
+        assertEquals(b1.ai(),1);
+        e6.setHP(100);
+        assertEquals(b1.ai(),0);
+    }
 
+    @Test
+    public void testAbility() {
+        p0.setLevel(9);
+        b1.levelUpCal(p0.getLevel(),p0.getLevel()+1);
+        assertTrue(p0.getGrassAble());
+        p0.setLevel(19);
+        b1.levelUpCal(p0.getLevel(),p0.getLevel()+1);
+        assertTrue(p0.getWaterAble());
+        p0.setLevel(29);
+        b1.levelUpCal(p0.getLevel(),p0.getLevel()+1);
+        assertTrue(p0.getStoneAble());
+    }
+
+    @Test
+    public void testCal() {
+        p0.setLevel(5);
 
     }
 
