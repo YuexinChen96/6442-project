@@ -424,7 +424,7 @@ public class GUI extends Application {
             enemy.setFocusTraversable(false);
             board.getChildren().add(enemy);
 
-            //press this button to start search 
+            //press this button to start search
             hp_poison.setOnMousePressed(e1 -> {
                 List<String> a=ss.bfs(new Integer[]{user.getPosition()[0],user.getPosition()[1]},'h',whichMap(currentMapIndex),user);
                 board.getChildren().removeAll(rec_button,hp_poison,mp_poison,enemy);
