@@ -47,14 +47,14 @@ The basic GUI is implemented using Javafx. The example is as followed:
 <img src="Pokemon_Battle/src/Pics/demo/battle.png" width="800">
 
 #### Detailed:
-Graphic interface.
+Graphic interface.  
 Top left: Enemy info bar (Name, HP bar, MP bar, attack - defence)  
 Top right: Enemy icon  
 Botton right: User info bar (Name, HP bar, MP bar, attack - defence)  
 Botton left: User icon  
 Botton: Turn information.
 
-Control
+Control  
 Right: HP poison, MP poison, leave the game.  
 User control: Attack, Spell 1, Spell 2, Spell 3(cost more mana).  
 
