@@ -34,6 +34,8 @@ The back-end skeleton of the project is as below:
 
 <img src="https://cdn.jsdelivr.net/gh/kath-t/picgo/image-20210517194523873.png" alt="image-20210517194523873" style="zoom:33%;" />
 
+### Introduction to Functions and Menus
+
 The summary of each class's main function are as below:
 
 | Class Name | Main Function                                                |
@@ -51,53 +53,53 @@ The GUI skeleton of the project is as below:
 
 
 
-### Introduction to Functions and Menus
-
 ### Basic Operations
 
-#### Movement
+#### Map System
+
+##### Movement & Obstacle Determination
 
 
 
-### Map System
+##### Map Switching
 
-#### Obstacle Determination
 
-#### Map Switching
 
-### Backpack System
+#### Backpack System
 
-### Combat System
+
+
+#### Combat System
 
 The basic GUI is implemented using Javafx. The example is as followed:
 
 <img src="Pokemon_Battle/src/Pics/demo/battle.png" width="800">
 
-#### GUI
+##### GUI
 Top left: Enemy info bar (Name, HP bar, MP bar, attack - defence)  
 Top right: Enemy icon  
 Botton right: User info bar (Name, HP bar, MP bar, attack - defence)  
 Botton left: User icon  
 Botton: Turn information.
 
-#### Control 
+##### Control 
 Right: HP poison(60% HP recover), MP poison(40 mana recover), leave the game.  
 User control: Attack, Spell 1(20 mana cost), Spell 2(20 mana cost), Spell 3(80 mana cost).  
 If mana is not enough for spell, we block this button, same as poisons. 
 
-#### Turn System
+##### Turn System
 Project uses **Turn** system: User turn -> Enemy turn -> User turn -> Enemy turn ... (Until User/Enemy loses all HP)  
 If user loses all HP, it will redirect to the Game Over page.  
 If user win the battle, it will redirect to the **Map**.  
 
 
-#### Skills Setting (All skills have animations)
+##### Skills Setting (All skills have animations)
 Attack: Use (Attack - Defence) and deal damage. No mana cost.  
 Spell 1: 20 mana cost.  
 Spell 2: 20 mana cost.  
 Spell 3: 80 mana cost.(more powerful)
 
-#### Spell Table
+##### Spell Table
 Spell_ID|User effect|Enemy effect
 :--:|:--:|:--:
 0|deal (2xattack) damage|deal (2xattack) damage
@@ -116,7 +118,7 @@ Spell_ID|User effect|Enemy effect
 13|HP:-20%, enemy_HP:-50%|HP:-30%, user_HP:-50%
 14|HP:-85%, 2xattack, 1.5xdefence|HP:-40%, 2xattack, 1.2xdefence
 
-##### The skills for pokemons & enemies:
+###### The skills for pokemons & enemies:
 Name|Spell_1|Spell_2|Spell_3
 :--:|:--:|:--:|:--:
 Pokemon_1|0|1|10
@@ -145,7 +147,7 @@ Enemy 7 & 8 will think of use save mana for Spell_3.
 
 #### Game Ending and Response
 
-### Character Upgrading System
+#### Character Upgrading System
 
 ![image-20210517201053198](https://cdn.jsdelivr.net/gh/kath-t/picgo/image-20210517201053198.png)
 
@@ -173,10 +175,3 @@ Id|Task|Duration|Start Date|End Data
 4.1|Battle GUI|1.5 month|3.31|5.4
 4.2|Spell design|4 weeks|4.17|5.15
 4.3|Enemy design|2 weeks|5.1|5.15
-
-## 6 Project Summary
-
-
-
-## 7 Appedix
-
