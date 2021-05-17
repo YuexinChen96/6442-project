@@ -1,4 +1,3 @@
-
 ## 1 Document Description
 
 This is the development document for the Pokemon Battle game. It is intended to explain the background, the central setting, the structure of the project and the features of the game.
@@ -43,7 +42,7 @@ The GUI skeleton of the game is as follow:
 
 ### Combat System
 Basic GUI information is produced by Javafx.
-<img src="Pics/demo/battle.png" width="800"> 
+<img src="Pokemon_Battle/Pics/demo/battle.png" width="800"> 
 Project uses **Turn** system: User turn -> Enemy turn -> User turn -> Enemy turn ... (Until User/Enemy loses all HP)
 If user loses all HP, it will redirect to the Game Over page.
 
