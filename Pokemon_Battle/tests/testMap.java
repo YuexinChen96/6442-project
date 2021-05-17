@@ -8,12 +8,12 @@ public class testMap {
 
     @Rule
     public Timeout globalTimeout = Timeout.millis(1000);
-    private void doTest() {
-        assertTrue("1",true);
-    }
+
+
 
     @Test
-    public void test1() {
+    public void testMapInfo() {
+
 
     }
 
