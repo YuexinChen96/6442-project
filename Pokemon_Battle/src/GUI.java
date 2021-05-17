@@ -439,7 +439,7 @@ public class GUI extends Application {
         });
     }
 
-    //show the short path searched
+    //show the shortest path searched
     public void showSearchPath(List<String> acs){
         int x=user.getPosition()[0]*30,y=user.getPosition()[1]*30;
         Path p = new Path();

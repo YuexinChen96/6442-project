@@ -1,7 +1,6 @@
 import java.util.*;
-
+//Author: Natalie
 public class Search {
-
     char[][] map;
     char goaltype;
     Pokemon user;
@@ -17,7 +16,7 @@ public class Search {
             this.depth=depth;
         }
     }
-    //use bfs(breadth first search) algorithm to the find the short path to a nearby target.
+    //use bfs(breadth first search) algorithm to the find the shortest path to a nearby target.
     public List<String> bfs(Integer[] initial_state, char goaltype,char[][] map,Pokemon user) {
         this.map=map;
         this.goaltype=goaltype;
