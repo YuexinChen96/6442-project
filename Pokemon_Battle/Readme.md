@@ -1,4 +1,3 @@
-
 ## 1 Document Description
 
 This is the development document for the Pokemon Battle game. It is intended to explain the background, the central setting, the structure of the project and the features of the game.
@@ -57,7 +56,7 @@ The back-end skeleton of the project is as below:
 
 The GUI skeleton of the project is as below:
 
-<img src="Pokemon_Battle/Documents/Function models.PNG" width="800">
+<img src="https://gitlab.cecs.anu.edu.au/u7172190/comp6442-rpg/-/blob/master/Pokemon_Battle/Documents/Function%20models.PNG" width="800">
 
 
 
