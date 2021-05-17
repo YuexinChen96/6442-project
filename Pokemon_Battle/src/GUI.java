@@ -28,8 +28,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 //Set up basic GUI
@@ -383,25 +385,107 @@ public class GUI extends Application {
         attributes.setOnMouseReleased(e -> board.getChildren().removeAll(rec_attr, attrinfo));
         //show enemy info
 
-        Button search = new Button("Search");
-        search.setLayoutX(1000);
-        search.setLayoutY(720);
-        search.setMaxSize(100, 20);
-        search.setMinSize(100, 20);
-        search.setFont(Font.font("Arial", FontWeight.BOLD, 11));
-        search.setFocusTraversable(false);
-        board.getChildren().add(search);
-        Label label_einfo = new Label();
-        label_einfo.setLayoutX(150);
-        label_einfo.setLayoutY(722);
-        search.setOnMousePressed(e -> {
+        Button searchbutton = new Button("Search");
+        searchbutton.setLayoutX(1000);
+        searchbutton.setLayoutY(720);
+        searchbutton.setMaxSize(100, 20);
+        searchbutton.setMinSize(100, 20);
+        searchbutton.setFont(Font.font("Arial", FontWeight.BOLD, 11));
+        searchbutton.setFocusTraversable(false);
+        board.getChildren().add(searchbutton);
+        Search ss=new Search();
+        searchbutton.setOnMousePressed(e -> {
+            Rectangle rec_button = new Rectangle(1000, 580, 200, 140);
+            rec_button.setFill(Color.WHITE);
+            rec_button.setOpacity(0.9);
+            board.getChildren().add(rec_button);
 
-            //Rectangle rec_einfo = new Rectangle(1000, 620, 100, 100);
-            //rec_einfo.setFill(Color.BLUE);
-            //rec_einfo.setOpacity(0.7);
-            String einfo = "";//To be completed
+            //AtomicReference<List<String>> actions=new AtomicReference<>();
+            Button hp_poison = new Button("HP bottle");
+            hp_poison.setLayoutX(1030);
+            hp_poison.setLayoutY(600);
+            hp_poison.setFont(Font.font("Arial", FontWeight.BOLD, 11));
+            hp_poison.setFocusTraversable(false);
+            board.getChildren().add(hp_poison);
+            Button mp_poison = new Button("MP bottle");
+            mp_poison.setLayoutX(1030);
+            mp_poison.setLayoutY(635);
+            mp_poison.setFont(Font.font("Arial", FontWeight.BOLD, 11));
+            mp_poison.setFocusTraversable(false);
+            board.getChildren().add(mp_poison);
+            Button enemy = new Button("enemy");
+            enemy.setLayoutX(1030);
+            enemy.setLayoutY(670);
+            enemy.setFont(Font.font("Arial", FontWeight.BOLD, 11));
+            enemy.setFocusTraversable(false);
+            board.getChildren().add(enemy);
+
+            hp_poison.setOnMousePressed(e1 -> {
+                List<String> a=ss.search(new Integer[]{user.getPosition()[0],user.getPosition()[1]},'h',whichMap(currentMapIndex),user);
+                board.getChildren().removeAll(rec_button,hp_poison,mp_poison,enemy);
+                showSearchPath(a);
+            });
+            mp_poison.setOnMousePressed(e1 -> {
+                List<String> a=ss.search(new Integer[]{user.getPosition()[0],user.getPosition()[1]},'m',whichMap(currentMapIndex),user);
+                board.getChildren().removeAll(rec_button,hp_poison,mp_poison,enemy);
+                showSearchPath(a);
+            });
+            enemy.setOnMousePressed(e1 -> {
+                List<String> a=ss.search(new Integer[]{user.getPosition()[0],user.getPosition()[1]},'7',whichMap(currentMapIndex),user);
+                board.getChildren().removeAll(rec_button,hp_poison,mp_poison,enemy);
+                showSearchPath(a);
+            });
         });
+    }
 
+    public void showSearchPath(List<String> acs){
+        int x=user.getPosition()[0]*30,y=user.getPosition()[1]*30;
+        Path p = new Path();
+        p.getElements().add(new MoveTo(x+15, y+15));
+        if(acs==null) {
+            Text  message= new Text("There are no goals that are very close to you and you can reach.");
+            message.setLayoutX(600);
+            message.setLayoutY(731);
+            message.setStyle("-fx-font-color:black");
+            Timeline addm = new Timeline(new KeyFrame(Duration.millis(1), ae -> {
+                board.getChildren().add(message);
+            }));
+            Timeline removem = new Timeline(new KeyFrame(Duration.millis(1), ae -> {
+                board.getChildren().remove(message);
+            }));
+            SequentialTransition seqTransition = new SequentialTransition(addm,
+                    new PauseTransition(Duration.millis(6000)), removem);
+            seqTransition.play();
+        }
+        else {
+            for (String a : acs) {
+                if (a.equals("Right")) {
+                    x = x + 30;
+                    p.getElements().add(new LineTo(x + 15, y + 15));
+                } else if (a.equals("Left")) {
+                    x = x - 30;
+                    p.getElements().add(new LineTo(x + 15, y + 15));
+                } else if (a.equals("Up")) {
+                    y = y - 30;
+                    p.getElements().add(new LineTo(x + 15, y + 15));
+                } else if (a.equals("Down")) {
+                    y = y + 30;
+                    p.getElements().add(new LineTo(x + 15, y + 15));
+                }
+            }
+            board.getChildren().add(p);
+            FadeTransition ft = new FadeTransition(Duration.millis(200), p);
+            ft.setFromValue(0);
+            ft.setToValue(1);
+            ft.setCycleCount(7);
+            ft.setAutoReverse(true);
+            Timeline removep = new Timeline(new KeyFrame(Duration.millis(1), ae -> {
+                board.getChildren().remove(p);
+            }));
+            SequentialTransition seqTransition = new SequentialTransition(ft,
+                    new PauseTransition(Duration.millis(2000)), removep);
+            seqTransition.play();
+        }
     }
 
     //key pressed event handler.

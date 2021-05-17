@@ -36,7 +36,7 @@ public class Search {
 
 
         if(testgoal(initial_state)) {
-            System.out.println("qidian jiushi "); return null;}
+            System.out.println("you are at the goal!"); return null;}
 
         Queue<SearchNode> frontier = new LinkedList();
         frontier.add(initial_node);
@@ -44,10 +44,13 @@ public class Search {
 
         while(true){
             if(frontier.isEmpty()) {
-                System.out.println("f empty");return null;}
+                System.out.println("frontier empty, error!");return null;}
             //strfrontier(frontier);
             //strexplored(explored);
-            System.out.println("f:"+frontier.size()+", e:"+explored.size());
+            //System.out.println("f:"+frontier.size()+", e:"+explored.size());
+            if(frontier.size()>30000){
+                System.out.println("There are no goal which is very close to you"); return null;
+            }
             SearchNode expand_node= frontier.poll();
             Integer[] expand_state=expand_node.position;
             explored.add(expand_state);
@@ -120,8 +123,16 @@ public class Search {
         else return "error";
     }
     public boolean testgoal(Integer[] pos){
-        if(map[pos[0]][pos[1]]==goaltype) return true;
-        else return false;
+        //System.out.println(map[pos[0]][pos[1]]);
+        if(goaltype!='7') {
+            if (map[pos[0]][pos[1]] == goaltype) return true;
+            else return false;
+        }
+        else{
+            char type=map[pos[0]][pos[1]];
+            if (type>47&&type<56) return true;
+            else return false;
+        }
     }
     public List<String> getsolution(SearchNode goalnode){
         List<String> sol=new ArrayList<>();
@@ -134,9 +145,11 @@ public class Search {
         for(int i=sol.size()-1;i>=0;i--){
             reversesol.add(sol.get(i));
         }
+        System.out.println(reversesol);
         return reversesol;
     }
 
+    /*
     public static void main(String[] args) {
         char[][] showmap=new char[40][24];
 
@@ -175,12 +188,10 @@ public class Search {
         //------------
 
         Search s=new Search();
-        System.out.println(s.search(new Integer[]{15,7},'h',showmap,user));
-
-
-
-
+        System.out.println(s.search(new Integer[]{15,14},'h',showmap,user));
     }
+    */
+
 
 }
 
