@@ -72,7 +72,7 @@ Spell 3: 80 mana cost.(more powerful)
 
 ##### Spell Table
 Spell_ID|User effect|Enemy effect
----|:--:|---:
+:--:|:--:|:--:
 0|deal (2*attack) damage|deal (2*attack) damage
 1|enemy's defence:-2^n  (n: level/10)|user defence:-5
 2|deal (2*attack) damage|deal (2*attack) damage
@@ -91,7 +91,7 @@ Spell_ID|User effect|Enemy effect
 
 ##### The skills for pokemons & enemies:
 Name|Spell_1|Spell_2|Spell_3
----|:--:|---:
+:--:|:--:|:--:|:--:
 Pokemon_1|0|1|10
 Pokemon_2|2|3|11
 Pokemon_3|4|5|12
