@@ -41,10 +41,26 @@ The GUI skeleton of the game is as follow:
 ### Backpack System
 
 ### Combat System
-Basic GUI information is produced by Javafx.
-<img src="Pokemon_Battle/src/Pics/demo/battle.png" width="800"> 
+
+The basic GUI is implemented using Javafx. The example is as followed:
+
+<img src="Pokemon_Battle/src/Pics/demo/battle.png" width="800">
+
+#### Detailed:
+Graphic interface.
+Top left: Enemy info bar (Name, HP bar, MP bar, attack - defence)
+Top right: Enemy icon
+Botton right: User info bar (Name, HP bar, MP bar, attack - defence)
+Botton left: User icon
+Botton: Turn information.
+
+Control
+Right: HP poison, MP poison, leave the game.
+User control: Attack, Spell 1, Spell 2, Spell 3(cost more mana).
+
 Project uses **Turn** system: User turn -> Enemy turn -> User turn -> Enemy turn ... (Until User/Enemy loses all HP)
 If user loses all HP, it will redirect to the Game Over page.
+If user win the battle, it will redirect to the **Map**.
 
 
 #### Skills Setting
