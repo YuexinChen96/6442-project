@@ -46,26 +46,32 @@ The basic GUI is implemented using Javafx. The example is as followed:
 
 <img src="Pokemon_Battle/src/Pics/demo/battle.png" width="800">
 
-#### Detailed:
-Graphic interface.  
+#### GUI: 
 Top left: Enemy info bar (Name, HP bar, MP bar, attack - defence)  
 Top right: Enemy icon  
 Botton right: User info bar (Name, HP bar, MP bar, attack - defence)  
 Botton left: User icon  
 Botton: Turn information.
 
-Control  
-Right: HP poison, MP poison, leave the game.  
-User control: Attack, Spell 1, Spell 2, Spell 3(cost more mana).  
+#### Control: 
+Right: HP poison(60% HP recover), MP poison(40 mana recover), leave the game.  
+User control: Attack, Spell 1(20 mana cost), Spell 2(20 mana cost), Spell 3(80 mana cost).  
 
 Project uses **Turn** system: User turn -> Enemy turn -> User turn -> Enemy turn ... (Until User/Enemy loses all HP)  
 If user loses all HP, it will redirect to the Game Over page.  
 If user win the battle, it will redirect to the **Map**.  
 
 
-#### Skills Setting
+#### Skills Setting (All skills have animations)
+Attack: Use (Attack - Defence) and deal damage. No mana cost.  
+Spell 1: 20 mana cost.  
+Spell 2: 20 mana cost.  
+Spell 3: 80 mana cost.(more powerful)
 
-![image-20210514224336548](https://cdn.jsdelivr.net/gh/kath-t/picgo/image-20210514224336548.png)
+##### Spell Table
+Spell_ID|User effect|Enemy effect|icon
+---|:--:|:--:|---:
+0|deal (2 x Attack) damage|deal (2 x Attack) damage|<img src="Pokemon_Battle/src/Pics/Spell/thunder.png" width="50">
 
 The skills for 5 pokemons:
 
