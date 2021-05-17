@@ -58,7 +58,7 @@ The back-end skeleton of the project is as below:
 
 The GUI skeleton of the project is as below:
 
-![image-20210514114819324](https://cdn.jsdelivr.net/gh/kath-t/picgo/image-20210514114819324.png)
+![image-20210518014942397](https://cdn.jsdelivr.net/gh/kath-t/picgo/image-20210518014942397.png)
 
 
 
