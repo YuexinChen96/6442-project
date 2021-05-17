@@ -56,7 +56,9 @@ Botton: Turn information.
 #### Control: 
 Right: HP poison(60% HP recover), MP poison(40 mana recover), leave the game.  
 User control: Attack, Spell 1(20 mana cost), Spell 2(20 mana cost), Spell 3(80 mana cost).  
+If mana is not enough for spell, we block this button, same as poisons. 
 
+#### Turn System
 Project uses **Turn** system: User turn -> Enemy turn -> User turn -> Enemy turn ... (Until User/Enemy loses all HP)  
 If user loses all HP, it will redirect to the Game Over page.  
 If user win the battle, it will redirect to the **Map**.  
@@ -69,27 +71,38 @@ Spell 2: 20 mana cost.
 Spell 3: 80 mana cost.(more powerful)
 
 ##### Spell Table
-Spell_ID|User effect|Enemy effect|icon
----|:--:|:--:|---:
-0|deal (2 x Attack) damage|deal (2 x Attack) damage|<img src="Pokemon_Battle/src/Pics/Spell/thunder.png" width="10">
-1|reduce 2^n enemy's defence  (n: level/10)|reduce user 5 defence|Arrow down
+Spell_ID|User effect|Enemy effect
+---|:--:|---:
+0|deal (2*attack) damage|deal (2*attack) damage
+1|enemy's defence:-2^n  (n: level/10)|user defence:-5
+2|deal (2*attack) damage|deal (2*attack) damage
+3|HP:-8  attack:+1|HP:-20  attack:+4
+4|deal (1.5*attack) damage, recover same amount of HP|deal (1.5*attack) damage, recover same amount of HP
+5|recover 40% max HP|recover 30% max HP
+6|deal (4*level) damage|deal (40% current HP) damage
+7|deal (2*enemy_attack) damage|deal (2*user_attack) damage
+8|if (user_attack < enemy_attack):deal (3*attack) damage, else: (1.6*attack)|if (enemy_attack > user_attack):deal (3*attack) damage, else: (1.6*attack)
+9|HP:-10% enemy_attack:-5|HP:-20% user_attack:-5
+10|if enemy_defence == 0:kill, else deal (40*n) damage|deal 200 damage
+11|deal 200 damage|deal 200 damage
+12|HP:-100 deal 400 damage|deal 260 damage
+13|HP:-20% enemy_HP:-50%|HP:-30% user_HP:-50%
+14|HP:-85%, double attack, defence * 1.5|HP:-40%, double attack, defence * 1.2
+
+##### The skills for pokemons & enemies:
+Name|Spell_1|Spell_2|Spell_3
+---|:--:|---:
+Pokemon_1|0|1|10
+Pokemon_2|2|3|11
+Pokemon_3|4|5|12
+Pokemon_4|6|7|13
+Pokemon_5|8|9|14
+Enemy_6|3|8|13
+Enemy_7|5|9|14
 
 
-The skills for 5 pokemons:
+#### Enemy System
 
-0, 1, 10
-
-2, 3, 11
-
-4, 5, 12
-
-6, 7, 13
-
-8, 9, 14
-
-小招耗蓝20，大招耗蓝80
-
-百分号都是最大生命的百分之……
 
 
 
