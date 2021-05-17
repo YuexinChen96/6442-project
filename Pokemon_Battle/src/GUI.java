@@ -382,25 +382,26 @@ public class GUI extends Application {
         });
         attributes.setOnMouseReleased(e -> board.getChildren().removeAll(rec_attr, attrinfo));
         //show enemy info
-        /*
-        Button enemyinfo = new Button("Enemy info");
-        enemyinfo.setLayoutX(1000);
-        enemyinfo.setLayoutY(720);
-        enemyinfo.setMaxSize(100, 20);
-        enemyinfo.setMinSize(100, 20);
-        enemyinfo.setFont(Font.font("Arial", FontWeight.BOLD, 11));
-        enemyinfo.setFocusTraversable(false);
-        board.getChildren().add(enemyinfo);
+
+        Button search = new Button("Search");
+        search.setLayoutX(1000);
+        search.setLayoutY(720);
+        search.setMaxSize(100, 20);
+        search.setMinSize(100, 20);
+        search.setFont(Font.font("Arial", FontWeight.BOLD, 11));
+        search.setFocusTraversable(false);
+        board.getChildren().add(search);
         Label label_einfo = new Label();
         label_einfo.setLayoutX(150);
         label_einfo.setLayoutY(722);
-        enemyinfo.setOnMousePressed(e -> {
-            Rectangle rec_einfo = new Rectangle(1000, 620, 100, 100);
-            rec_einfo.setFill(Color.BLUE);
-            rec_einfo.setOpacity(0.7);
+        search.setOnMousePressed(e -> {
+
+            //Rectangle rec_einfo = new Rectangle(1000, 620, 100, 100);
+            //rec_einfo.setFill(Color.BLUE);
+            //rec_einfo.setOpacity(0.7);
             String einfo = "";//To be completed
         });
-        */
+
     }
 
     //key pressed event handler.
