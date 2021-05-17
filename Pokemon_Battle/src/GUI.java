@@ -385,7 +385,7 @@ public class GUI extends Application {
         attributes.setOnMouseReleased(e -> board.getChildren().removeAll(rec_attr, attrinfo));
 
         //search button
-        //use search button, you can search hp bottle, mp bottle, or enemy and find a short path to get to the goal.
+        //use search button, you can search hp bottle, mp bottle, or enemy and find a shortest path to get to the goal.
         Button searchbutton = new Button("Search");
         searchbutton.setLayoutX(1000);
         searchbutton.setLayoutY(720);
