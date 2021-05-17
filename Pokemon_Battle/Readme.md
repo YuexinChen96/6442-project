@@ -42,7 +42,7 @@ The GUI skeleton of the game is as follow:
 
 ### Combat System
 Basic GUI information is produced by Javafx.
-<img src="Pokemon_Battle/Pics/demo/battle.png" width="800"> 
+<img src="Pokemon_Battle/src/Pics/demo/battle.png" width="800"> 
 Project uses **Turn** system: User turn -> Enemy turn -> User turn -> Enemy turn ... (Until User/Enemy loses all HP)
 If user loses all HP, it will redirect to the Game Over page.
 
