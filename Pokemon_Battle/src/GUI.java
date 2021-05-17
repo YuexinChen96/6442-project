@@ -418,6 +418,7 @@ public class GUI extends Application {
         });
         node.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
             if (this.keyable) {
+                int[] beforeBattlePos=user.getPosition();
                 System.out.println("key able");
                 KeyCode keyCode = e.getCode();
                 boolean mapEnd = mapclass.ifMapEnd(user, whichMap(currentMapIndex));
@@ -443,7 +444,7 @@ public class GUI extends Application {
                         }
                     }
                     if (canMove) {
-                        moveAnimation(node, x * 30, y * 30, (x + 1) * 30, y * 30);
+                        moveAnimation(beforeBattlePos,node, x * 30, y * 30, (x + 1) * 30, y * 30);
                         user.setPosition(new int[]{x + 1, y});
                     }
                 } else if (keyCode.equals(KeyCode.LEFT)) {
@@ -467,7 +468,7 @@ public class GUI extends Application {
                         }
                     }
                     if (canMove) {
-                        moveAnimation(node, x * 30, y * 30, (x - 1) * 30, y * 30);
+                        moveAnimation(beforeBattlePos,node, x * 30, y * 30, (x - 1) * 30, y * 30);
                         user.setPosition(new int[]{x - 1, y});
                     }
                 } else if (keyCode.equals(KeyCode.UP)) {
@@ -491,7 +492,7 @@ public class GUI extends Application {
                         }
                     }
                     if (canMove) {
-                        moveAnimation(node, x * 30, y * 30, x * 30, (y - 1) * 30);
+                        moveAnimation(beforeBattlePos,node, x * 30, y * 30, x * 30, (y - 1) * 30);
                         user.setPosition(new int[]{x, y - 1});
                     }
                 } else if (keyCode.equals(KeyCode.DOWN)) {
@@ -515,7 +516,7 @@ public class GUI extends Application {
                         }
                     }
                     if (canMove) {
-                        moveAnimation(node, x * 30, y * 30, x * 30, (y + 1) * 30);
+                        moveAnimation(beforeBattlePos,node, x * 30, y * 30, x * 30, (y + 1) * 30);
                         user.setPosition(new int[]{x, y + 1});
                     }
                 }
@@ -534,7 +535,7 @@ public class GUI extends Application {
     }
 
     //move animation of pokemon
-    public void moveAnimation(Node node, double now_x, double now_y, double next_x, double next_y) {
+    public void moveAnimation(int[] beforeBattlePos,Node node, double now_x, double now_y, double next_x, double next_y) {
         keyable = false;
         node.setEffect(borderGlow);
         int adjsut = 30;
@@ -552,7 +553,7 @@ public class GUI extends Application {
             char e = whichMap(currentMapIndex)[user.getPosition()[0]][user.getPosition()[1]];
             System.out.println(user.strPos());
             if (mapclass.ifTerminal(user, whichMap(currentMapIndex))) page4_initial();
-            if (mapclass.ifBattle(user, whichMap(currentMapIndex))) page3_initial((int) e - 48);
+            if (mapclass.ifBattle(user, whichMap(currentMapIndex))) page3_initial((int) e - 48,beforeBattlePos);
             if (e == 'h' || e == 'm' || e == 'a' || e == 'f' || e == 'x' || e == 'y' || e == 'z') {
                 if (e == 'h') number_HP_poison.set(String.valueOf(Integer.parseInt(number_HP_poison.get()) + 1));
                 else if (e == 'm') number_MP_poison.set(String.valueOf(Integer.parseInt(number_MP_poison.get()) + 1));
@@ -727,8 +728,9 @@ public class GUI extends Application {
     }
 
     //giveup battle and go to page2, the enemy is still in its original location, but user's attrs maybe change.
-    public void page3_to_page2_giveup(Pokemon changeduser){
+    public void page3_to_page2_giveup(Pokemon changeduser,int[] beforeBattlePos){
         this.user = changeduser;
+        this.user.setPosition(beforeBattlePos);
         page2_initial();
     }
 
@@ -737,7 +739,7 @@ public class GUI extends Application {
 //                 Page3_initial (Battle)
 // ------------------------------------------------------------
     // Kevin
-    public void page3_initial(int enemy_id) {
+    public void page3_initial(int enemy_id,int[] beforeBattlePos) {
         // For safety, remove all elements
         board.getChildren().removeAll(board.getChildren());
 
@@ -770,7 +772,7 @@ public class GUI extends Application {
         page3_setupStaticInfoBoxes(enemy);
         page3_setupDynamicInfoBoxes(enemy);
         // buttons
-        page3_setupButton(battle);
+        page3_setupButton(battle,beforeBattlePos);
         // poison buttons
         page3_setupPoison();
     }
@@ -1038,7 +1040,7 @@ public class GUI extends Application {
     }
 
     // Page3 buttons and actions -- may add buttons in future
-    public void page3_setupButton(Battle battle) {
+    public void page3_setupButton(Battle battle, int[] beforeBattlePos) {
         Button btn1 = new Button("Attack");
         btn1.setLayoutX(760);
         btn1.setLayoutY(620);
@@ -1110,7 +1112,7 @@ public class GUI extends Application {
         btn5.setMinSize(90, 40);
         btn5.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
         btn5.setOnAction(e -> {
-            page3_to_page2_giveup(battle.giveupBattle());
+            page3_to_page2_giveup(battle.giveupBattle(),beforeBattlePos);
         });
         board.getChildren().add(btn5);
 
