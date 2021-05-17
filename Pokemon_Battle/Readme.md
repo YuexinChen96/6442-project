@@ -46,14 +46,14 @@ The basic GUI is implemented using Javafx. The example is as followed:
 
 <img src="Pokemon_Battle/src/Pics/demo/battle.png" width="800">
 
-#### GUI: 
+#### GUI
 Top left: Enemy info bar (Name, HP bar, MP bar, attack - defence)  
 Top right: Enemy icon  
 Botton right: User info bar (Name, HP bar, MP bar, attack - defence)  
 Botton left: User icon  
 Botton: Turn information.
 
-#### Control: 
+#### Control 
 Right: HP poison(60% HP recover), MP poison(40 mana recover), leave the game.  
 User control: Attack, Spell 1(20 mana cost), Spell 2(20 mana cost), Spell 3(80 mana cost).  
 If mana is not enough for spell, we block this button, same as poisons. 
@@ -70,7 +70,7 @@ Spell 1: 20 mana cost.
 Spell 2: 20 mana cost.  
 Spell 3: 80 mana cost.(more powerful)
 
-##### Spell Table
+#### Spell Table
 Spell_ID|User effect|Enemy effect
 :--:|:--:|:--:
 0|deal (2xattack) damage|deal (2xattack) damage
@@ -99,36 +99,18 @@ Pokemon_4|6|7|13
 Pokemon_5|8|9|14
 Enemy_6|3|8|13
 Enemy_7|5|9|14
+Mana cost for user: 20, 20, 80  
+Mana cost for enemy: 30, 30, 50
 
 
 #### Enemy System
-
-
-
-
-The skills for 8 enemies:
-
-0～3没技能
-
-4，5从小技能(0,1,2,3,4,7)里随机抽2个，有蓝就放
-
-6，7一个大招一个小招，有预判，思考什么时候放
-
-​	6: 3，8，13
-
-​		在蓝够的时候，会计算自己的血量30%够不够，够的话放13；不够的话，3和8之间，e先判断攻击是否比u高，低的话先提攻（3技能），高的话放8技能；血量<30%强制优先放回血技能；
-
-​		也就是在如下两个中有优劣势的判断：
-
-- max血*40%+一回合或两回合要遭受的伤
-- 在加攻击之后的收益直到自己死掉，所能产生的所有攻击
-
-​	7: 5，9，14
-
-技能14:改成自损40%
-
-所有怪物的回蓝是10点/回合，怪物放小技能耗30点蓝，大招50点蓝
-
+Enemy 1-4 can only attack the user.  
+Enemy 5-6 can have two random spells from the spell table. When it has 30 mana, it will use random spell.
+Enemy 7(Advanced): predict whether use Spell_3 is optimal(die if use Spell_3)./Combo spell on 3 & 8.  
+If user_attack > enemy_attack: use 3 to increase attack, else use 8 to deal more damage.  
+Enemy 8(Advanced): predict optimal from using Spell_3(check the HP spend on and the damage gain).  
+If current HP is low, use 5 to recover HP. Otherwise, use 9 to reduce use attack(permanent).  
+Enemy 7 & 8 will think of use save mana for Spell_3.
 
 
 #### Game Ending and Response
