@@ -6,21 +6,23 @@ This is the development document for the Pokemon Battle game. It is intended to 
 
 ## 2 Game Overview
 
-### Project Background
+### Background and Story
 
-This project is to design an RPG(Role-playing game) by using Java and Javafx as main developing languages. The name of game is **Pokemon Battle**.
+This project is to design an RPG(Role-playing game) by using Java and Javafx as main developing languages. The name of game is **Pokemon Battle**. As with traditional RPGs, players will play as different pokemon characters with different skills to explore the maze, as well as battling with enemies in different levels. We designed an extensive skill pool, complex battle system, and strict upgrading system to help players get better experience.
 
-As with traditional RPGs, players will play as different pokemon characters with unused skills and explore, battle and upgrade in the game map.
-
-### Story
-
-
+The story of this game is about a tribe of Pokemon lived in a Far East island use their own power to fight against foreign invaders. In this game, the player will perform one of the Pokemon, and different pokemons will have different fighting skills and initial abilities. The maze is one of the four zones on the island. A lot of enemies lurk in various areas of the island and vary in level and combat power. There are also a number of different treasures to help you improve your fighting abilities and get through the island. Players will need to assess your own strength and the skills of your enemies, and allocate the use of props and routes of action accordingly.
 
 ### Character Design
 
+There are five different Pokemons in the game, each has different basic information. The basic information includes level, skills, hit point, Mana point(stands for the energy to use a magic skill), defense and attack abilities, experience, and the abilities to cross grass/water/stones. Players can choose any one of them in the beginning of the game.
 
+<img src="https://cdn.jsdelivr.net/gh/kath-t/picgo/image-20210517203627034.png" alt="image-20210517203627034" style="zoom: 50%;" />
 
 ### Event Flow
+
+The entire game will follow the following flow.
+
+First of all,
 
 
 
@@ -28,7 +30,22 @@ As with traditional RPGs, players will play as different pokemon characters with
 
 ### Skeleton
 
-The GUI skeleton of the game is as follow:
+The back-end skeleton of the project is as below:
+
+<img src="https://cdn.jsdelivr.net/gh/kath-t/picgo/image-20210517194523873.png" alt="image-20210517194523873" style="zoom:33%;" />
+
+The summary of each class's main function are as below:
+
+| Class Name | Main Function                                                |
+| ---------- | :----------------------------------------------------------- |
+| Pokemon    | Use json file to record each pokemon's initial basic information. Record basic infromation's changes  and the players position in the map during the whole game. |
+| Enemy      | Use json file to record each enemy's initial basic information. Record basic infromation's changes during each battle. |
+| Battle     | Use AtomicBoolean and AI(the method help judging which way to win is the best) as well as javafx to update the changes of basic information both for Pokemon and the enemy, and update the front desk aminations at the same time. Record the result of battle(win or gameover) and Pokemon's level upgrading results |
+| Map        |                                                              |
+| GUI        |                                                              |
+| Search     |                                                              |
+
+The GUI skeleton of the project is as below:
 
 ![image-20210514114819324](https://cdn.jsdelivr.net/gh/kath-t/picgo/image-20210514114819324.png)
 
@@ -130,7 +147,7 @@ Enemy 7 & 8 will think of use save mana for Spell_3.
 
 ### Character Upgrading System
 
-
+![image-20210517201053198](https://cdn.jsdelivr.net/gh/kath-t/picgo/image-20210517201053198.png)
 
 ## 4 Development Tools and Platforms
 
