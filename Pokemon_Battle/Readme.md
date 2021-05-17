@@ -99,17 +99,18 @@ Pokemon_4|6|7|13
 Pokemon_5|8|9|14
 Enemy_6|3|8|13
 Enemy_7|5|9|14
+
 Mana cost for user: 20, 20, 80  
 Mana cost for enemy: 30, 30, 50
 
 
 #### Enemy System
 Enemy 1-4 can only attack the user.  
-Enemy 5-6 can have two random spells from the spell table. When it has 30 mana, it will use random spell.
+Enemy 5-6 can have two random spells from the spell table. When it has 30 mana, it will use random spell.  
 Enemy 7(Advanced): predict whether use Spell_3 is optimal(die if use Spell_3)./Combo spell on 3 & 8.  
-If user_attack > enemy_attack: use 3 to increase attack, else use 8 to deal more damage.  
+  If user_attack > enemy_attack: use 3 to increase attack, else use 8 to deal more damage.  
 Enemy 8(Advanced): predict optimal from using Spell_3(check the HP spend on and the damage gain).  
-If current HP is low, use 5 to recover HP. Otherwise, use 9 to reduce use attack(permanent).  
+  If current HP is low, use 5 to recover HP. Otherwise, use 9 to reduce use attack(permanent).  
 Enemy 7 & 8 will think of use save mana for Spell_3.
 
 
