@@ -1,5 +1,5 @@
 import java.util.*;
-//Author: Natalie
+//Author: Qixuan Ren
 public class Search {
     char[][] map;
     char goaltype;

@@ -1,3 +1,4 @@
+//Author: Qixuan Ren & Yifei Tao
 public class Map {
 
     //need to change to another map:
