@@ -139,7 +139,7 @@ public class Spell {
                     user.setAttack(user.getAttack() * 2);
                     user.setDefence((int)(user.getDefence() * 1.5));
                 } else {
-                    enemy.setHP(damageInRange(enemy.getHP(), (int)(enemy.getmaxHP() * 0.2)));
+                    enemy.setHP(damageInRange(enemy.getHP(), (int)(enemy.getmaxHP() * 0.4)));
                     enemy.setAttack((int)(enemy.getAttack() * 2));
                     enemy.setDefence((int)(enemy.getDefence() * 1.5));
                 }
