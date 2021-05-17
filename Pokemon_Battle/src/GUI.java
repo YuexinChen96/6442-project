@@ -383,8 +383,9 @@ public class GUI extends Application {
             board.getChildren().addAll(rec_attr, attrinfo);
         });
         attributes.setOnMouseReleased(e -> board.getChildren().removeAll(rec_attr, attrinfo));
-        //show enemy info
 
+        //search button
+        //use search button, you can search hp bottle, mp bottle, or enemy and find a short path to get to the goal.
         Button searchbutton = new Button("Search");
         searchbutton.setLayoutX(1000);
         searchbutton.setLayoutY(720);
@@ -421,23 +422,24 @@ public class GUI extends Application {
             board.getChildren().add(enemy);
 
             hp_poison.setOnMousePressed(e1 -> {
-                List<String> a=ss.search(new Integer[]{user.getPosition()[0],user.getPosition()[1]},'h',whichMap(currentMapIndex),user);
+                List<String> a=ss.bfs(new Integer[]{user.getPosition()[0],user.getPosition()[1]},'h',whichMap(currentMapIndex),user);
                 board.getChildren().removeAll(rec_button,hp_poison,mp_poison,enemy);
                 showSearchPath(a);
             });
             mp_poison.setOnMousePressed(e1 -> {
-                List<String> a=ss.search(new Integer[]{user.getPosition()[0],user.getPosition()[1]},'m',whichMap(currentMapIndex),user);
+                List<String> a=ss.bfs(new Integer[]{user.getPosition()[0],user.getPosition()[1]},'m',whichMap(currentMapIndex),user);
                 board.getChildren().removeAll(rec_button,hp_poison,mp_poison,enemy);
                 showSearchPath(a);
             });
             enemy.setOnMousePressed(e1 -> {
-                List<String> a=ss.search(new Integer[]{user.getPosition()[0],user.getPosition()[1]},'7',whichMap(currentMapIndex),user);
+                List<String> a=ss.bfs(new Integer[]{user.getPosition()[0],user.getPosition()[1]},'7',whichMap(currentMapIndex),user);
                 board.getChildren().removeAll(rec_button,hp_poison,mp_poison,enemy);
                 showSearchPath(a);
             });
         });
     }
 
+    //show the short path searched
     public void showSearchPath(List<String> acs){
         int x=user.getPosition()[0]*30,y=user.getPosition()[1]*30;
         Path p = new Path();
@@ -824,6 +826,7 @@ public class GUI extends Application {
 //                 Page3_initial (Battle)
 // ------------------------------------------------------------
     // Kevin
+    /*@ requires id>=0 @*/
     public void page3_initial(int enemy_id,int[] beforeBattlePos) {
         // For safety, remove all elements
         board.getChildren().removeAll(board.getChildren());

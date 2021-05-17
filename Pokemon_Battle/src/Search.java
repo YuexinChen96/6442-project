@@ -1,12 +1,3 @@
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-
-import javax.sql.PooledConnection;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.*;
 
 public class Search {
@@ -26,14 +17,12 @@ public class Search {
             this.depth=depth;
         }
     }
-
-    public List<String> search(Integer[] initial_state, char goaltype,char[][] map,Pokemon user) {
+    //use bfs(breadth first search) algorithm to the find the short path to a nearby target.
+    public List<String> bfs(Integer[] initial_state, char goaltype,char[][] map,Pokemon user) {
         this.map=map;
         this.goaltype=goaltype;
         this.user=user;
-        initial_state=initial_state;
         SearchNode initial_node= new SearchNode(initial_state,null,null,0);
-
 
         if(testgoal(initial_state)) {
             System.out.println("you are at the goal!"); return null;}
@@ -45,16 +34,13 @@ public class Search {
         while(true){
             if(frontier.isEmpty()) {
                 System.out.println("frontier empty, error!");return null;}
-            //strfrontier(frontier);
-            //strexplored(explored);
-            //System.out.println("f:"+frontier.size()+", e:"+explored.size());
+            //strfrontier(frontier); //strexplored(explored); //System.out.println("f:"+frontier.size()+", e:"+explored.size());
             if(frontier.size()>30000){
                 System.out.println("There are no goal which is very close to you"); return null;
             }
             SearchNode expand_node= frontier.poll();
             Integer[] expand_state=expand_node.position;
             explored.add(expand_state);
-
 
             for(Integer[] n:get_successors(expand_state)) {
                 SearchNode child = new SearchNode(n, getAction(expand_state, n), expand_node, expand_node.depth + 1);
@@ -66,28 +52,10 @@ public class Search {
         }
 
     }
-    public String str(Integer[] pos){
-        return "("+pos[0]+","+pos[1]+")";
-    }
-    public void strfrontier(Queue<SearchNode> fron){
-        String st="frontier:[";
-        for(SearchNode sn:fron){
-            st+=str(sn.position)+" ,";
-        }
-        System.out.println(st+"]");
-    }
-    public void strexplored(Set<Integer[]> ex){
-        String st="explored:[";
-        for(Integer[] sn:ex){
-            st+=str(sn)+" ,";
-        }
-        System.out.println(st+"]");
-    }
+    //according map and current position(expand state), find the surrounding positions(successors)
     public List<Integer[]> get_successors(Integer[] expand_state) {
         int x = expand_state[0], y = expand_state[1];
         List<Integer[]> successors = new ArrayList<>();
-
-        //right
         if ((x + 1 >= 0 && x + 1 < 40) && (y >= 0 && y < 24)) {
             if (isAccessPos(map[x + 1][y])) successors.add(new Integer[]{x + 1, y});
         }
@@ -102,6 +70,7 @@ public class Search {
         }
         return successors;
     }
+    //check if this type of the pos is an accessible position
     public boolean isAccessPos(char type){
         if ((type > 47 && type < 56) ||
                 type == 'r' || type == 'h' ||
@@ -113,6 +82,7 @@ public class Search {
             return true;
         } else return false;
     }
+    //get action(right, left, up, down) according current position and next position.
     public String getAction(Integer[] currentPos,Integer[] nextpos){
         int cx=currentPos[0],cy=currentPos[1];
         int nx=nextpos[0],ny=nextpos[1];
@@ -122,6 +92,7 @@ public class Search {
         else if(nx==cx&&ny==cy+1) return "Down";
         else return "error";
     }
+    //test if this pos is the goal, means if this position' type is same as goal type
     public boolean testgoal(Integer[] pos){
         //System.out.println(map[pos[0]][pos[1]]);
         if(goaltype!='7') {
@@ -134,6 +105,7 @@ public class Search {
             else return false;
         }
     }
+    //get solution(Order of movement)
     public List<String> getsolution(SearchNode goalnode){
         List<String> sol=new ArrayList<>();
         SearchNode node=goalnode;
@@ -149,49 +121,27 @@ public class Search {
         return reversesol;
     }
 
-    /*
-    public static void main(String[] args) {
-        char[][] showmap=new char[40][24];
 
-        String partMap = "src/battleMap0.txt";
-        try {
-            // initial showMap:
-            BufferedReader bfr = new BufferedReader(new FileReader(partMap));
-            String l0;
-            int row0 = 0;
-            while ((l0 = bfr.readLine()) != null) {
-                for (int i = 0; i < l0.length(); i++) {
-                    showmap[i][row0] = l0.charAt(i);
-                }
-                row0++;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        //---------
-        Gson gson = new Gson();
-        JsonReader jsonReader = null;
-        final Type CUS_LIST_TYPE = new TypeToken<List<Pokemon>>() {
-        }.getType();
-        try {
-            jsonReader = new JsonReader(new FileReader(System.getProperty("user.dir") + "/src/Pokemon.json"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        assert jsonReader != null;
-        List<Pokemon> pl = gson.fromJson(jsonReader, CUS_LIST_TYPE);
-        Pokemon user=pl.get(0);
-
-
-        //------------
-
-        Search s=new Search();
-        System.out.println(s.search(new Integer[]{15,14},'h',showmap,user));
+    //format position(used for debug)
+    public String str(Integer[] pos){
+        return "("+pos[0]+","+pos[1]+")";
     }
-    */
-
+    //print out frontier(used for debug)
+    public void strfrontier(Queue<SearchNode> fron){
+        String st="frontier:[";
+        for(SearchNode sn:fron){
+            st+=str(sn.position)+" ,";
+        }
+        System.out.println(st+"]");
+    }
+    //print out explored(used for debug)
+    public void strexplored(Set<Integer[]> ex){
+        String st="explored:[";
+        for(Integer[] sn:ex){
+            st+=str(sn)+" ,";
+        }
+        System.out.println(st+"]");
+    }
 
 }
 
