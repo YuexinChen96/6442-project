@@ -1,5 +1,3 @@
-package pokemonbattle.tests;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
@@ -7,6 +5,8 @@ import org.junit.rules.Timeout;
 import static org.junit.Assert.assertTrue;
 
 public class testEnemy {
+
+    Enemy enemy = new Enemy();
 
     @Rule
     public Timeout globalTimeout = Timeout.millis(1000);
