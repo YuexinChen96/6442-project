@@ -117,7 +117,7 @@ public class GUI extends Application {
 //-------------------------------------------------------------
 //                 Page0_initial (Game Home)
 // ------------------------------------------------------------
-    //Author: Chloe
+    //Author: Xi Chen
     public void page0_initial() {
         // set up back-ground of page0
         ImageView background = new ImageView();
@@ -175,7 +175,7 @@ public class GUI extends Application {
 //-------------------------------------------------------------
 //                 Page1_initial (Role selection)
 // ------------------------------------------------------------
-    //Author: Chloe & Natalie
+    //Author: Xi Chen & Qixuan Ren
     public void page1_initial() {
         System.out.println("Pokemon.Pokemon Select");
         //back-ground of page1
@@ -287,7 +287,7 @@ public class GUI extends Application {
         else return 0; //default
     }
     //event handler
-    //if you haven't select role, the start button is able to click and the attibutes of this role will show.
+    //if you haven't select role, the start button is able to click and the attributes of this role will show.
     public void addClickRoles(Node node, Button btn,Text text,ImageView roleImg,Label attrinfo) {
         board.addEventHandler(EventType.ROOT, e -> {
             node.requestFocus();
@@ -307,6 +307,7 @@ public class GUI extends Application {
             selectedRole =node;
             System.out.println(selectedRole.localToScene(selectedRole.getBoundsInLocal()).getCenterX() - 75 );
             System.out.println(selectedRole.localToScene(selectedRole.getBoundsInLocal()).getCenterY() - 75 );
+            //initial this.user(Pokemon)
             int id = getIdFromSelectedRole();
             System.out.println(id);
             user = new Pokemon(id);
@@ -314,6 +315,7 @@ public class GUI extends Application {
             user.setPosition(new int[]{1, 0});
             currentMapIndex = 0;
             this.board.getChildren().remove(text);
+            //show pokemon and its attributes which you selected
             roleImg.setImage(new Image("Pics/Pokemon/user" + user.getid() + ".png"));
             String name = "Name:" + user.getName();
             String attr = "Level:" + user.getLevel() + ", HP:" + user.getHP() + "/" + user.getmaxHP() +
@@ -332,7 +334,7 @@ public class GUI extends Application {
 //-------------------------------------------------------------
 //                 Page2_initial (Game Map)
 // ------------------------------------------------------------
-// Author: Kath & Natalie
+// Author: Yifei Tao & Qixuan Ren
     Map mapclass;
     boolean keyable;
 
@@ -402,6 +404,7 @@ public class GUI extends Application {
             board.getChildren().add(rec_button);
 
             //AtomicReference<List<String>> actions=new AtomicReference<>();
+            //there are three type subjects you can search: Hp bottle, Mp bottle, enemy
             Button hp_poison = new Button("HP bottle");
             hp_poison.setLayoutX(1030);
             hp_poison.setLayoutY(600);
@@ -421,6 +424,7 @@ public class GUI extends Application {
             enemy.setFocusTraversable(false);
             board.getChildren().add(enemy);
 
+            //press this button to start search 
             hp_poison.setOnMousePressed(e1 -> {
                 List<String> a=ss.bfs(new Integer[]{user.getPosition()[0],user.getPosition()[1]},'h',whichMap(currentMapIndex),user);
                 board.getChildren().removeAll(rec_button,hp_poison,mp_poison,enemy);
@@ -504,12 +508,13 @@ public class GUI extends Application {
             node.setEffect(null);
         });
         node.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
-            if (this.keyable) {
+            if (this.keyable) {//Whether the key press work
                 int[] beforeBattlePos=user.getPosition();
                 System.out.println("key able");
                 KeyCode keyCode = e.getCode();
                 boolean mapEnd = mapclass.ifMapEnd(user, whichMap(currentMapIndex));
 
+                //press 'Right' key can move the pokemon to right position
                 if (keyCode.equals(KeyCode.RIGHT)) {
                     System.out.println("right");
                     boolean canMove = mapclass.checkMoveEnable(user, 'R', whichMap(currentMapIndex));
@@ -534,7 +539,9 @@ public class GUI extends Application {
                         moveAnimation(beforeBattlePos,node, x * 30, y * 30, (x + 1) * 30, y * 30);
                         user.setPosition(new int[]{x + 1, y});
                     }
-                } else if (keyCode.equals(KeyCode.LEFT)) {
+                }
+                //press 'Left' key can move the pokemon to left position
+                else if (keyCode.equals(KeyCode.LEFT)) {
                     System.out.println("left");
                     boolean canMove = mapclass.checkMoveEnable(user, 'L', whichMap(currentMapIndex));
                     int x = user.getPosition()[0];
@@ -558,7 +565,9 @@ public class GUI extends Application {
                         moveAnimation(beforeBattlePos,node, x * 30, y * 30, (x - 1) * 30, y * 30);
                         user.setPosition(new int[]{x - 1, y});
                     }
-                } else if (keyCode.equals(KeyCode.UP)) {
+                }
+                //press 'UP' key can move the pokemon to upper position
+                else if (keyCode.equals(KeyCode.UP)) {
                     System.out.println("up");
                     boolean canMove = mapclass.checkMoveEnable(user, 'U', whichMap(currentMapIndex));
                     int x = user.getPosition()[0];
@@ -582,7 +591,9 @@ public class GUI extends Application {
                         moveAnimation(beforeBattlePos,node, x * 30, y * 30, x * 30, (y - 1) * 30);
                         user.setPosition(new int[]{x, y - 1});
                     }
-                } else if (keyCode.equals(KeyCode.DOWN)) {
+                }
+                //press 'DOWN' key can move the pokemon to position below
+                else if (keyCode.equals(KeyCode.DOWN)) {
                     System.out.println("down");
                     boolean canMove = mapclass.checkMoveEnable(user, 'D', whichMap(currentMapIndex));
                     int x = user.getPosition()[0];
@@ -825,7 +836,7 @@ public class GUI extends Application {
 //-------------------------------------------------------------
 //                 Page3_initial (Battle)
 // ------------------------------------------------------------
-    // Kevin
+    // Author: Yuexin Chen
     /*@ requires id>=0 @*/
     public void page3_initial(int enemy_id,int[] beforeBattlePos) {
         // For safety, remove all elements
@@ -1226,6 +1237,7 @@ public class GUI extends Application {
 //-------------------------------------------------------------
 //                 Page4_initial (Game end page)
 // ------------------------------------------------------------
+    //Author: Qixuan Ren
     public void page4_initial() {
         board.getChildren().removeAll(board.getChildren());
 
@@ -1240,7 +1252,8 @@ public class GUI extends Application {
 //-------------------------------------------------------------
 //                 Page5_initial (Win game)
 // ------------------------------------------------------------
-public void page5_initial() {
+    //Author: Qixuan Ren
+    public void page5_initial() {
     board.getChildren().removeAll(board.getChildren());
 
     Text endingText = new Text("Congratulations!! You win!");

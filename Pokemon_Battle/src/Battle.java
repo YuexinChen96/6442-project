@@ -8,7 +8,7 @@ import javafx.util.Duration;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-
+//Author: Yuexin Chen
 public class Battle {
 
     private Enemy tar;

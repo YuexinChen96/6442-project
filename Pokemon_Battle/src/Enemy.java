@@ -1,6 +1,6 @@
 import java.io.Serializable;
 import java.util.EmptyStackException;
-
+//Author: Yuexin Chen
 public class Enemy implements Serializable {
 
     private int id;
