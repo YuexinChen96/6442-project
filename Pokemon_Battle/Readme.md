@@ -56,7 +56,7 @@ The back-end skeleton of the project is as below:
 
 The GUI skeleton of the project is as below:
 
-<img src="https://gitlab.cecs.anu.edu.au/u7172190/comp6442-rpg/-/blob/master/Pokemon_Battle/Documents/Function%20models.PNG" width="800">
+<img src="Pokemon_Battle/Documents/Function models.png" width="800">
 
 
 
