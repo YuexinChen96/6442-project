@@ -1,16 +1,15 @@
-a: 加攻击宝物
-b: 墙，后期可穿过
-d: 商店
-f: 加防御宝物
-g: 草，后期可穿过
-h: 血瓶
-i: 入口
-m: 蓝瓶
-o: 出口
-t: 游戏终点
-s: 石头
-w: 水，后期可穿过
-x: 草鞋(获得后开通草地行走)
-y: 水鞋(获得后开通水面行走)
-z: 石头鞋(获得后开通墙行走)
-1~5: 怪物
+a: increase attack
+b: walls can be crossed with certain skill
+f: increase defense
+g: grass can be crossed with certain skill
+h: increase HP
+i: entrance of each map
+m: increase MP
+o: terminal of each map
+t: terminal of the whole maze
+s: stones, cannot be crossed
+w: water, can be crossed with certain skill
+x: grass shoes, help crossing the grass
+y: water shoes, help crossing the water
+z: wall shoes, help crossing the walls
+0~7: enemies
