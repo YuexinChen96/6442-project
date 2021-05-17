@@ -666,7 +666,7 @@ public class GUI extends Application {
 
 
     //load pokemon.json according id
-    public Pokemon pokemonLoadFromJson(int id) {
+    public static Pokemon pokemonLoadFromJson(int id) {
         Gson gson = new Gson();
         JsonReader jsonReader = null;
         final Type CUS_LIST_TYPE = new TypeToken<List<Pokemon>>() {
@@ -1120,7 +1120,7 @@ public class GUI extends Application {
     }
 
     // loading enemy from Json file
-    public Enemy enemy_loading(int enemy_id) {
+    public static Enemy enemy_loading(int enemy_id) {
         Gson gson = new Gson();
         JsonReader jsr = null;
         try {
