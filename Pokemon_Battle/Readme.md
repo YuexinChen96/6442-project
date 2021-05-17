@@ -71,7 +71,9 @@ Spell 3: 80 mana cost.(more powerful)
 ##### Spell Table
 Spell_ID|User effect|Enemy effect|icon
 ---|:--:|:--:|---:
-0|deal (2 x Attack) damage|deal (2 x Attack) damage|<img src="Pokemon_Battle/src/Pics/Spell/thunder.png" width="50">
+0|deal (2 x Attack) damage|deal (2 x Attack) damage|<img src="Pokemon_Battle/src/Pics/Spell/thunder.png" width="10">
+1|reduce 2^n enemy's defence  (n: level/10)|reduce user 5 defence|Arrow down
+
 
 The skills for 5 pokemons:
 
