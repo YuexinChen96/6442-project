@@ -10,7 +10,7 @@ This is the development document for the Pokemon Battle game. It is intended to 
 
 This project is to design an RPG(Role-playing game) by using Java and Javafx as main developing languages. The name of game is **Pokemon Battle**.
 
-As with traditional RPGs, players will play as different pokemon characters with unused skills and explore, battle and upgrade in the game map.
+As with traditional RPGs, players will play as different pokemon characters with different skills to explore the maze, as well as battling with enemies in different levels. We designed strict battle system and upgrading system to help players get better experience.
 
 ### Story
 
@@ -28,7 +28,13 @@ As with traditional RPGs, players will play as different pokemon characters with
 
 ### Skeleton
 
-The GUI skeleton of the game is as follow:
+The back-end skeleton of the project is as below:
+
+<img src="https://cdn.jsdelivr.net/gh/kath-t/picgo/image-20210517194523873.png" alt="image-20210517194523873" style="zoom:33%;" />
+
+
+
+The GUI skeleton of the project is as below:
 
 ![image-20210514114819324](https://cdn.jsdelivr.net/gh/kath-t/picgo/image-20210514114819324.png)
 
