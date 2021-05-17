@@ -97,11 +97,13 @@ Pokemon_2|2|3|11
 Pokemon_3|4|5|12
 Pokemon_4|6|7|13
 Pokemon_5|8|9|14
-Enemy_6|3|8|13
-Enemy_7|5|9|14
+Enemy_7|3|8|13
+Enemy_8|5|9|14
 
 Mana cost for user: 20, 20, 80  
-Mana cost for enemy: 30, 30, 50
+Mana cost for enemy: 30, 30, 50  
+Mana gain for user(each turn): 8
+Mana gain for enemy(each turn): 10 (only for enemy 5-8)
 
 
 #### Enemy System
@@ -131,8 +133,19 @@ This project use Java as the main back-end programming language, and Javafx as t
 Our team is united in using Intellij IDEA as the IDE tool, and use gitlab as the platform for code commit and version control.
 
 ## 5 Project Schedule
-
-
+Id|Task|Duration|Start Date|End Data
+:--:|:--:|:--:|:--:|:--:
+1|Page0(Background)|2 month||
+2|Page1(Pokemon select)|1 month|3.31|4.30
+3|Page2(Mapping)|1 month|3.31|4.30
+3.1|GUI|4 weeks|3.31|4.30
+3.2|4 maps|2 weeks|3.31|4.14
+3.3|movement|1 week|3.31|4.7
+3.4|collect elements|1 week|4.14|4.21
+4|Page3(Battle)|2 month|3.31|5.20
+4.1|Battle GUI|1.5 month|3.31|5.4
+4.2|Spell design|4 weeks|4.17|5.15
+4.3|Enemy design|2 weeks|5.1|5.15
 
 ## 6 Project Summary
 
