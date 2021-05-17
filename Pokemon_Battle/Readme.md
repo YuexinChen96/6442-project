@@ -76,17 +76,17 @@ Spell_ID|User effect|Enemy effect
 0|deal (2xattack) damage|deal (2xattack) damage
 1|enemy's defence:-2^n  (n: level/10)|user defence:-5
 2|deal (2xattack) damage|deal (2xattack) damage
-3|HP:-8  attack:+1|HP:-20  attack:+4
+3|HP:-8, attack:+1|HP:-20, attack:+4
 4|deal (1.5xattack) damage, recover same amount of HP|deal (1.5xattack) damage, recover same amount of HP
 5|recover 40% max HP|recover 30% max HP
 6|deal (4xlevel) damage|deal (40% current HP) damage
 7|deal (2xenemy_attack) damage|deal (2xuser_attack) damage
 8|if (user_attack < enemy_attack):deal (3xattack) damage, else: (1.6xattack)|if (enemy_attack > user_attack):deal (3xattack) damage, else: (1.6xattack)
-9|HP:-10% enemy_attack:-5|HP:-20% user_attack:-5
+9|HP:-10%, enemy_attack:-5|HP:-20%, user_attack:-5
 10|if enemy_defence == 0:kill, else deal (40xn) damage|deal 200 damage
 11|deal 200 damage|deal 200 damage
-12|HP:-100 deal 400 damage|deal 260 damage
-13|HP:-20% enemy_HP:-50%|HP:-30% user_HP:-50%
+12|HP:-100, deal 400 damage|deal 260 damage
+13|HP:-20%, enemy_HP:-50%|HP:-30%, user_HP:-50%
 14|HP:-85%, 2xattack, 1.5xdefence|HP:-40%, 2xattack, 1.2xdefence
 
 ##### The skills for pokemons & enemies:
