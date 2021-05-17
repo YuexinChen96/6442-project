@@ -135,7 +135,7 @@ Our team is united in using Intellij IDEA as the IDE tool, and use gitlab as the
 ## 5 Project Schedule
 Id|Task|Duration|Start Date|End Data
 :--:|:--:|:--:|:--:|:--:
-1|Page0(Background)|2 month||
+1|Page0(Background)|2 month|3.31|5.15
 2|Page1(Pokemon select)|1 month|3.31|4.30
 3|Page2(Mapping)|1 month|3.31|4.30
 3.1|GUI|4 weeks|3.31|4.30
