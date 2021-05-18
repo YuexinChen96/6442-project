@@ -1,6 +1,6 @@
 ## 1 Document Description
 
-This is the development document for the Pokemon Battle game. It is intended to explain the background, the central setting, the structure of the project and the features of the game.
+This is the development document for the Pokemon Battle game. It is intended to explain the background, the overview of the game, the structure of the project and other general introduction.
 
 
 
@@ -8,9 +8,9 @@ This is the development document for the Pokemon Battle game. It is intended to 
 
 ### 2.1 Background and Story
 
-This project is to design an RPG(Role-playing game) by using Java and Javafx as main developing languages. The name of game is **Pokemon Battle**. As with traditional RPGs, players will play as different pokemon characters with different skills to explore the maze, as well as battling with enemies in different levels. We designed an extensive skill pool, complex battle system, and strict upgrading system to help players get better experience.
+This project is to design an RPG(Role-playing game) by using Java and Javafx as main developing languages. The name of game is **Pokemon Battle**. As with traditional RPGs, players will play as different Pokemon characters with different skills to explore the maze, as well as battling with enemies in different levels. We designed an extensive skill pool, complex battle system, and strict upgrading system to help players get better experience.
 
-The story of this game is about a tribe of Pokemon lived in a Far East island use their own power to fight against foreign invaders. In this game, the player will perform one of the Pokemon, and different pokemons will have different fighting skills and initial abilities. The maze is one of the four zones on the island. A lot of enemies lurk in various areas of the island and vary in level and combat power. There are also a number of different treasures to help you improve your fighting abilities and get through the island. Players will need to assess your own strength and the skills of your enemies, and allocate the use of props and routes of action accordingly.
+The story of this game is about a tribe of Pokemon lived in a Far East island use their own power to fight against foreign invaders. In this game, the player will perform one of the Pokemon, and different pokemons will have different fighting skills and initial abilities. Each maze map is one of the four zones on the island. A lot of enemies lurk in various areas of the island and vary in level and combat power. There are also a number of different treasures to help you improve your fighting abilities and get through the island. Players will need to assess your own strength and the skills of your enemies, and allocate the use of props and routes of action accordingly.
 
 ### 2.2 Character Design
 
