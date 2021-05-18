@@ -29,6 +29,27 @@ public class testEnemy {
         assertEquals(e5.getId(),5);
         assertEquals(e6.getDefence(),25);
         assertEquals(e7.getmaxHP(),928);
+        assertEquals(e7.getImgUrl(),null);
+        e0.setHP(0);
+        e0.setMP(0);
+        e0.setAttack(0);
+        e0.setDefence(0);
+        e0.setEXP(0);
+        e0.setId(0);
+        e0.setmaxHP(0);
+        e0.setName("Bob");
+        assertEquals(e0.getName(),"Bob");
+        assertEquals(e0.getAttack(),0);
+        assertEquals(e0.getHP(),0);
+        assertEquals(e0.getEXP(),0);
+        assertEquals(e0.getMP(),0);
+        assertEquals(e0.getId(),0);
+        assertEquals(e0.getDefence(),0);
+        assertEquals(e0.getmaxHP(),0);
+
+        Enemy e=new Enemy(1,"Lisa",1,2,3,4,new int[]{0,1,2});
+        assertEquals(e.getHP(),3);
+
     }
 
 }

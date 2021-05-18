@@ -46,6 +46,9 @@ public class testBattle {
         assertEquals(b0.ai(),1);
         e6.setHP(100);
         assertEquals(b0.ai(),0);
+
+        e0.setHP(100);
+        assertEquals(b1.ai(),1);
     }
 
     @Test
