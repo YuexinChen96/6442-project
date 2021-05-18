@@ -125,22 +125,6 @@ public class Search {
     public String str(Integer[] pos){
         return "("+pos[0]+","+pos[1]+")";
     }
-    //print out frontier(used for debug)
-    public void strfrontier(Queue<SearchNode> fron){
-        String st="frontier:[";
-        for(SearchNode sn:fron){
-            st+=str(sn.position)+" ,";
-        }
-        System.out.println(st+"]");
-    }
-    //print out explored(used for debug)
-    public void strexplored(Set<Integer[]> ex){
-        String st="explored:[";
-        for(Integer[] sn:ex){
-            st+=str(sn)+" ,";
-        }
-        System.out.println(st+"]");
-    }
 
 }
 

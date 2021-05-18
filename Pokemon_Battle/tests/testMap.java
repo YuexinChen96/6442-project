@@ -56,6 +56,9 @@ public class testMap {
         p.setPosition(new int[] {4,3});
         assertTrue(map.ifMapEnd(p,testMap1));
         assertTrue(map.ifTerminal(p,testMap1));
+        p.setPosition(new int[] {1,3});
+        assertFalse(map.ifMapEnd(p,testMap1));
+        assertFalse(map.ifTerminal(p,testMap1));
     }
 
     @Test
@@ -67,6 +70,9 @@ public class testMap {
                 assertTrue(map.ifBattle(p,testMap1));
             }
         }
+
+        p.setPosition(new int[]{4,4});
+        assertFalse(map.ifBattle(p,testMap1));
     }
 
     @Test
@@ -90,12 +96,24 @@ public class testMap {
         p.setPosition(new int[] {3,4});
         assertTrue(map.lastMap(p,'U',testMap1,0));
         assertFalse(map.lastMap(p,'R',testMap1,0));
+        p.setPosition(new int[] {4,4});
+        assertFalse(map.lastMap(p,'D',testMap1,0));
+        assertFalse(map.lastMap(p,'R',testMap1,0));
     }
 
     @Test
     public void testPos() {
         assertEquals(map.startPosition(0)[0],1);
+        assertEquals(map.startPosition(1)[1],0);
+        assertEquals(map.startPosition(2)[1],22);
+        assertEquals(map.startPosition(3)[1],23);
+        assertEquals(map.startPosition(9)[1],0);
+
+        assertEquals(map.endPosition(0)[0],38);
+        assertEquals(map.endPosition(1)[0],39);
+        assertEquals(map.endPosition(2)[1],0);
         assertEquals(map.endPosition(3)[1],1);
+        assertEquals(map.endPosition(5)[0],0);
     }
 
 
@@ -104,18 +122,5 @@ public class testMap {
 //    rrs1shg1hb2
 //    srrrrrrrrrh
 //    rrsh12s0ssm
-    @Test
-    public void testSearch() {
-        initialMap(2);
-        Search s = new Search();
-        List<String> rst1 = s.bfs(new Integer[]{0,0},'h',testMap2,p);
-        assertEquals(rst1.get(0),"Right");
-        List<String> rst2 = s.bfs(new Integer[]{0,0},'m',testMap2,p);
-        assertEquals(rst2.get(8),"Up");
-        List<String> rst3 = s.bfs(new Integer[]{0,0},'x',testMap2,p);
-        assertNull(rst3);
-        List<String> rst4 = s.bfs(new Integer[]{3,0},'1',testMap2,p);
-        assertNull(rst4);
-    }
 
 }

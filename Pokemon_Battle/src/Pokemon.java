@@ -61,13 +61,9 @@ public class Pokemon implements Serializable {
         this.position = position;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
+   // public void setImgUrl(String imgUrl) { this.imgUrl = imgUrl; }
 
-    public String getImgUrl() {
-        return imgUrl;
-    }
+   // public String getImgUrl() { return imgUrl; }
 
     public String getName() {
         return name;
@@ -81,9 +77,7 @@ public class Pokemon implements Serializable {
         return id;
     }
 
-    public void setid(int id) {
-        this.id = id;
-    }
+ //   public void setid(int id) { this.id = id; }
 
     public int getLevel() {
         return level;
@@ -174,9 +168,7 @@ public class Pokemon implements Serializable {
         return skill_list;
     }
 
-    public void setSkillList(int[] skill_list) {
-        this.skill_list = skill_list;
-    }
+    //public void setSkillList(int[] skill_list) { this.skill_list = skill_list; }
 
 
     //toString methods

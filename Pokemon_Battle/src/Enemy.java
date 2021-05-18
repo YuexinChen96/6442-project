@@ -25,9 +25,7 @@ public class Enemy implements Serializable {
         return imgUrl;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
+    //public void setImgUrl(String imgUrl) { this.imgUrl = imgUrl; }
 
     private int maxHP;
     private String imgUrl;
