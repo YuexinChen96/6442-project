@@ -1,4 +1,3 @@
-
 ## 1 Document Description
 
 This is the development document for the Pokemon Battle game. It is intended to explain the background, the central setting, the structure of the project and the features of the game.
@@ -221,11 +220,11 @@ Different Pokemon roles will have different upgrading system:
 
 | Pokemon ID | add Attack |    add HP    | add Attack per 5 level | add Defense per 5 level |
 | :--------: | :--------: | :----------: | :--------------------: | :---------------------: |
-|     1      |   +2^n   | +$2^{(n+3)}$ |           0            |         +$2^n$          |
-|     2      |   +$2^n$   | +$2^{(n+3)}$ |         +$2^n$         |         +$2^n$          |
-|     3      |   +$2^n$   | +$2^{(n+3)}$ |           0            |      +$2^{(n+1)}$       |
-|     4      |   +$2^n$   | +$2^{(n+3)}$ |      +$2^{(n+1)}$      |      +$2^{(n+1)}$       |
-|     5      |   +$2^n$   | +$2^{(n+3)}$ |           0            |         +$2^n$          |
+|     1      |   +2^n   | +2^{(n+3)} |           0            |         +2^n          |
+|     2      |   +2^n   | +2^{(n+3)} |         +2^n         |         +2^n          |
+|     3      |   +2^n   | +2^{(n+3)} |           0            |      +2^{(n+1)}       |
+|     4      |   +2^n   | +2^{(n+3)} |      +2^{(n+1)}      |      +2^{(n+1)}       |
+|     5      |   +2^n   | +2^{(n+3)} |           0            |         +2^n          |
 |            |            |              |                        |                         |
 
 After each upgrading, the HP of the pokemon will always be restored to the maximum number of HP.
