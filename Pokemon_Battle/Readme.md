@@ -28,7 +28,7 @@ The entire game will follow the following flow.
 
 Starting page presentation:
 
-<img src="../../../Library/Application Support/typora-user-images/image-20210517232222452.png" alt="image-20210517232222452" style="zoom:25%;" />
+![image-20210518100932390](https://cdn.jsdelivr.net/gh/kath-t/picgo/image-20210518100932390.png)
 
 The first event interface presentation:
 
