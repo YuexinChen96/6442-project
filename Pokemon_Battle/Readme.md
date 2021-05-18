@@ -10,11 +10,11 @@ This is the development document for the Pokemon Battle game. It is intended to 
 
 This project is to design an RPG(Role-playing game) by using Java and Javafx as main developing languages. The name of game is **Pokemon Battle**. As with traditional RPGs, players will play as different Pokemon characters with different skills to explore the maze, as well as battling with enemies in different levels. We designed an extensive skill pool, complex battle system, and strict upgrading system to help players get better experience.
 
-The story of this game is about a tribe of Pokemon lived in a Far East island use their own power to fight against foreign invaders. In this game, the player will perform one of the Pokemon, and different pokemons will have different fighting skills and initial abilities. Each maze map is one of the four zones on the island. A lot of enemies lurk in various areas of the island and vary in level and combat power. There are also a number of different treasures to help you improve your fighting abilities and get through the island. Players will need to assess your own strength and the skills of your enemies, and allocate the use of props and routes of action accordingly.
+The story of this game is about a tribe of Pokemon lived in a Far East island use their own power to fight against foreign invaders. In this game, the player will perform one of the Pokemon, and different Pokemons will have different fighting skills and initial abilities. Each maze map is one of the four zones on the island. A lot of enemies lurk in various areas of the island and vary in level and combat power. There are also a number of different treasures to help you improve your fighting abilities and get through the island. Players will need to assess your own strength and the skills of your enemies, and allocate the use of props and routes of action accordingly.
 
 ### 2.2 Character Design
 
-There are five different Pokemons in the game, each has different basic information. The basic information includes level, skills, Health point, Mana point(stands for the energy to use a magic skill), defense and attack abilities, experience, and the abilities to cross grass/water/stones. Players can choose any one of them in the beginning of the game.
+There are five different Pokemons in the game, each has different basic information. The basic information includes level, skills, Health point(hereinafter as 'HP'), Mana point(stands for the energy to use a magic skill, hereinafter as 'MP'), defense and attack abilities, experience, and the abilities to cross grass/water/stones. Players can choose any one of them in the beginning of the game.
 
 <img src="https://cdn.jsdelivr.net/gh/kath-t/picgo/image-20210517203627034.png" alt="image-20210517203627034" style="zoom: 50%;" />
 
@@ -66,10 +66,10 @@ The summary of each class's main function are as below:
 
 | Class Name | Main Function                                                |
 | ---------- | :----------------------------------------------------------- |
-| Pokemon    | Use json file to record each pokemon's initial basic information. Methods to record basic infromation's changes  and the players position in the map during the whole game. |
+| Pokemon    | Use json file to record each Pokemon's initial basic information. Methods to record basic infromation's changes and the players position in the map during the whole game. |
 | Enemy      | Use json file to record each enemy's initial basic information. Methods to record basic infromation's changes during each battle. |
 | Battle     | Use AtomicBoolean and AI(the method help judging which way to win is the best) as well as Javafx to update the changes of basic information both for Pokemon and the enemy, and update the front desk aminations at the same time. Record the result of battle(win or gameover) and Pokemon's level upgrading results. |
-| Map        | Methods to decide map situation, including enemies in different types, props, obstacles, starting and ending of the map, map switching, etc. |
+| Map        | Use bespoke and text file to load map information. Methods to decide map situation, including enemies in different types, props, obstacles, starting and ending of the map, map switching, etc. |
 | GUI        | The main front-end display by using Javafx, including six pages from beginning to the end of the game. |
 | Search     | Use bfs(breadth first search) algorithm to find the shortest path to a nearby accessible target. |
 
@@ -81,13 +81,13 @@ The summary of each class's main function are as below:
 
 ##### a.	Movement & Obstacle Determination & Props
 
-Player can control the pokemon to move by pressing arrow keys on the keyboard. ArrowLeft stands for moving left, and ArrowRight stands for moving right, ArrowUp stands for moving up, ArrowDown stands for moving down.
+Player can control the Pokemon to move by pressing arrow keys on the keyboard. ArrowLeft stands for moving left, and ArrowRight stands for moving right, ArrowUp stands for moving up, ArrowDown stands for moving down.
 
 There is 1 obstacle, "Fixed stone", on the map that can never be crossed, and 3 obstacles, "Grass", "Water", "Stone wall", that can only be crossed if the conditions are met. If players move the Pokemon to the position of those obstacles, the system will refuse to finish the movement.
 
-There are 3 props, "Grass shoes", "Water shoes", "Wall shoes", help players to gain extra ability to cross the "Grass", "Water", "Stone wall" respectively. If players move the to the position of those props, the corresponding abilities will become available.
+There are 3 props, "Grass shoes", "Water shoes", "Wall shoes", helping players to gain extra ability to cross the "Grass", "Water", "Stone wall" respectively. If players move the to the position of those props, the corresponding abilities will become available.
 
-There are 4 props, "HP bottle", "MP bottle", "Sword strengthen", "Shield strengthen", help players to upgrade the number of health point, the number of mana point, the number of attack, and the number of defense respectively. If players move the to the position of "HP bottle" or "MP bottle", the bottles will be added to players backpack. If players move the to the position of "Sword strengthen" or "Shield strengthen", the attack or defense ability will be increased immediately.
+There are 4 props, "HP bottle", "MP bottle", "Sword strengthen", "Shield strengthen", helping players to upgrade the number of health point, the number of mana point, the number of attack, and the number of defense respectively. If players move the to the position of "HP bottle" or "MP bottle", the bottles will be added to players backpack. If players move the to the position of "Sword strengthen" or "Shield strengthen", the attack or defense ability will be increased immediately.
 
 <img src="https://cdn.jsdelivr.net/gh/kath-t/picgo/image-20210517234128275.png" alt="image-20210517234128275" style="zoom:33%;" />
 
@@ -164,7 +164,7 @@ Spell_ID|User effect|Enemy effect
 13|HP:-20%, enemy_HP:-50%|HP:-30%, user_HP:-50%
 14|HP:-85%, 2xattack, 1.5xdefence|HP:-40%, 2xattack, 1.2xdefence
 
-###### The skills for pokemons & enemies:
+###### The skills for Pokemons & enemies:
 Name|Spell_1|Spell_2|Spell_3
 :--:|:--:|:--:|:--:
 Pokemon_1|0|1|10
@@ -227,7 +227,7 @@ Different Pokemon roles will have different upgrading system:
 |     5      |   +2^n   | +2^(n+3) |           0            |         +2^n          |
 
 
-After each upgrading, the HP of the pokemon will always be restored to the maximum number of HP.
+After each upgrading, the HP of the Pokemon will always be restored to the maximum number of HP.
 
 
 
