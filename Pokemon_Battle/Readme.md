@@ -26,7 +26,7 @@ The entire game will follow the following flow.
 
 Starting page presentation:
 
-<img src="../../../Library/Application Support/typora-user-images/image-20210517232222452.png" alt="image-20210517232222452" style="zoom:25%;" />
+<img src="https://cdn.jsdelivr.net/gh/kath-t/picgo/image-20210518100932390.png" alt="image-20210518100932390" style="zoom:25%;" />
 
 The first event interface presentation:
 
@@ -214,7 +214,7 @@ Different level will bring extra abilities for the Pokemon (except obtaining pro
 | Above 10 | True | False | False |
 | Above 20 | True | True | False |
 | Above 30 | True | True | True |
-|       |                        |      |      |
+
 
 Different Pokemon roles will have different upgrading system:
 
@@ -225,7 +225,7 @@ Different Pokemon roles will have different upgrading system:
 |     3      |   +2^n   | +2^(n+3) |           0            |      +2^(n+1)       |
 |     4      |   +2^n   | +2^(n+3) |      +2^(n+1)      |      +2^(n+1)       |
 |     5      |   +2^n   | +2^(n+3) |           0            |         +2^n          |
-|            |            |              |                        |                         |
+
 
 After each upgrading, the HP of the pokemon will always be restored to the maximum number of HP.
 
