@@ -650,7 +650,7 @@ public class GUI extends Application {
         Timeline check3or4 = new Timeline(new KeyFrame(Duration.millis(1), ae -> {
             char e = whichMap(currentMapIndex)[user.getPosition()[0]][user.getPosition()[1]];
             System.out.println(user.strPos());
-            if (mapclass.ifTerminal(user, whichMap(currentMapIndex))) page4_initial();
+            if (mapclass.ifTerminal(user, whichMap(currentMapIndex))) page5_initial();
             if (mapclass.ifBattle(user, whichMap(currentMapIndex))) page3_initial((int) e - 48,beforeBattlePos);
             if (e == 'h' || e == 'm' || e == 'a' || e == 'f' || e == 'x' || e == 'y' || e == 'z') {
                 if (e == 'h') number_HP_poison.set(String.valueOf(Integer.parseInt(number_HP_poison.get()) + 1));
