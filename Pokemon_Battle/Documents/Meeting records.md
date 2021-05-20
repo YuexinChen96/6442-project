@@ -50,4 +50,8 @@ design junit testers(Yifei Tao).
 ## Week 11
 - Meeting 14:00 21 May: allocate tasks
 - Tasks(due by next meeyting): design Ai about enemys(Yuexin Chen), 
-markdown document(Yifei Tao).
+markdown document(Yifei Tao, Yuexin Chen), Project summary(Yifei Tao, Xi Chen),
+summary on application of knowledge in the course(Qixuan Ren), 
+Team structure(Xi Chen), add BFS algorithm for search function(Qixuan Ren).
+
+
