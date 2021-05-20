@@ -98,6 +98,7 @@ public class Map {
         else return false;
     }
 
+    // return the entrance position of each map
     public int[] startPosition(int mapIndex) {
         switch(mapIndex) {
             case 0:return new int[]{1,0};
@@ -108,6 +109,7 @@ public class Map {
         }
     }
 
+    // return the exit/terminal position of each map
     public int[] endPosition(int mapIndex) {
         switch(mapIndex) {
             case 0:return new int[]{38,23};
@@ -118,6 +120,7 @@ public class Map {
         }
     }
 
+    // switch the range of coordinate from each currently showed map to the general map
     public int[] showMapToMap(int showMapx,int showMapy,int mapindex) {
         switch(mapindex) {
             case 1: showMapy = showMapy + 24;return new int[]{showMapx,showMapy};
