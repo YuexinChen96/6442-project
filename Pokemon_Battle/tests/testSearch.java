@@ -14,12 +14,21 @@ public class testSearch {
     Pokemon p = GUI.pokemonLoadFromJson(0);
     char[][] testMap3 = new char[40][24];
     char[][] testMap2=new char[40][24];
-    //    testMap1:
-//    i 0 1 2 3
-//    r 4 5 6 7
-//    g w b h m
-//    a f s o t
-//    x y z i r
+
+    //    testMap2:
+//    rrs1smg1bbh
+//    rrs1shg1hb2
+//    srrrrrrrrrh
+//    rrsh12s0ssm
+
+    //    testMap3:
+//    rrs1smg1bbhss
+//    rrs1shg1hb2ss
+//    srrrrrrrrrhrs
+//    sssssssssssss
+//    rrrrwrrsrr7rs
+//    ssrrrrrrrssss
+//    sssssssssssss
     public void initialMap(int index) {
         String m = "tests/testMap"+index+".txt";
         try {

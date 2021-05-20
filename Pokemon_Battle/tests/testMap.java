@@ -18,12 +18,19 @@ public class testMap {
     Pokemon p = GUI.pokemonLoadFromJson(0);
     char[][] testMap1 = new char[5][5];
     char[][] testMap2 = new char[24][40];
+
 //    testMap1:
 //    i 0 1 2 3
 //    r 4 5 6 7
 //    g w b h m
 //    a f s o t
 //    x y z i r
+
+//    testMap2:
+//    rrs1smg1bbh
+//    rrs1shg1hb2
+//    srrrrrrrrrh
+//    rrsh12s0ssm
     public void initialMap(int index) {
         String m = "tests/testMap"+index+".txt";
         try {
@@ -115,12 +122,5 @@ public class testMap {
         assertEquals(map.endPosition(3)[1],1);
         assertEquals(map.endPosition(5)[0],0);
     }
-
-
-//    testMap2:
-//    rrs1smg1bbh
-//    rrs1shg1hb2
-//    srrrrrrrrrh
-//    rrsh12s0ssm
 
 }
