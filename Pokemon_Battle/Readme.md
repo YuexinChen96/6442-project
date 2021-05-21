@@ -258,8 +258,12 @@ Id|Task|Duration|Start Date|End Data
 
 
 ## 6 Project Documents
-[Meeting records](https://gitlab.cecs.anu.edu.au/u7172190/comp6442-rpg/-/blob/master/Pokemon_Battle/Documents/Meeting%20records.md)
-[Project Summary](https://gitlab.cecs.anu.edu.au/u7172190/comp6442-rpg/-/blob/master/Pokemon_Battle/Documents/Project%20Summary.pdf)
-[Summary on application of knowledge in this course](https://gitlab.cecs.anu.edu.au/u7172190/comp6442-rpg/-/blob/master/Pokemon_Battle/Documents/Summary%20on%20application%20of%20knowledge%20in%20this%20course.pdf)
-[Team Structure and Roles](https://gitlab.cecs.anu.edu.au/u7172190/comp6442-rpg/-/blob/master/Pokemon_Battle/Documents/Team%20Structure%20and%20Roles.pdf)
-[Demo videos](https://gitlab.cecs.anu.edu.au/u7172190/comp6442-rpg/-/tree/master/Pokemon_Battle/Demo)
+* [Meeting records](https://gitlab.cecs.anu.edu.au/u7172190/comp6442-rpg/-/blob/master/Pokemon_Battle/Documents/Meeting%20records.md)
+
+* [Project Summary](https://gitlab.cecs.anu.edu.au/u7172190/comp6442-rpg/-/blob/master/Pokemon_Battle/Documents/Project%20Summary.pdf)
+
+* [Summary on application of knowledge in this course](https://gitlab.cecs.anu.edu.au/u7172190/comp6442-rpg/-/blob/master/Pokemon_Battle/Documents/Summary%20on%20application%20of%20knowledge%20in%20this%20course.pdf)
+
+* [Team Structure and Roles](https://gitlab.cecs.anu.edu.au/u7172190/comp6442-rpg/-/blob/master/Pokemon_Battle/Documents/Team%20Structure%20and%20Roles.pdf)
+
+* [Demo videos](https://gitlab.cecs.anu.edu.au/u7172190/comp6442-rpg/-/tree/master/Pokemon_Battle/Demo)
